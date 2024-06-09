@@ -67,21 +67,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'accesibilidadIA.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
+
 
 WSGI_APPLICATION = 'accesibilidadIA.wsgi.application'
 
@@ -96,7 +82,7 @@ DATABASES = {
     }
 }
 
-
+LOGIN_REDIRECT_URL = 'index'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
