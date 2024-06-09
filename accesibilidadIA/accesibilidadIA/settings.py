@@ -26,6 +26,14 @@ SECRET_KEY = 'django-insecure-4q70-ey)6l+5+%6+_%y3mqk#n5l*dhivr*@x*&bc^8+9h-cwsd
 DEBUG = True
 
 ALLOWED_HOSTS = []
+STATIC_URL = '/static/'
+# Para desarrollo, puedes usar STATICFILES_DIRS
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+# En producción, asegúrate de usar STATIC_ROOT
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
