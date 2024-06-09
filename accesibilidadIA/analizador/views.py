@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate
 from .forms import Registro
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, 'base.html')
 
 def register(request):
     if request.method == 'POST':
@@ -22,3 +22,12 @@ def register(request):
     else:
         form = Registro()
     return render(request, 'registration/registerForm.html', {'form': form})
+
+def analysis(request):
+    return render(request, "analysis/analysis.html")
+
+def results(request):
+    return render(request, 'results/results.html')
+
+def settings(request):
+    return render(request, 'settings/settings.html')
