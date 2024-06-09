@@ -1,34 +1,61 @@
-<!-- templates/registration/login.html -->
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión</title>
+    <style>
+        /* Estilos personalizados */
+        .loginform * {
+            text-align: center !important;
+        }
 
-{% block title %}Login{% endblock %}
+        .custom-color {
+            background-color: #1d00fd !important; /* Fondo del botón */
+            border-color: #250494 !important; /* Borde del botón */
+            color: white !important; /* Color del texto */
+        }
+        .custom-color:hover {
+            background-color: #250494 !important; /* Fondo del botón al pasar el mouse */
+            border-color: #1d00fd !important; /* Borde del botón al pasar el mouse */
+            color: white !important; /* Color del texto al pasar el mouse */
+        }
 
-{% block content %}
-<style>
-  .loginform  *{ 
-    text-align: center !important;
-  }
+        .fondoFlores {
+            background-color: #1F1D4F;
+            height: 100vh;
+        }
 
-  .btn-primary{
-    background-color: #1F1D4F;
-    border-color: #1F1D4F;
-  }
+        .container-fluid {
+            height: 100%;
+        }
 
-</style>
-<div style="background-color:#1F1D4F; height: 100vh">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center fondoFlores py-5"> 
-      <div class="col-md-8 col-lg-6 col-xl-4 shadow-lg p-5 my-5 bg-white rounded ">
-        <div class=""> <!--saque loginform de class-->
-          <h2 class="pb-3">Log In</h2>
-          <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-primary mt-2" type="submit">Log In</button>
-          </form>
+        .h-custom {
+            height: 100%;
+        }
+    </style>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center fondoFlores py-5">
+            <div class="col-md-8 col-lg-6 col-xl-4 shadow-lg p-5 my-5 bg-white rounded">
+                <div class="loginform"> <!-- Agregué la clase loginform -->
+                    <h1 class="pb-3">Iniciar sesión</h1>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn custom-color mt-2" type="submit">Iniciar sesión</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-</div>
-</div>
-{% endblock %}
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
