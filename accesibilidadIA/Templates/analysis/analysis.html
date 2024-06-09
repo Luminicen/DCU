@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Nuevo análisis{% endblock %}
+{% block head %}
+    {{ super }}
+    {% endblock %}
+{% block content %}
+{% load static %}
+<body>
+<div class="tab-container">
+    <div id="index-tab" class="tab active" onclick="showTab('index')">Nuevo análisis</div>
+    <div id="resultados-tab" class="tab" onclick="showTab('resultados')">Resultados</div>
+    <div id="configuracion-tab" class="tab" onclick="showTab('configuracion')">Configuración</div>
+</div>
+<div class="content">
+    <div id="analisis" class="tab-content" style="display: block;">
+        {% block index_content %}{% endblock %}
+    </div>
+    <div id="resultados" class="tab-content" style="display: none;">
+        {% block resultados_content %}{% endblock %}
+    </div>
+    <div id="configuracion" class="tab-content" style="display: none;">
+        {% block configuracion_content %}{% endblock %}
+    </div>
+</div>
+<script src="{% static 'js/horizontalScroll.js' %}"></script>
+</body>
+{% endblock %}

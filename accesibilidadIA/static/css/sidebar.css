@@ -1,0 +1,59 @@
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar li {
+    border-bottom: 1px solid #ccc; 
+}
+
+.sidebar li a {
+    display: block;
+    padding: 15px 10px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black; 
+    background-color: transparent; 
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: normal; 
+}
+
+.sidebar li a::before {
+    font-family: 'Material Icons';
+    margin-right: 20px; 
+    font-size: 24px; 
+}
+
+.icon-analysis::before {
+    content: 'add';
+}
+
+.icon-results::before {
+    content: 'reorder';
+}
+
+.icon-settings::before {
+    content: 'settings';
+}
+
+.sidebar li a:hover {
+    background-color: #3D8AF7;
+    color: white; 
+    font-weight: bold;
+}
+
+.content {
+    margin-left: 220px;
+    padding: 20px;
+}
