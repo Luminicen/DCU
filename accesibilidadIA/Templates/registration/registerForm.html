@@ -8,6 +8,19 @@
     {% load custom_tags %}
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para el botón */
+        .custom-color {
+            background-color: #1d00fd !important; /* Fondo del botón */
+            border-color: #250494 !important; /* Borde del botón */
+            color: white !important; /* Color del texto */
+        }
+        .custom-color:hover {
+            background-color: #250494 !important; /* Fondo del botón al pasar el mouse */
+            border-color: #1d00fd !important; /* Borde del botón al pasar el mouse */
+            color: white !important; /* Color del texto al pasar el mouse */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
@@ -32,7 +45,7 @@
                                     {% endfor %}
                                 </div>
                             {% endfor %}
-                            <button type="submit" class="btn btn-primary btn-block" aria-describedby="button-description">Registrarse</button>
+                            <button type="submit" class="btn custom-color btn-block" aria-describedby="button-description"><strong>Registrarse</strong></button>
 <div id="button-description" class="sr-only">Haz clic en este botón para registrarte en el sitio web.</div>
 <div id="id_password1_helptext" class="sr-only">Inserte su contraseña.</div>
 <div id="id_username_helptext" class="sr-only">Inserte su nombre de usuario.</div>
