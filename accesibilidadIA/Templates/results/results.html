@@ -60,7 +60,7 @@
         <h1 class="page-title my-4">Resultados > Mi Aplicación</h1>
         <h3 class="page-subtitle my-4">Errores de usabilidad detectados:</h3>
         {% for resultado in resultados %}
-            <div class="resultado">
+            <div class="card border mb-3 p-3 resultado">
                 <h5>{{ resultado.titulo }}</h5>
                 <p>{{ resultado.descripcion }}</p>
             </div>
