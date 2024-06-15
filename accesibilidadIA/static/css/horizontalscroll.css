@@ -1,29 +1,116 @@
 body {
-    font-family: Arial, sans-serif;
+    margin: 0;
+    overflow-x: hidden; /* Ocultar scroll horizontal en todo el documento */
 }
-.tab-container {
+
+.scroll-content-container {
     display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border-bottom: 1px solid #ccc;
+    overflow-x: hidden; /* Ocultar scroll horizontal dentro del contenedor */
+    width: 100vw; /* Ancho completo de la ventana */
+    align-items: center;
+    justify-content: flex-start; /* Alineación de contenido al inicio */
+    scroll-snap-type: x mandatory; /* Scroll snap horizontal obligatorio */
 }
-.tab {
-    display: inline-block;
-    padding: 10px 20px;
+
+.page {
+    flex: none;
+    min-width: 100vw; /* Cada página ocupa el ancho completo de la ventana */
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    scroll-snap-align: start; /* Alineación inicial de scroll snap */
+}
+
+.nav-buttons {
+    position: absolute;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 100; /* Asegura que los botones estén encima del contenido */
+}
+
+.nav-buttons button {
+    background: none;
+    border: none;
+    font-size: 2rem;
     cursor: pointer;
-    background-color: #ddd;
-    margin-right: 5px;
-    border-radius: 5px 5px 0 0;
 }
-.tab.active {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-bottom: none;
+
+.indicators {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
-.content {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-top: none;
+
+.indicators span {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #717171;
+}
+
+.upload-container {
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.upload-container:hover {
+    border-color: #999;
+}
+
+.upload-container.dragover {
+    border-color: #000;
+}
+
+.upload-icon {
+    font-size: 50px;
+    color: #aaa;
+}
+
+.upload-text {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.upload-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px; /* Separación del botón del contenedor */
+}
+
+.upload-button:hover {
+    background-color: #0056b3;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
 }

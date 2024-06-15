@@ -1,28 +1,61 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Nuevo análisis{% endblock %}
 {% block head %}
-    {{ super }}
-    {% endblock %}
-{% block content %}
-{% load static %}
-<body>
-<div class="tab-container">
-    <div id="index-tab" class="tab active" onclick="showTab('index')">Nuevo análisis</div>
-    <div id="resultados-tab" class="tab" onclick="showTab('resultados')">Resultados</div>
-    <div id="configuracion-tab" class="tab" onclick="showTab('configuracion')">Configuración</div>
-</div>
-<div class="content">
-    <div id="analisis" class="tab-content" style="display: block;">
-        {% block index_content %}{% endblock %}
-    </div>
-    <div id="resultados" class="tab-content" style="display: none;">
-        {% block resultados_content %}{% endblock %}
-    </div>
-    <div id="configuracion" class="tab-content" style="display: none;">
-        {% block configuracion_content %}{% endblock %}
-    </div>
-</div>
+{{ super }}
 <script src="{% static 'js/horizontalScroll.js' %}"></script>
-</body>
+<link rel="stylesheet" href="{% static 'css/horizontalScroll.css' %}">
+{% endblock %}
+{% block content %}
+<div class="scroll-content-container" id="scroll-content-container">
+    <section class="page upload-file">
+        <div class="upload-container" id="drop-area">
+            <div class="upload-icon">+</div>
+            <div class="upload-text">Agregar archivo HTML</div>
+        </div>
+        <div class="button-container">
+            <button class="upload-button" onclick="document.getElementById('file-input').click()">Cargar archivo</button>
+            <input type="file" id="file-input" style="display: none;" />
+        </div>
+    </section>
+
+    <section class="page analysis-preferences">
+        <form>
+            <div class="form-group">
+                <label for="analysis-name">Nombre del análisis</label>
+                <input type="text" id="analysis-name" name="analysis-name" placeholder="Escriba un nombre para el análisis">
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea id="description" name="description" placeholder="Escriba una descripción"></textarea>
+            </div>
+        </form>
+    </section>
+
+    <section class="page analysis-preview">
+        <form>
+            <div class="form-group">
+                <label for="file-name">Archivo</label>
+                <input type="text" id="file-name" name="file-name">
+            </div>
+            <div class="form-group">
+                <label for="analysis-name">Nombre del análisis</label>
+                <textarea id="analysis-name" name="analysis-name"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+        </form>
+    </section>
+</div>
+
+
+<div class="indicators nav-buttons" id="indicators">
+    <button id="prevBtn">&lt;</button>
+    <span class="dot active" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+    <span class="dot" data-index="2"></span>
+    <button id="nextBtn">&gt;</button>
+</div>
 {% endblock %}
