@@ -1,9 +1,47 @@
 {% extends 'base.html' %}
 
-{% block title %}Nuevo análisis{% endblock %}
+{% block title %}Resultados > Mi Aplicación{% endblock %}
+
 {% block head %}
     {{ super }}
-    {% endblock %}
+    <style>
+        .resultados-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .resultado {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .resultado h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+
+        .resultado p {
+            margin: 0;
+            font-size: 1em;
+            color: #555;
+        }
+    </style>
+{% endblock %}
 {% block content %}
-{% load static %}
+    {% load static %}
+    <div class="resultados-container">
+        {% for resultado in resultados %}
+            <div class="resultado">
+                <h3>{{ resultado.titulo }}</h3>
+                <p>{{ resultado.descripcion }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -27,7 +27,13 @@ def analysis(request):
     return render(request, "analysis/analysis.html")
 
 def results(request):
-    return render(request, 'results/results.html')
+    resultados_lista = [
+        {'titulo': 'Resultado 1', 'descripcion': 'Descripción del resultado 1.'},
+        {'titulo': 'Resultado 2', 'descripcion': 'Descripción del resultado 2.'},
+        {'titulo': 'Resultado 3', 'descripcion': 'Descripción del resultado 3.'},
+        # Agrega más resultados según sea necesario
+    ]
+    return render(request, 'results/results.html', {'resultados': resultados_lista})
 
 def settings(request):
     return render(request, 'settings/settings.html')
