@@ -4,55 +4,65 @@
 
 {% block head %}
     {{ super }}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .theme-option {
+            display: inline-block;
+            margin-right: 15px;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
     {% load static %}
-    <h1>Configuración</h1>
-    <form method="post">
-        {% csrf_token %}
-        
-        <!-- Sección Lectura por Voz -->
-        <div>
-            <label for="lectura_por_voz">Lectura por Voz:</label>
-            <input type="checkbox" id="lectura_por_voz" name="lectura_por_voz">
-        </div>
-        
-        <!-- Sección Voz a Texto -->
-        <div>
-            <label for="voz_a_texto">Voz a Texto:</label>
-            <input type="checkbox" id="voz_a_texto" name="voz_a_texto">
-        </div>
-        
-        <!-- Sección Tema -->
-        <div>
-            <p>Tema:</p>
-            <input type="radio" id="tema1" name="tema" value="tema1">
-            <label for="tema1"><img src="{% static 'images/tema1.png' %}" alt="Tema 1" width="50"></label>
-            
-            <input type="radio" id="tema2" name="tema" value="tema2">
-            <label for="tema2"><img src="{% static 'images/tema2.png' %}" alt="Tema 2" width="50"></label>
-            
-            <input type="radio" id="tema3" name="tema" value="tema3">
-            <label for="tema3"><img src="{% static 'images/tema3.png' %}" alt="Tema 3" width="50"></label>
-        </div>
-        
-        <!-- Sección Tamaño de Letra -->
-        <div>
-            <label for="tamano_letra">Tamaño de Letra:</label>
-            <select id="tamano_letra" name="tamano_letra">
-                <option value="12px">12px</option>
-                <option value="14px">14px</option>
-                <option value="16px">16px</option>
-                <option value="18px">18px</option>
-                <option value="20px">20px</option>
-                <option value="22px">22px</option>
-                <option value="24px">24px</option>
-            </select>
-        </div>
-        
-        <div>
-            <button type="submit">Guardar Configuración</button>
-        </div>
-    </form>
+    <div class="container mt-5">
+        <h1 class="my-4">Configuración</h1>
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Sección Lectura por Voz -->
+            <div class="form-group form-check form-switch">
+                <input type="checkbox" class="form-check-input" id="lectura_por_voz" name="lectura_por_voz">
+                <label class="form-check-label" for="lectura_por_voz">Lectura por Voz</label>
+            </div>
+
+            <!-- Sección Voz a Texto -->
+            <div class="form-group form-check form-switch">
+                <input type="checkbox" class="form-check-input" id="voz_a_texto" name="voz_a_texto">
+                <label class="form-check-label" for="voz_a_texto">Voz a Texto</label>
+            </div>
+
+            <!-- Sección Tema -->
+            <div class="form-group">
+                <p>Tema:</p>
+                <div class="form-check theme-option">
+                    <input type="radio" class="form-check-input" id="tema1" name="tema" value="tema1">
+                    <label class="form-check-label" for="tema1"><img src="{% static 'images/tema1.png' %}" alt="Tema 1" width="50"></label>
+                </div>
+                <div class="form-check theme-option">
+                    <input type="radio" class="form-check-input" id="tema2" name="tema" value="tema2">
+                    <label class="form-check-label" for="tema2"><img src="{% static 'images/tema2.png' %}" alt="Tema 2" width="50"></label>
+                </div>
+                <div class="form-check theme-option">
+                    <input type="radio" class="form-check-input" id="tema3" name="tema" value="tema3">
+                    <label class="form-check-label" for="tema3"><img src="{% static 'images/tema3.png' %}" alt="Tema 3" width="50"></label>
+                </div>
+            </div>
+
+            <!-- Sección Tamaño de Letra -->
+            <div class="form-group">
+                <label for="tamano_letra">Tamaño de Letra:</label>
+                <select class="form-control" id="tamano_letra" name="tamano_letra">
+                    <option value="12px">12px</option>
+                    <option value="14px">14px</option>
+                    <option value="16px">16px</option>
+                    <option value="18px">18px</option>
+                    <option value="20px">20px</option>
+                    <option value="22px">22px</option>
+                    <option value="24px">24px</option>
+                </select>
+            </div>
+
+        </form>
+    </div>
 {% endblock %}

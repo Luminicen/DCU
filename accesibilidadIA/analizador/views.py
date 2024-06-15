@@ -28,9 +28,11 @@ def analysis(request):
 
 def results(request):
     resultados_lista = [
-        {'titulo': 'Resultado 1', 'descripcion': 'Descripción del resultado 1.'},
-        {'titulo': 'Resultado 2', 'descripcion': 'Descripción del resultado 2.'},
-        {'titulo': 'Resultado 3', 'descripcion': 'Descripción del resultado 3.'},
+        {'titulo': 'Linea 11: Falta de descripción en elemento', 'descripcion': 'Descripción del resultado 1.'},
+        {'titulo': 'Linea 34: Falta de descripción en elemento', 'descripcion': 'Descripción del resultado 2.'},
+        {'titulo': 'Lines 121: Falta de descripción en elemento', 'descripcion': 'Descripción del resultado 3.'},
+        {'titulo': 'Linea 134: Falta de descripción en elemento', 'descripcion': 'Descripción del resultado 3.'},
+        {'titulo': 'Linea 211: Falta de descripción en elemento', 'descripcion': 'Descripción del resultado 3.'}
         # Agrega más resultados según sea necesario
     ]
     return render(request, 'results/results.html', {'resultados': resultados_lista})
