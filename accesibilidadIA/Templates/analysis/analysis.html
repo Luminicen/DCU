@@ -18,7 +18,7 @@
         </div>
         <div class="button-container">
             <button class="upload-button" onclick="document.getElementById('file-input').click()">Cargar archivo</button>
-            <input type="file" id="file-input" style="display: none;" />
+            <input type="file" id="file-input" name="file-input"  aria-label="Cargar archivo HTML" style="display: none;" />
         </div>
     </section>
 
@@ -44,16 +44,16 @@
         </div>
         <form>
             <div class="form-group">
-                <aria-label for="file-name">Archivo</aria-label>
-                <input type="text" id="file-name" name="file-name">
+                <label for="file-name-preview">Archivo</label>
+                <input type="text" id="file-name-preview" name="file-name-preview">
             </div>
             <div class="form-group">
-                <aria-label for="analysis-name">Nombre del análisis</aria-label>
-                <textarea id="analysis-name" name="analysis-name"></textarea>
+                <label for="analysis-name-preview">Nombre del análisis</label>
+                <textarea id="analysis-name-preview" name="analysis-name-preview"></textarea>
             </div>
             <div class="form-group">
-                <aria-label for="description">Descripción</aria-label>
-                <textarea id="description" name="description"></textarea>
+                <label for="description-preview">Descripción</label>
+                <textarea id="description-preview" name="description-preview"></textarea>
             </div>
         </form>
     </section>
