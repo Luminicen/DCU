@@ -1,6 +1,6 @@
 <!-- templates/base.html -->
 <!DOCTYPE html>
-<html  lang="es">
+<html lang="es">
 
 <head>
   <meta charset="utf-8">
@@ -19,11 +19,17 @@
 
 <body>
   <nav class="sidebar" aria-label="Menu principal">
-    <ul>
-      <li><a href="{% url 'analysis' %}" class="icon-analysis">Nuevo análisis</a></li>
-      <li><a href="{% url 'results' %}" class="icon-results">Resultados</a></li>
-      <li><a href="{% url 'settings' %}" class="icon-settings">Configuración</a></li>
-  </ul>
+    <ul aria-label="Lista con secciones del analizador">
+    <li>
+      <a href="{% url 'analysis' %}" class="icon-analysis" aria-label="Sección de nuevo análisis">Nuevo análisis</a>
+    </li>
+    <li>
+      <a href="{% url 'results' %}" class="icon-results" aria-label="Sección de resultados">Resultados</a>
+    </li>
+    <li>
+    <a href="{% url 'settings' %}" class="icon-settings" aria-label="Sección de configuración">Configuración</a>
+    </li>
+    </ul>
   </nav>
   <main>
     {% block content %}
