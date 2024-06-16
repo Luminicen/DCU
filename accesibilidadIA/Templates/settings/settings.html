@@ -22,37 +22,40 @@
 
             <!-- Sección Lectura por Voz -->
             <div class="form-group form-check form-switch">
-                <input type="checkbox" class="form-check-input" id="lectura_por_voz" name="lectura_por_voz">
+                <input type="checkbox" class="form-check-input" id="lectura_por_voz" name="lectura_por_voz" tabindex="0">
                 <label class="form-check-label" for="lectura_por_voz">Lectura por Voz</label>
             </div>
 
             <!-- Sección Voz a Texto -->
             <div class="form-group form-check form-switch">
-                <input type="checkbox" class="form-check-input" id="voz_a_texto" name="voz_a_texto">
+                <input type="checkbox" class="form-check-input" id="voz_a_texto" name="voz_a_texto" tabindex="0">
                 <label class="form-check-label" for="voz_a_texto">Voz a Texto</label>
             </div>
 
             <!-- Sección Tema -->
-            <div class="form-group">
-                <p>Tema:</p>
-                <div class="form-check theme-option">
-                    <input type="radio" class="form-check-input" id="tema1" name="tema" value="tema1">
-                    <label class="form-check-label" for="tema1"><img src="{% static 'images/tema1.png' %}" alt="Tema 1" width="50"></label>
+            <fieldset>
+                <legend>Aqui se describen posibles opciones de temas para el analizador</legend>
+                <div class="form-group">
+                    <p>Tema:</p>
+                    <div class="form-check theme-option">
+                        <input type="radio" class="form-check-input" id="tema1" name="tema" value="tema1" tabindex="0">
+                        <label class="form-check-label" for="tema1"><img src="{% static 'images/tema1.png' %}" alt="Tema 1" width="50"></label>
+                    </div>
+                    <div class="form-check theme-option">
+                        <input type="radio" class="form-check-input" id="tema2" name="tema" value="tema2" tabindex="0">
+                        <label class="form-check-label" for="tema2"><img src="{% static 'images/tema2.png' %}" alt="Tema 2" width="50"></label>
+                    </div>
+                    <div class="form-check theme-option">
+                        <input type="radio" class="form-check-input" id="tema3" name="tema" value="tema3" tabindex="0">
+                        <label class="form-check-label" for="tema3"><img src="{% static 'images/tema3.png' %}" alt="Tema 3" width="50"></label>
+                    </div>
                 </div>
-                <div class="form-check theme-option">
-                    <input type="radio" class="form-check-input" id="tema2" name="tema" value="tema2">
-                    <label class="form-check-label" for="tema2"><img src="{% static 'images/tema2.png' %}" alt="Tema 2" width="50"></label>
-                </div>
-                <div class="form-check theme-option">
-                    <input type="radio" class="form-check-input" id="tema3" name="tema" value="tema3">
-                    <label class="form-check-label" for="tema3"><img src="{% static 'images/tema3.png' %}" alt="Tema 3" width="50"></label>
-                </div>
-            </div>
+            </fieldset>
 
             <!-- Sección Tamaño de Letra -->
             <div class="form-group">
                 <label for="tamano_letra">Tamaño de Letra:</label>
-                <select class="form-control" id="tamano_letra" name="tamano_letra">
+                <select class="form-control" id="tamano_letra" name="tamano_letra" tabindex="0">
                     <option value="12px">12px</option>
                     <option value="14px">14px</option>
                     <option value="16px">16px</option>
@@ -65,4 +68,17 @@
 
         </form>
     </div>
+
+    <!-- Script para habilitar la selección con Enter -->
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                let activeElement = document.activeElement;
+                if (activeElement && activeElement.tabIndex === 0) {
+                    event.preventDefault();
+                    activeElement.click();
+                }
+            }
+        });
+    </script>
 {% endblock %}
