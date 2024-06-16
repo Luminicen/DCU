@@ -45,15 +45,15 @@
         <form>
             <div class="form-group">
                 <label for="file-name-preview">Archivo</label>
-                <input type="text" id="file-name-preview" name="file-name-preview">
+                <input type="text" id="file-name-preview" name="file-name-preview" disabled value="miHtml.html">
             </div>
             <div class="form-group">
                 <label for="analysis-name-preview">Nombre del análisis</label>
-                <textarea id="analysis-name-preview" name="analysis-name-preview"></textarea>
+                <textarea id="analysis-name-preview" name="analysis-name-preview"  disabled>analisis mi 1er app</textarea>
             </div>
             <div class="form-group">
                 <label for="description-preview">Descripción</label>
-                <textarea id="description-preview" name="description-preview"></textarea>
+                <textarea id="description-preview" name="description-preview" disabled>Análisis html para mi primer app </textarea>
             </div>
         </form>
     </section>
@@ -62,15 +62,16 @@
 
 <div class="indicators nav-buttons" id="indicators">
     <div class="nav-button-container">
-        <button id="prevBtn">&lt;</button>
-        <div class="nav-label">Anterior</div>
+        <button id="prevBtn" aria-label="Botón de vista anterior">&lt;</button>
+        <div class="nav-label" aria-label="Botón de vista anterior">Anterior</div>
     </div>
     <span class="dot active" data-index="0"></span>
     <span class="dot" data-index="1"></span>
     <span class="dot" data-index="2"></span>
     <div class="nav-button-container">
-        <button id="nextBtn">&gt;</button>
-        <div class="nav-label">Siguiente</div>
+        <button id="nextBtn" aria-label="Botón de siguiente vista">&gt;</button>
+        <div class="nav-label" aria-label="Botón de siguiente vista">Siguiente</div>
     </div>
 </div>
+
 {% endblock %}
