@@ -9,6 +9,9 @@
 {% block content %}
 <div class="scroll-content-container" id="scroll-content-container">
     <section class="page upload-file">
+        <div class="scroll-header">
+            <h1>Nuevo análisis: Cargar archivo HTML</h1>
+        </div>
         <div class="upload-container" id="drop-area">
             <div class="upload-icon">+</div>
             <div class="upload-text">Agregar archivo HTML</div>
@@ -20,6 +23,9 @@
     </section>
 
     <section class="page analysis-preferences">
+        <div class="scroll-header">
+            <h1>Nuevo análisis: Preferencias</h1>
+        </div>
         <form>
             <div class="form-group">
                 <label for="analysis-name">Nombre del análisis</label>
@@ -33,17 +39,20 @@
     </section>
 
     <section class="page analysis-preview">
+        <div class="scroll-header">
+            <h1>Nuevo análisis: Vista Previa</h1>
+        </div>
         <form>
             <div class="form-group">
-                <label for="file-name">Archivo</label>
+                <aria-label for="file-name">Archivo</aria-label>
                 <input type="text" id="file-name" name="file-name">
             </div>
             <div class="form-group">
-                <label for="analysis-name">Nombre del análisis</label>
+                <aria-label for="analysis-name">Nombre del análisis</aria-label>
                 <textarea id="analysis-name" name="analysis-name"></textarea>
             </div>
             <div class="form-group">
-                <label for="description">Descripción</label>
+                <aria-label for="description">Descripción</aria-label>
                 <textarea id="description" name="description"></textarea>
             </div>
         </form>
@@ -52,10 +61,16 @@
 
 
 <div class="indicators nav-buttons" id="indicators">
-    <button id="prevBtn">&lt;</button>
+    <div class="nav-button-container">
+        <button id="prevBtn">&lt;</button>
+        <div class="nav-label">Anterior</div>
+    </div>
     <span class="dot active" data-index="0"></span>
     <span class="dot" data-index="1"></span>
     <span class="dot" data-index="2"></span>
-    <button id="nextBtn">&gt;</button>
+    <div class="nav-button-container">
+        <button id="nextBtn">&gt;</button>
+        <div class="nav-label">Siguiente</div>
+    </div>
 </div>
 {% endblock %}

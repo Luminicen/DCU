@@ -1,27 +1,26 @@
 body {
     margin: 0;
-    overflow-x: hidden; /* Ocultar scroll horizontal en todo el documento */
+    overflow-x: hidden; 
 }
 
 .scroll-content-container {
     display: flex;
-    overflow-x: hidden; /* Ocultar scroll horizontal dentro del contenedor */
-    width: 100vw; /* Ancho completo de la ventana */
+    overflow-x: hidden; 
+    width: 100vw; 
     align-items: center;
-    justify-content: flex-start; /* Alineación de contenido al inicio */
-    scroll-snap-type: x mandatory; /* Scroll snap horizontal obligatorio */
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory; 
 }
 
 .page {
     flex: none;
-    min-width: 100vw; /* Cada página ocupa el ancho completo de la ventana */
-    margin-bottom: 20px;
+    min-width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    scroll-snap-align: start; /* Alineación inicial de scroll snap */
+    scroll-snap-align: start; 
 }
 
 .nav-buttons {
@@ -30,7 +29,24 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    z-index: 100; /* Asegura que los botones estén encima del contenido */
+    z-index: 100; 
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    bottom: 10px;
+    width: 100%;
+}
+
+.nav-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px;
+
 }
 
 .nav-buttons button {
@@ -40,12 +56,19 @@ body {
     cursor: pointer;
 }
 
+.nav-label {
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
 .indicators {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    position: relative;
+    bottom: 10px;
+    width: 100%;
+    margin-top: 250px;
 }
 
 .indicators span {
@@ -63,7 +86,7 @@ body {
 }
 
 .upload-container {
-    border: 2px dashed #ccc;
+    border: 2px dashed #2d2d2d;
     border-radius: 10px;
     width: 300px;
     height: 200px;
@@ -76,7 +99,7 @@ body {
 }
 
 .upload-container:hover {
-    border-color: #999;
+    border-color: #454545;
 }
 
 .upload-container.dragover {
@@ -85,7 +108,7 @@ body {
 
 .upload-icon {
     font-size: 50px;
-    color: #aaa;
+    color: #2d2d2d;
 }
 
 .upload-text {
@@ -96,21 +119,26 @@ body {
 
 .upload-button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #004c9e;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 20px; /* Separación del botón del contenedor */
+    margin-top: 20px; 
 }
 
 .upload-button:hover {
-    background-color: #0056b3;
+    background-color: #003976;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
+}
+
+.scroll-header {
+    text-align: left;
+
 }
