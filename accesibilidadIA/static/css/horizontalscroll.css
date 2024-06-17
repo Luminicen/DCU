@@ -1,24 +1,20 @@
 body {
-    margin: 0;
-    overflow-x: hidden; 
+    overflow-x: auto; 
 }
 
 .scroll-content-container {
     display: flex;
     overflow-x: hidden; 
-    width: 100vw; 
-    align-items: center;
     justify-content: flex-start;
     scroll-snap-type: x mandatory; 
+    width: 76vw;
 }
 
 .page {
     flex: none;
-    min-width: 100vw;
+    min-width: 76vw;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     font-size: 2rem;
     scroll-snap-align: start; 
 }
@@ -85,24 +81,31 @@ body {
     background-color: #717171;
 }
 
-.upload-container {
+.upload-file-container{
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.upload-content-container {
     border: 2px dashed #2d2d2d;
     border-radius: 10px;
     width: 300px;
     height: 200px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     background-color: white;
-    margin-bottom: 20px;
 }
 
-.upload-container:hover {
+.upload-content-container:hover {
     border-color: #454545;
 }
 
-.upload-container.dragover {
+.upload-content-container.dragover {
     border-color: #000;
 }
 
@@ -118,14 +121,17 @@ body {
 }
 
 .upload-button {
+    display: inline-block;
     padding: 10px 20px;
-    background-color: #004c9e;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     font-size: 16px;
-    margin-top: 20px; 
+    color: #444;
+    background-color: #ffffff;
+    border: 4px solid #25c2e5;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .upload-button:hover {
@@ -135,10 +141,55 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.form-group label{
+    font-weight: bold;
 }
 
 .scroll-header {
     text-align: left;
+    
+}
 
+.scroll-header h1{
+    font-weight: bold;
+}
+
+.analysis-preference-container{
+    padding-top: 100px;
+    padding-left: 50px;
+}
+
+.analysis-preview-container{
+    padding-top: 100px;
+    padding-left: 50px;
+}
+
+.start-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #444;
+    background-color: #ffffff;
+    border: 4px solid #8BC34A;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.start-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
 }

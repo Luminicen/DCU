@@ -8,40 +8,48 @@
 {% endblock %}
 {% block content %}
 <div class="scroll-content-container" id="scroll-content-container">
-    <section class="page upload-file">
+    <section class="page">
         <div class="scroll-header">
             <h1>Nuevo análisis: Cargar archivo HTML</h1>
         </div>
-        <div class="upload-container" id="drop-area">
-            <div class="upload-icon">+</div>
-            <div class="upload-text">Agregar archivo HTML</div>
-        </div>
-        <div class="button-container">
-            <button class="upload-button" onclick="document.getElementById('file-input').click()">Cargar archivo</button>
-            <input type="file" id="file-input" name="file-input" aria-label="Cargar archivo HTML" style="display: none;" />
+        <div class="upload-file-container">
+            <div class="upload-content-container" id="drop-area">
+                <div class="upload-icon">+</div>
+                <div class="upload-text">Agregar archivo HTML</div>
+            </div>
+            <div class="upload-btn-container">
+                <button class="upload-button" onclick="document.getElementById('file-input').click()">Cargar
+                    archivo</button>
+                <input type="file" id="file-input" name="file-input" aria-label="Cargar archivo HTML"
+                    style="display: none;" />
+            </div>
         </div>
     </section>
 
-    <section class="page analysis-preferences">
+    <section class="page">
         <div class="scroll-header">
             <h1>Nuevo análisis: Preferencias</h1>
         </div>
+        <div class="analysis-preference-container">
         <form>
             <div class="form-group">
                 <label for="analysis-name">Nombre del análisis</label>
-                <input type="text" id="analysis-name" name="analysis-name" placeholder="Escriba un nombre para el análisis">
+                <input type="text" id="analysis-name" name="analysis-name"
+                    placeholder="Escriba un nombre para el análisis">
             </div>
             <div class="form-group">
                 <label for="description">Descripción</label>
                 <textarea id="description" name="description" placeholder="Escriba una descripción"></textarea>
             </div>
         </form>
+    </div>
     </section>
 
-    <section class="page analysis-preview">
+    <section class="page">
         <div class="scroll-header">
             <h1>Nuevo análisis: Vista Previa</h1>
         </div>
+        <div class="analysis-preview-container">
         <form>
             <div class="form-group">
                 <label for="file-name-preview">Archivo</label>
@@ -49,13 +57,19 @@
             </div>
             <div class="form-group">
                 <label for="analysis-name-preview">Nombre del análisis</label>
-                <textarea id="analysis-name-preview" name="analysis-name-preview"  disabled>analisis mi 1er app</textarea>
+                <textarea id="analysis-name-preview" name="analysis-name-preview"
+                    disabled>Demo análisis</textarea>
             </div>
             <div class="form-group">
                 <label for="description-preview">Descripción</label>
-                <textarea id="description-preview" name="description-preview" disabled>Análisis html para mi primer app </textarea>
+                <textarea id="description-preview" name="description-preview"
+                    disabled>Análisis html para mi primer app </textarea>
+            </div>
+            <div class="start-btn-container">
+                <button class="start-button">Iniciar análisis</button>
             </div>
         </form>
+    </div>
     </section>
 </div>
 
