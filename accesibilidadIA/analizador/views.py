@@ -25,9 +25,20 @@ def register(request):
         form = Registro()
     return render(request, 'registration/registerForm.html', {'form': form})
 
+#analysis fun
 def analysis(request):
     return render(request, "analysis/analysis.html")
 
+def upload_html(request):
+    return render(request, "analysis/upload_html.html")
+
+def preferences(request):
+    return render(request, "analysis/preferences.html")
+
+def preview(request):
+    return render(request, "analysis/preview.html")
+
+#result fun
 def results(request):
     resultados_lista = [
         {
@@ -53,6 +64,7 @@ def results(request):
     ]
     return render(request, 'results/results.html', {'resultados': resultados_lista})
 
+#settings fun
 def settings(request):
     return render(request, 'settings/settings.html')
 

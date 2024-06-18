@@ -1,11 +1,6 @@
 .sidebar {
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    top: 0;
-    left: 0;
     background-color: #ffffff;
-    padding-top: 20px;
+    overflow-y: auto;
 }
 
 .sidebar ul {
@@ -47,13 +42,12 @@
     content: 'settings';
 }
 
+.icon-logout::before{
+    content: 'logout';
+}
+
 .sidebar li a:hover {
     background-color: #3D8AF7;
     color: white; 
     font-weight: bold;
-}
-
-.content {
-    margin-left: 220px;
-    padding: 20px;
 }

@@ -1,28 +1,91 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Nuevo análisis{% endblock %}
 {% block head %}
-    {{ super }}
-    {% endblock %}
-{% block content %}
-{% load static %}
-<body>
-<div class="tab-container">
-    <div id="index-tab" class="tab active" onclick="showTab('index')">Nuevo análisis</div>
-    <div id="resultados-tab" class="tab" onclick="showTab('resultados')">Resultados</div>
-    <div id="configuracion-tab" class="tab" onclick="showTab('configuracion')">Configuración</div>
-</div>
-<div class="content">
-    <div id="analisis" class="tab-content" style="display: block;">
-        {% block index_content %}{% endblock %}
-    </div>
-    <div id="resultados" class="tab-content" style="display: none;">
-        {% block resultados_content %}{% endblock %}
-    </div>
-    <div id="configuracion" class="tab-content" style="display: none;">
-        {% block configuracion_content %}{% endblock %}
-    </div>
-</div>
+{{ super }}
 <script src="{% static 'js/horizontalScroll.js' %}"></script>
-</body>
+<link rel="stylesheet" href="{% static 'css/horizontalScroll.css' %}">
+{% endblock %}
+{% block content %}
+<div class="scroll-content-container" id="scroll-content-container">
+    <section class="page">
+        <div class="scroll-header">
+            <h1>Nuevo análisis: Cargar archivo HTML</h1>
+        </div>
+        <div class="upload-file-container">
+            <div class="upload-content-container" id="drop-area">
+                <div class="upload-icon">+</div>
+                <div class="upload-text">Agregar archivo HTML</div>
+            </div>
+            <div class="upload-btn-container">
+                <button class="upload-button" onclick="document.getElementById('file-input').click()">Cargar
+                    archivo</button>
+                <input type="file" id="file-input" name="file-input" aria-label="Cargar archivo HTML"
+                    style="display: none;" />
+            </div>
+        </div>
+    </section>
+
+    <section class="page">
+        <div class="scroll-header">
+            <h1>Nuevo análisis: Preferencias</h1>
+        </div>
+        <div class="analysis-preference-container">
+        <form>
+            <div class="form-group">
+                <label for="analysis-name">Nombre del análisis</label>
+                <input type="text" id="analysis-name" name="analysis-name"
+                    placeholder="Escriba un nombre para el análisis">
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea id="description" name="description" placeholder="Escriba una descripción"></textarea>
+            </div>
+        </form>
+    </div>
+    </section>
+
+    <section class="page">
+        <div class="scroll-header">
+            <h1>Nuevo análisis: Vista Previa</h1>
+        </div>
+        <div class="analysis-preview-container">
+        <form>
+            <div class="form-group">
+                <label for="file-name-preview">Archivo</label>
+                <input type="text" id="file-name-preview" name="file-name-preview" disabled value="miHtml.html">
+            </div>
+            <div class="form-group">
+                <label for="analysis-name-preview">Nombre del análisis</label>
+                <textarea id="analysis-name-preview" name="analysis-name-preview"
+                    disabled>Demo análisis</textarea>
+            </div>
+            <div class="form-group">
+                <label for="description-preview">Descripción</label>
+                <textarea id="description-preview" name="description-preview"
+                    disabled>Análisis html para mi primer app </textarea>
+            </div>
+            <div class="start-btn-container">
+                <button class="start-button">Iniciar análisis</button>
+            </div>
+        </form>
+    </div>
+    </section>
+</div>
+
+
+<div class="indicators nav-buttons" id="indicators">
+    <div class="nav-button-container">
+        <button id="prevBtn" aria-label="Botón de vista anterior">&lt;</button>
+        <div class="nav-label" aria-label="Botón de vista anterior">Anterior</div>
+    </div>
+    <span class="dot active" data-index="0"></span>
+    <span class="dot" data-index="1"></span>
+    <span class="dot" data-index="2"></span>
+    <div class="nav-button-container">
+        <button id="nextBtn" aria-label="Botón de siguiente vista">&gt;</button>
+        <div class="nav-label" aria-label="Botón de siguiente vista">Siguiente</div>
+    </div>
+</div>
+
 {% endblock %}

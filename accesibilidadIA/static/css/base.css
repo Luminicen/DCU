@@ -1,3 +1,32 @@
-body{
-    background-color: #f0f0f0; 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+nav {
+  float: left;
+  height: 100%;
+  width: 20%;
+  background-color: #f0f0f0;
+}
+
+main {
+  float: left;
+  width: 80%;
+  padding:0 20px;
+}
+
+@media only screen and (max-width: 620px) {
+  /* For mobile phones: */
+  nav, main {
+    width: 100%;
+  }
 }
