@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Reporte(models.Model):
     nombre = models.CharField(max_length=100)
-    codigo = models.CharField(max_length=255)
+    codigo  = models.FileField(upload_to='archivos_analisis/') 
     usuario = models.ForeignKey(User,on_delete=models.DO_NOTHING)
 
     def __str__(self):

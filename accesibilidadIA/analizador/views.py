@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-
+from openai import OpenAI
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-from .forms import Registro
-
+from .forms import Registro, ReporteForm
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-
+import json
 def index(request):
     return render(request, 'base.html')
 
@@ -26,7 +26,30 @@ def register(request):
     return render(request, 'registration/registerForm.html', {'form': form})
 
 #analysis fun
+@login_required
 def analysis(request):
+    if request.method == 'POST':
+        analysis_name = request.POST.get('analysis-name')
+        description = request.POST.get('description')
+        file = request.FILES.get('file-input')
+
+        if file:
+            from .models import Reporte
+            print(file)
+            print(analysis_name)
+            print(description)
+            file_content = file.read().decode('utf-8')
+            form = Reporte()
+            form.usuario = request.user
+            form.nombre = analysis_name
+            form.codigo = file
+            print("FOR;")
+            print(form)
+            form.save()
+            return HttpResponse(f'Archivo  subido exitosamente ')
+        else:
+            return HttpResponse('No se ha subido ningún archivo')
+
     return render(request, "analysis/analysis.html")
 
 def upload_html(request):
@@ -38,6 +61,18 @@ def preferences(request):
 def preview(request):
     return render(request, "analysis/preview.html")
 
+def solicitud_ia(request):
+    client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
+    completion = client.chat.completions.create(
+    model="model-identifier",
+    messages=[
+    {"role": "system", "content": "Always answer in rhymes."},
+    {"role": "user", "content": "Introduce yourself."}
+    ] ,
+    temperature=0.7,
+    )
+    ans = completion.choices[0].message
+    return HttpResponse(ans)
 #result fun
 def results(request):
     resultados_lista = [
@@ -69,6 +104,7 @@ def settings(request):
     return render(request, 'settings/settings.html')
 
 def procesar_resultado(request, resultado_id):
+    Resultado = None
     resultado = get_object_or_404(Resultado, id=resultado_id)
     
     if request.method == 'POST':
