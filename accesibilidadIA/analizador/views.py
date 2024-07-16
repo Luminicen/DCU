@@ -46,7 +46,7 @@ def analysis(request):
             form.usuario = request.user
             form.nombre = analysis_name
             form.codigo = file
-            #form.save()
+            form.save()
             ans = solicitud_ia(file_content)
             request.session['mi_dato'] = str(ans)
             url = reverse('results') 
