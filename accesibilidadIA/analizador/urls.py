@@ -11,5 +11,4 @@ urlpatterns = [
     path("analysis/preview", views.preview, name="preview"),
     path("results", views.results, name="results"),
     path("settings", views.settings, name="settings"),
-    path("solicitudIA/", views.solicitud_ia, name="solicitudIA"),
 ]

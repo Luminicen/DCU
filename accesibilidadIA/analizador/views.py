@@ -7,6 +7,8 @@ from .forms import Registro, ReporteForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 import json
+from django.urls import reverse
+import re
 def index(request):
     return render(request, 'base.html')
 
@@ -39,14 +41,16 @@ def analysis(request):
             print(analysis_name)
             print(description)
             file_content = file.read().decode('utf-8')
+            
             form = Reporte()
             form.usuario = request.user
             form.nombre = analysis_name
             form.codigo = file
-            print("FOR;")
-            print(form)
-            form.save()
-            return HttpResponse(f'Archivo  subido exitosamente ')
+            #form.save()
+            ans = solicitud_ia(file_content)
+            request.session['mi_dato'] = str(ans)
+            url = reverse('results') 
+            return redirect(url)
         else:
             return HttpResponse('No se ha subido ningún archivo')
 
@@ -61,18 +65,22 @@ def preferences(request):
 def preview(request):
     return render(request, "analysis/preview.html")
 
-def solicitud_ia(request):
+def solicitud_ia(codigo):
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
     completion = client.chat.completions.create(
     model="model-identifier",
     messages=[
-    {"role": "system", "content": "Always answer in rhymes."},
-    {"role": "user", "content": "Introduce yourself."}
+    {"role": "system", "content": """
+    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: Output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
+    respetame el output y los errores tienen que ser en español"""},
+    {"role": "user", "content": codigo}
     ] ,
     temperature=0.7,
     )
+    # Extract the content from the message
     ans = completion.choices[0].message
-    return HttpResponse(ans)
+
+    return ans
 #result fun
 def results(request):
     resultados_lista = [
@@ -96,8 +104,44 @@ def results(request):
             'titulo': 'Linea 211: Falta de descripción en el botón de navegación',
             'descripcion': 'El botón de navegación en la línea 211 no incluye un `aria-label` o `title`, lo que puede ser problemático para los usuarios que utilizan tecnologías asistivas para navegar por el sitio.'
         }
+        
     ]
-    return render(request, 'results/results.html', {'resultados': resultados_lista})
+    mi_dato = request.session.get('mi_dato')
+    print("LISTO")
+    print(mi_dato)
+    # Expresión regular para extraer las frases específicas
+    pattern = r'output:\s*(.*?)\.'
+    matches = re.findall(pattern, mi_dato, re.DOTALL)
+    output = []
+    pattern2 = r'\*\*Error \d+\*\*:(.*?)\*\*Solución:\*\*(.*?)\n\n'
+
+    matches2 = re.findall(pattern2, mi_dato, re.DOTALL)
+
+    if matches2:
+        for match in matches:
+            titulo = "ERROR " + match[0].strip()
+            descripcion = match[1].strip().replace("\n","")
+
+            # Agregar a la lista como un diccionario
+            output.append({
+                'titulo': titulo,
+                'descripcion': descripcion
+            })
+    if matches:
+        extracted_phrases = matches[0].strip()
+        phrases_list = [phrase.strip() for phrase in extracted_phrases.split('|')]
+        
+
+        for index, phrase in enumerate(phrases_list, start=1):
+            output.append({
+                'titulo': str(index),
+                'descripcion': phrase
+            })
+
+        print(output)
+    else:
+        print("No se encontraron frases específicas.")
+    return render(request, 'results/results.html', {'resultados': output})
 
 #settings fun
 def settings(request):
