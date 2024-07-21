@@ -9,6 +9,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 import json
 from django.urls import reverse
 import re
+from urllib.parse import urlencode
+
 def index(request):
     return render(request, 'base.html')
 
@@ -49,8 +51,14 @@ def analysis(request):
             form.save()
             ans = solicitud_ia(file_content)
             request.session['mi_dato'] = str(ans)
-            url = reverse('results') 
-            return redirect(url)
+
+            # Added the filename to the URL
+            file_name = file.name
+            url = reverse('results')
+            query_params = urlencode({'file_name': file_name})
+            full_url = f"{url}?{query_params}"
+            return redirect(full_url)
+
         else:
             return HttpResponse('No se ha subido ningún archivo')
 
@@ -82,14 +90,14 @@ def solicitud_ia(codigo):
 
     return ans
 
-def merge_code_ai(codigo, error_detectado):
+def merge_code_ai_request():
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
     completion = client.chat.completions.create(
     model="model-identifier",
     messages=[
     {"role": "system", "content": """
-    Eres una IA experta en análisis de código HTML. Tu tarea es recibir un código HTML, analizarlo y corregir el siguiente error de codigo: """ + error_detectado},
-    {"role": "user", "content": codigo}
+    Recuerda que eres una IA experta en análisis de código HTML y te pase un archivo HTML para analizar. De ese archivo HTML que te pase analizalo y corregi el siguiente error de codigo. En base a tu analis quiero que me muestren la linea de código con el error y la misma línea de código pero con el error corregido. Delimita tu respuesta usando ####original_line_start####, ####original_line_end####, ####fixed_line_start#### y ####fixed_line_end####. Un ejemplo sería: ####original_line_start####<title> </title> <!-- Missing Title -->####original_line_end########fixed_line_start####<title>Corrected Title</title>####fixed_line_end####"""},
+    {"role": "user", "content": "Se detectó que falta un title en la línea 7"}
     ] ,
     temperature=0.7,
     )
@@ -100,6 +108,11 @@ def merge_code_ai(codigo, error_detectado):
 
 #result fun
 def results(request):
+
+    file_name = request.GET.get('file_name')
+
+    print("The filename is ", file_name)
+
     resultados_lista = [
         {
             'titulo': 'Linea 11: Falta de descripción en el botón de envío',
@@ -158,11 +171,35 @@ def results(request):
         print(output)
     else:
         print("No se encontraron frases específicas.")
-    return render(request, 'results/results.html', {'resultados': output})
+    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+
+def extract_lines(response):
+    # Define regex patterns for the original and fixed lines
+    original_pattern = r'####original_line_start####(.*?)####original_line_end####'
+    fixed_pattern = r'####fixed_line_start####(.*?)####fixed_line_end####'
+    
+    # Search for the patterns in the response
+    original_match = re.search(original_pattern, response, re.DOTALL)
+    fixed_match = re.search(fixed_pattern, response, re.DOTALL)
+    
+    # Extract the lines if found
+    original_line = original_match.group(1).strip() if original_match else None
+    fixed_line = fixed_match.group(1).strip() if fixed_match else None
+
+    print("\nOriginal code: ", original_line, ". Fixed code: ",  fixed_line, "\n")
+    
+    return original_line, fixed_line
 
 #result fun
 def error_result(request):
-    #return render(request, 'error_result.html', {'resultado': output[0]})
+    #find file name
+    ans = merge_code_ai_request()
+
+    #request.session['error_detectado_01E'] = str(ans)
+    #url = reverse('results') 
+    #return redirect(url)
+    print(str(ans))
+    extract_lines(str(ans))
     return render(request, 'results/error_result.html')
 
 #settings fun
