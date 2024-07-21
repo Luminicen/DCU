@@ -1,0 +1,41 @@
+<!-- El Modal -->
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <!-- Cabecera del Modal -->
+        <div class="modal-header">
+            <h4 class="modal-title">Corrección de Código</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Cuerpo del Modal -->
+        <div class="modal-body">
+            <h5>Código Original:</h5>
+            <div class="code-container">
+                <code>
+                    &lt;!-- Código original aquí --&gt;
+                    &lt;p&gt;Hola Mundo&lt;/p&gt;
+                </code>
+            </div>
+
+            <h5>Corrección Propuesta:</h5>
+            <div class="code-container">
+                <code>
+                    &lt;!-- Código corregido aquí --&gt;
+                    &lt;p&gt;Hola, Mundo!&lt;/p&gt;
+                </code>
+            </div>
+        </div>
+
+        <!-- Pie de página del Modal -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal" id="acceptCorrection">Aceptar</button>
+            <button type="button" class="btn btn-danger" onclick="back_results()" id="rejectCorrection">Rechazar</button>
+        </div>
+        <script>
+            function back_results() {
+                //window.location.href = `/error_result?id=${id}`;
+                window.location.href = `/analizador/results`;
+            }
+        </script>
+    </div>
+</div>

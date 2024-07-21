@@ -81,6 +81,23 @@ def solicitud_ia(codigo):
     ans = completion.choices[0].message
 
     return ans
+
+def merge_code_ai(codigo, error_detectado):
+    client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
+    completion = client.chat.completions.create(
+    model="model-identifier",
+    messages=[
+    {"role": "system", "content": """
+    Eres una IA experta en análisis de código HTML. Tu tarea es recibir un código HTML, analizarlo y corregir el siguiente error de codigo: """ + error_detectado},
+    {"role": "user", "content": codigo}
+    ] ,
+    temperature=0.7,
+    )
+    # Extract the content from the message
+    ans = completion.choices[0].message
+
+    return ans
+
 #result fun
 def results(request):
     resultados_lista = [
@@ -142,6 +159,11 @@ def results(request):
     else:
         print("No se encontraron frases específicas.")
     return render(request, 'results/results.html', {'resultados': output})
+
+#result fun
+def error_result(request):
+    #return render(request, 'error_result.html', {'resultado': output[0]})
+    return render(request, 'results/error_result.html')
 
 #settings fun
 def settings(request):
