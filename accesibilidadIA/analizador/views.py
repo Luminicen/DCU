@@ -114,14 +114,16 @@ def results(request):
     matches = re.findall(pattern, mi_dato, re.DOTALL)
     output = []
     pattern2 = r'\*\*Error \d+\*\*:(.*?)\*\*Solución:\*\*(.*?)\n\n'
-
+    patternLinea = r'Linea \d+'
+    
     matches2 = re.findall(pattern2, mi_dato, re.DOTALL)
 
     if matches2:
         for match in matches:
-            titulo = "ERROR " + match[0].strip()
+            
             descripcion = match[1].strip().replace("\n","")
-
+            linea = re.findall(patternLinea, descripcion, re.IGNORECASE)
+            titulo = linea[0]
             # Agregar a la lista como un diccionario
             output.append({
                 'titulo': titulo,
@@ -133,8 +135,15 @@ def results(request):
         
 
         for index, phrase in enumerate(phrases_list, start=1):
+            linea = re.findall(patternLinea, phrase, re.IGNORECASE)
+            z=""
+            if linea:
+
+                z = linea[0]
+            else:
+                z = "Observacion"
             output.append({
-                'titulo': str(index),
+                'titulo': z,
                 'descripcion': phrase
             })
 
