@@ -111,6 +111,58 @@ def merge_code_ai_request(input_html, error_description):
 
     return ans
 
+def merge_code_ai(input_html, error_description):
+    client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
+    completion = client.chat.completions.create(
+    model="model-identifier",
+    messages=[
+    {"role": "system", "content": """
+    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me devuelves el mismo código HTML pero con el error corregido."""},
+    {"role": "user", "content": input_html}
+    ] ,
+    temperature=0.7,
+    )
+    # Extract the content from the message
+    ans = completion.choices[0].message
+
+    print("CODIGO CORREGIDO:\n", ans)
+
+    return ans
+
+def update_html(request, file_name, error_to_correct):
+    if request.method == 'POST':
+        try:
+            # Recuperar el reporte por fileName
+            reporte = Reporte.objects.get(fileName=file_name, usuario=request.user)
+
+                # Acceder al archivo y leer su contenido
+            with open(reporte.codigo.path, 'r') as archivo:
+                file_content = archivo.read()
+
+        except ObjectDoesNotExist:
+            return HttpResponse(f'El reporte del archivo {file_name} no existe.')
+        except FileNotFoundError:
+            return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
+
+        fixed_code = str(merge_code_ai(file_content, error_to_correct))
+
+        print('CODIGO ARREGLADO BEGIN\n', fixed_code, 'CODIGO ARREGLADO END\n')
+
+        # Actualiza el campo aquí
+        reporte.codigo = fixed_code
+        reporte.save()
+        
+        # Deberia llamar devuelta al prompt con el nuevo archivo
+
+        # Added the filename to the URL
+        request.session['mi_dato'] = fixed_code
+        url = reverse('results')
+        query_params = urlencode({'file_name': file_name})
+        full_url = f"{url}?{query_params}"
+        return redirect(full_url)
+    output = None
+    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+
 #result fun
 def results(request):
 

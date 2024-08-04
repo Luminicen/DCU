@@ -33,14 +33,18 @@
 
         <!-- Pie de página del Modal -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal" id="acceptCorrection">Aceptar</button>
+            <form method="post" action="{% url 'update_html' file_name detected_error %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="file_name" value="{{ file_name }}">
+                <input type="hidden" name="detected_error" value="{{ detected_error }}">
+                <button type="submit" class="btn btn-success" id="acceptCorrection">Aceptar</button>
+            </form>
             <button type="button" class="btn btn-danger" onclick="back_results()" id="rejectCorrection">Rechazar</button>
         </div>
-        <script>
-            function back_results() {
-                //window.location.href = `/error_result?id=${id}`;
-                window.location.href = `/analizador/results`;
-            }
-        </script>
     </div>
+    <script>
+        function back_results() {
+            window.location.href = `/analizador/results`;
+        }
+    </script>
 </div>

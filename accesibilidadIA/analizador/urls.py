@@ -11,6 +11,6 @@ urlpatterns = [
     path("analysis/preview", views.preview, name="preview"),
     path("results", views.results, name="results"),
     path('error_result/<str:file_name>/<str:detected_error>', views.error_result, name='error_result'),
-    #path('error_result/<str:detected_error>', views.error_result, name='error_result'),
+    path('update_html/<str:file_name>/', views.update_html, name='update_html'),
     path("settings", views.settings, name="settings"),
 ]
