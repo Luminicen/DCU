@@ -60,16 +60,16 @@
         <h1 class="page-title my-4">Resultados > Mi Aplicación</h1>
         <h2 class="page-subtitle my-4">Errores de usabilidad detectados:</h2>
         {% for resultado in resultados %}
-            <div class="card border mb-3 p-3 resultado" tabindex="0" onclick="redirigir('{{ resultado.id }}')">
+            <div class="card border mb-3 p-3 resultado" tabindex="0" onclick="redirigir('{{ file_name }}', '{{ resultado.descripcion }}')">
                 <h3 class="page-subtitle my-4">{{ resultado.titulo }}</h3>
                 <p>{{ resultado.descripcion }}</p>
             </div>
         {% endfor %}
     </div>
     <script>
-        function redirigir(id) {
-            //window.location.href = `/error_result?id=${id}`;
-            window.location.href = `/analizador/error_result`;
+        function redirigir(file_name, error_name) {
+            window.location.href = `/analizador/error_result/${file_name}/${error_name}`;
+            //window.location.href = `/analizador/error_result/${error_name}`;
         }
     </script>
 {% endblock %}

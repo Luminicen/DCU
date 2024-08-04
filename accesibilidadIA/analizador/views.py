@@ -10,6 +10,9 @@ import json
 from django.urls import reverse
 import re
 from urllib.parse import urlencode
+from .models import Reporte
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 def index(request):
     return render(request, 'base.html')
@@ -48,7 +51,9 @@ def analysis(request):
             form.usuario = request.user
             form.nombre = analysis_name
             form.codigo = file
+            form.fileName = file.name
             form.save()
+
             ans = solicitud_ia(file_content)
             request.session['mi_dato'] = str(ans)
 
@@ -90,14 +95,14 @@ def solicitud_ia(codigo):
 
     return ans
 
-def merge_code_ai_request():
+def merge_code_ai_request(input_html, error_description):
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
     completion = client.chat.completions.create(
     model="model-identifier",
     messages=[
     {"role": "system", "content": """
-    Recuerda que eres una IA experta en análisis de código HTML y te pase un archivo HTML para analizar. De ese archivo HTML que te pase analizalo y corregi el siguiente error de codigo. En base a tu analis quiero que me muestren la linea de código con el error y la misma línea de código pero con el error corregido. Delimita tu respuesta usando ####original_line_start####, ####original_line_end####, ####fixed_line_start#### y ####fixed_line_end####. Un ejemplo sería: ####original_line_start####<title> </title> <!-- Missing Title -->####original_line_end########fixed_line_start####<title>Corrected Title</title>####fixed_line_end####"""},
-    {"role": "user", "content": "Se detectó que falta un title en la línea 7"}
+    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me muestren la linea de código con el error y la misma línea de código pero con el error corregido. Delimita tu respuesta usando ####original_line_start####, ####original_line_end####, ####fixed_line_start#### y ####fixed_line_end####. Un ejemplo sería: ####original_line_start####<title> </title> <!-- Missing Title -->####original_line_end########fixed_line_start####<title>Corrected Title</title>####fixed_line_end####"""},
+    {"role": "user", "content": input_html}
     ] ,
     temperature=0.7,
     )
@@ -138,7 +143,7 @@ def results(request):
     ]
     mi_dato = request.session.get('mi_dato')
     print("LISTO")
-    print(mi_dato)
+    print("inicio dato: ", mi_dato, " fin dato.")
     # Expresión regular para extraer las frases específicas
     pattern = r'output:\s*(.*?)\.'
     matches = re.findall(pattern, mi_dato, re.DOTALL)
@@ -191,16 +196,45 @@ def extract_lines(response):
     return original_line, fixed_line
 
 #result fun
-def error_result(request):
+def error_result(request, file_name, detected_error):
+
+    #file_name = request.GET.get('file_name')
+
+    print("The filename is ", file_name)
+
+
+    try:
+        # Recuperar el reporte por fileName
+        reporte = Reporte.objects.get(fileName=file_name)
+        
+        # Acceder al archivo y leer su contenido
+        with open(reporte.codigo.path, 'r') as archivo:
+            file_content = archivo.read()
+
+    except ObjectDoesNotExist:
+        return HttpResponse(f'El reporte del archivo {file_name} no existe.')
+    except FileNotFoundError:
+        return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
+
+    print("Error " + detected_error + " of file ", "file_name")
+
     #find file name
-    ans = merge_code_ai_request()
+    ans = merge_code_ai_request(file_content, detected_error)
 
     #request.session['error_detectado_01E'] = str(ans)
     #url = reverse('results') 
     #return redirect(url)
     print(str(ans))
-    extract_lines(str(ans))
-    return render(request, 'results/error_result.html')
+    (original_code, fixed_code) = extract_lines(str(ans))
+    # Pasar las variables al contexto de la plantilla
+    context = {
+        "detected_error" : detected_error,
+        "file_name" : "str(ans)",
+        "original_code" : original_code,
+        "fixed_code" : fixed_code
+    }
+
+    return render(request, 'results/error_result.html', context)
 
 #settings fun
 def settings(request):

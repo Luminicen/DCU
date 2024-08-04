@@ -10,7 +10,7 @@ urlpatterns = [
     path("analysis/preferences", views.preferences, name="preferences"),
     path("analysis/preview", views.preview, name="preview"),
     path("results", views.results, name="results"),
-    #path("error_result", views.results, name="error_result"),
-    path('error_result/', views.error_result, name='error_result'),
+    path('error_result/<str:file_name>/<str:detected_error>', views.error_result, name='error_result'),
+    #path('error_result/<str:detected_error>', views.error_result, name='error_result'),
     path("settings", views.settings, name="settings"),
 ]
