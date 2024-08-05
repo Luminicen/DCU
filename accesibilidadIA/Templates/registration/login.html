@@ -52,10 +52,12 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button class="btn custom-color mt-2" type="submit">Iniciar sesión</button>
+                        <a href="{% url 'register' %}"  aria-label="Sección de nuevo análisis">Registrarse</a>
                     </form>
                 </div>
             </div>
         </div>
+        
     </div>
     <!-- Bootstrap JS y dependencias -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
