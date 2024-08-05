@@ -26,35 +26,41 @@
 <body>
   <header>
     <div class="menu-container">
-    <button id="menu-button" class="menu-button icon-menu" aria-label="Menu de opciones">Menú</button>
+      <button id="menu-button" class="menu-button icon-menu" aria-label="Menu de opciones">Menú</button>
     </div>
     <div class="title-container">
-    {% block header %}
-    {% endblock %}
+      {% block header %}
+      {% endblock %}
     </div>
   </header>
   <main>
-  <nav class="sidebar" aria-label="Menu principal">
-    <ul aria-label="Lista de opciones de navegación">
-    <li>
-      <a href="{% url 'analysis' %}" class="icon-analysis" aria-label="Sección de nuevo análisis">Nuevo análisis</a>
-    </li>
-    <li>
-      <a href="{% url 'results' %}" class="icon-results" aria-label="Sección de resultados">Resultados</a>
-    </li>
-    <li>
-    <a href="{% url 'settings' %}" class="icon-settings" aria-label="Sección de configuración">Configuración</a>
-    </li>
-    <li>
-      <a href="#" class="logout icon-logout" aria-label="Sección de cierre de sesión">Cerrar sesión</a>
-      </li>
-    </ul>
-  </nav>
-  <div class="main-content">
-    {% block content %}
-    {% endblock %}
-  </div>
-</main>
+    <nav class="sidebar" aria-label="Menu principal">
+      <ul aria-label="Lista de opciones de navegación">
+        <li>
+          <a href="{% url 'index' %}" class="icon-home" aria-label="Sección de home">Home</a>
+        </li>
+        <li>
+          <a href="{% url 'analysis' %}" class="icon-analysis" aria-label="Sección de nuevo análisis">Nuevo análisis</a>
+        </li>
+        <li>
+          <a href="{% url 'results' %}" class="icon-results" aria-label="Sección de resultados">Resultados</a>
+        </li>
+        <li>
+          <a href="{% url 'settings' %}" class="icon-settings" aria-label="Sección de configuración">Configuración</a>
+        </li>
+        <li>
+          <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout icon-logout" aria-label="Cerrar sesión">Cerrar sesión</button>
+        </form>
+        </li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </main>
 </body>
 
 </html>

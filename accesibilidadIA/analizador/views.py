@@ -9,8 +9,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 import json
 from django.urls import reverse
 import re
+from django.contrib.auth import logout
+
+@login_required
 def index(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
 
 def register(request):
     if request.method == 'POST':
@@ -55,15 +58,6 @@ def analysis(request):
             return HttpResponse('No se ha subido ningún archivo')
 
     return render(request, "analysis/analysis.html")
-
-def upload_html(request):
-    return render(request, "analysis/upload_html.html")
-
-def preferences(request):
-    return render(request, "analysis/preferences.html")
-
-def preview(request):
-    return render(request, "analysis/preview.html")
 
 def solicitud_ia(codigo):
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
@@ -172,3 +166,8 @@ def procesar_resultado(request, resultado_id):
         return redirect('resultados')  # Cambia 'resultados' por el nombre de tu vista de resultados
     
     return render(request, 'tu_template.html', {'resultado': resultado})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

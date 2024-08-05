@@ -21,6 +21,10 @@ h2 {
     color: #e0e0e0; 
 }
 
+.logout {
+    color: #e0e0e0; 
+}
+
 .upload-content-container {
     border: 2px dashed #666666; 
     background-color: #2c2c2c; 
