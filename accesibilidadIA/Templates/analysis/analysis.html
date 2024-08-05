@@ -15,6 +15,7 @@
 
 <div class="scroll-main-container">
     <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
         <div class="scroll-content-container" id="scroll-content-container">
 
             <section class="page">
@@ -99,6 +100,7 @@
                 aria-label="Botón de siguiente vista">arrow_forward</button>
             <span id="nextLbl" class="nav-label">Siguiente</span>
         </div>
+
     </div>
 
 </div>
