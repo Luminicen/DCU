@@ -12,3 +12,7 @@ class Settings(AppConfig):
 class Results(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'results'
+
+class ErrorResult(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'error_result'

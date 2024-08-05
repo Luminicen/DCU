@@ -9,6 +9,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 import json
 from django.urls import reverse
 import re
+from urllib.parse import urlencode
+from .models import Reporte
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
 
 @login_required
@@ -49,11 +53,19 @@ def analysis(request):
             form.usuario = request.user
             form.nombre = analysis_name
             form.codigo = file
+            form.fileName = file.name
             form.save()
+
             ans = solicitud_ia(file_content)
             request.session['mi_dato'] = str(ans)
-            url = reverse('results') 
-            return redirect(url)
+
+            # Added the filename to the URL
+            file_name = file.name
+            url = reverse('results')
+            query_params = urlencode({'file_name': file_name})
+            full_url = f"{url}?{query_params}"
+            return redirect(full_url)
+
         else:
             return HttpResponse('No se ha subido ningún archivo')
 
@@ -75,8 +87,82 @@ def solicitud_ia(codigo):
     ans = completion.choices[0].message
 
     return ans
+
+def merge_code_ai_request(input_html, error_description):
+    client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
+    completion = client.chat.completions.create(
+    model="model-identifier",
+    messages=[
+    {"role": "system", "content": """
+    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me muestren la linea de código con el error y la misma línea de código pero con el error corregido. Delimita tu respuesta usando ####original_line_start####, ####original_line_end####, ####fixed_line_start#### y ####fixed_line_end####. Un ejemplo sería: ####original_line_start####<title> </title> <!-- Missing Title -->####original_line_end########fixed_line_start####<title>Corrected Title</title>####fixed_line_end####"""},
+    {"role": "user", "content": input_html}
+    ] ,
+    temperature=0.7,
+    )
+    # Extract the content from the message
+    ans = completion.choices[0].message
+
+    return ans
+
+def merge_code_ai(input_html, error_description):
+    client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
+    completion = client.chat.completions.create(
+    model="model-identifier",
+    messages=[
+    {"role": "system", "content": """
+    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me devuelves el mismo código HTML pero con el error corregido."""},
+    {"role": "user", "content": input_html}
+    ] ,
+    temperature=0.7,
+    )
+    # Extract the content from the message
+    ans = completion.choices[0].message
+
+    print("CODIGO CORREGIDO:\n", ans)
+
+    return ans
+
+def update_html(request, file_name, error_to_correct):
+    if request.method == 'POST':
+        try:
+            # Recuperar el reporte por fileName
+            reporte = Reporte.objects.get(fileName=file_name, usuario=request.user)
+
+                # Acceder al archivo y leer su contenido
+            with open(reporte.codigo.path, 'r') as archivo:
+                file_content = archivo.read()
+
+        except ObjectDoesNotExist:
+            return HttpResponse(f'El reporte del archivo {file_name} no existe.')
+        except FileNotFoundError:
+            return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
+
+        fixed_code = str(merge_code_ai(file_content, error_to_correct))
+
+        print('CODIGO ARREGLADO BEGIN\n', fixed_code, 'CODIGO ARREGLADO END\n')
+
+        # Actualiza el campo aquí
+        reporte.codigo = fixed_code
+        reporte.save()
+        
+        # Deberia llamar devuelta al prompt con el nuevo archivo
+
+        # Added the filename to the URL
+        request.session['mi_dato'] = fixed_code
+        url = reverse('results')
+        query_params = urlencode({'file_name': file_name})
+        full_url = f"{url}?{query_params}"
+        return redirect(full_url)
+    output = None
+    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+
 #result fun
 def results(request):
+
+    file_name = request.GET.get('file_name')
+
+    print("The filename is ", file_name)
+
     resultados_lista = [
         {
             'titulo': 'Linea 11: Falta de descripción en el botón de envío',
@@ -102,7 +188,7 @@ def results(request):
     ]
     mi_dato = request.session.get('mi_dato')
     print("LISTO")
-    print(mi_dato)
+    print("inicio dato: ", mi_dato, " fin dato.")
     # Expresión regular para extraer las frases específicas
     pattern = r'output:\s*(.*?)\.'
     matches = re.findall(pattern, mi_dato, re.DOTALL)
@@ -144,7 +230,65 @@ def results(request):
         print(output)
     else:
         print("No se encontraron frases específicas.")
-    return render(request, 'results/results.html', {'resultados': output})
+    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+
+def extract_lines(response):
+    # Define regex patterns for the original and fixed lines
+    original_pattern = r'####original_line_start####(.*?)####original_line_end####'
+    fixed_pattern = r'####fixed_line_start####(.*?)####fixed_line_end####'
+    
+    # Search for the patterns in the response
+    original_match = re.search(original_pattern, response, re.DOTALL)
+    fixed_match = re.search(fixed_pattern, response, re.DOTALL)
+    
+    # Extract the lines if found
+    original_line = original_match.group(1).strip() if original_match else None
+    fixed_line = fixed_match.group(1).strip() if fixed_match else None
+
+    print("\nOriginal code: ", original_line, ". Fixed code: ",  fixed_line, "\n")
+    
+    return original_line, fixed_line
+
+#result fun
+def error_result(request, file_name, detected_error):
+
+    #file_name = request.GET.get('file_name')
+
+    print("The filename is ", file_name)
+
+
+    try:
+        # Recuperar el reporte por fileName
+        reporte = Reporte.objects.get(fileName=file_name)
+        
+        # Acceder al archivo y leer su contenido
+        with open(reporte.codigo.path, 'r') as archivo:
+            file_content = archivo.read()
+
+    except ObjectDoesNotExist:
+        return HttpResponse(f'El reporte del archivo {file_name} no existe.')
+    except FileNotFoundError:
+        return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
+
+    print("Error " + detected_error + " of file ", "file_name")
+
+    #find file name
+    ans = merge_code_ai_request(file_content, detected_error)
+
+    #request.session['error_detectado_01E'] = str(ans)
+    #url = reverse('results') 
+    #return redirect(url)
+    print(str(ans))
+    (original_code, fixed_code) = extract_lines(str(ans))
+    # Pasar las variables al contexto de la plantilla
+    context = {
+        "detected_error" : detected_error,
+        "file_name" : "str(ans)",
+        "original_code" : original_code,
+        "fixed_code" : fixed_code
+    }
+
+    return render(request, 'results/error_result.html', context)
 
 #settings fun
 def settings(request):

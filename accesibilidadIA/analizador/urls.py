@@ -7,5 +7,7 @@ urlpatterns = [
     path("registro/", views.register, name="register"),
     path("analysis", views.analysis, name="analysis"),
     path("results", views.results, name="results"),
+    path('error_result/<str:file_name>/<str:detected_error>', views.error_result, name='error_result'),
+    path('update_html/<str:file_name>/', views.update_html, name='update_html'),
     path("settings", views.settings, name="settings"),
 ]
