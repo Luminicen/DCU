@@ -2,31 +2,128 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Helvetica', 'Arial', sans-serif;;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
-  height: 100vh;
-  box-sizing: border-box;
+html {
+  font-size: 1rem;
 }
 
-nav {
-  float: left;
-  height: 100%;
-  width: 20%;
-  background-color: #f0f0f0;
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "main";
+}
+
+header {
+  grid-area: header;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+  align-items: center;
+  padding: 0.5rem;
+  padding-left: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.menu-container {
+  grid-column: 1;
+  padding: 15px 10px;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex; 
+  align-items: center;
+}
+
+.title-container {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
 }
 
 main {
-  float: left;
-  width: 80%;
-  padding:0 20px;
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 20% 1fr; /* Navegación y contenido principal */
+  grid-template-areas:
+    "nav main-content";
+}
+
+nav {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.main-content {
+  grid-area: main-content;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.icon-menu::before {
+  font-family: 'Material Icons';
+  content: 'menu';
+  margin-right: 0.5rem;
+}
+
+
+
+/* Responsive adjustments */
+@media (min-width: 1024px) {
+  #menu-button {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "main-content"
+      "nav";
+  }
+  nav {
+    order: 1; 
+    
+  }
+  .main-content {
+    order: 0; 
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  header {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .menu-container {
+    justify-self: start;
+  }
+  .title-container {
+    justify-self: center;
+  }
 }
 
 @media only screen and (max-width: 620px) {
-  /* For mobile phones: */
-  nav, main {
+  body {
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 1fr; 
+    grid-template-areas:
+      "header"
+      "nav"
+      "main";
+  }
+  nav {
     width: 100%;
   }
 }

@@ -13,9 +13,11 @@ from urllib.parse import urlencode
 from .models import Reporte
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import logout
 
+@login_required
 def index(request):
-    return render(request, 'base.html')
+    return render(request, 'home.html')
 
 def register(request):
     if request.method == 'POST':
@@ -68,15 +70,6 @@ def analysis(request):
             return HttpResponse('No se ha subido ningún archivo')
 
     return render(request, "analysis/analysis.html")
-
-def upload_html(request):
-    return render(request, "analysis/upload_html.html")
-
-def preferences(request):
-    return render(request, "analysis/preferences.html")
-
-def preview(request):
-    return render(request, "analysis/preview.html")
 
 def solicitud_ia(codigo):
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
@@ -201,14 +194,16 @@ def results(request):
     matches = re.findall(pattern, mi_dato, re.DOTALL)
     output = []
     pattern2 = r'\*\*Error \d+\*\*:(.*?)\*\*Solución:\*\*(.*?)\n\n'
-
+    patternLinea = r'Linea \d+'
+    
     matches2 = re.findall(pattern2, mi_dato, re.DOTALL)
 
     if matches2:
         for match in matches:
-            titulo = "ERROR " + match[0].strip()
+            
             descripcion = match[1].strip().replace("\n","")
-
+            linea = re.findall(patternLinea, descripcion, re.IGNORECASE)
+            titulo = linea[0]
             # Agregar a la lista como un diccionario
             output.append({
                 'titulo': titulo,
@@ -220,8 +215,15 @@ def results(request):
         
 
         for index, phrase in enumerate(phrases_list, start=1):
+            linea = re.findall(patternLinea, phrase, re.IGNORECASE)
+            z=""
+            if linea:
+
+                z = linea[0]
+            else:
+                z = "Observacion"
             output.append({
-                'titulo': str(index),
+                'titulo': z,
                 'descripcion': phrase
             })
 
@@ -308,3 +310,8 @@ def procesar_resultado(request, resultado_id):
         return redirect('resultados')  # Cambia 'resultados' por el nombre de tu vista de resultados
     
     return render(request, 'tu_template.html', {'resultado': resultado})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const scrollContainer = document.getElementById("scroll-content-container");
     const pages = document.querySelectorAll(".page");
     const indicators = document.querySelectorAll(".dot");
+    const prevBtn = document.getElementById("prevBtn");
+    const prevLbl = document.getElementById("prevLbl");
+    const nextBtn = document.getElementById("nextBtn");
+    const nextLbl = document.getElementById("nextLbl");
     let currentIndex = 0;
 
     function updateIndicators(index) {
@@ -14,19 +18,27 @@ document.addEventListener("DOMContentLoaded", function() {
         const offset = index * window.innerWidth;
         scrollContainer.scrollTo({
             left: offset,
-            behavior: "smooth"
+            behavior: "smooth"  
         });
         updateIndicators(index);
+        updateButtons(index);
     }
 
-    document.getElementById("prevBtn").addEventListener("click", function() {
+    function updateButtons(index) {
+        prevBtn.classList.toggle("hidden", index === 0);
+        prevLbl.classList.toggle("hidden", index === 0);
+        nextBtn.classList.toggle("hidden", index === pages.length - 1);
+        nextLbl.classList.toggle("hidden", index === pages.length - 1);
+    }
+
+    prevBtn.addEventListener("click", function() {
         if (currentIndex > 0) {
             currentIndex--;
             scrollToPage(currentIndex);
         }
     });
 
-    document.getElementById("nextBtn").addEventListener("click", function() {
+    nextBtn.addEventListener("click", function() {
         if (currentIndex < pages.length - 1) {
             currentIndex++;
             scrollToPage(currentIndex);
@@ -49,4 +61,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     updateIndicators(currentIndex);
+    updateButtons(currentIndex);
 });
