@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Ejemplo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .content {
+            margin: 0 auto;
+            width: 50%;
+        }
+        .highlight {
+            color: green;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Bienvenido a Nuestra Página</h1>
+        
+        <!-- Error 1: Texto de enlace sin descripción significativa -->
+        <p>Para más información, haga clic en el siguiente <a href="#">enlace</a>.</p>
+        
+        <!-- Error 2: Texto importante solo indicado por color -->
+        <p class="highlight">Este texto es crucial y debe ser leído detenidamente.</p>
+        
+        <!-- Error 3: Botón sin contexto ni etiqueta accesible -->
+        <button>Enviar</button>
+        
+        <!-- Error 4: Imágenes sin texto alternativo -->
+        <img src="image1.jpg">
+        <img src="image2.jpg">
+        
+        <!-- Error 5: Formulario sin etiquetas -->
+        <form>
+            <input type="text" name="name" placeholder="Nombre">
+            <input type="email" name="email" placeholder="Correo Electrónico">
+            <button type="submit">Registrar</button>
+        </form>
+        
+        <!-- Error 6: Uso de tablas para diseño -->
+        <table border="1">
+            <tr>
+                <td>Elemento 1</td>
+                <td>Elemento 2</td>
+            </tr>
+            <tr>
+                <td>Elemento 3</td>
+                <td>Elemento 4</td>
+            </tr>
+        </table>
+        
+        <!-- Error 7: Texto oculto que afecta la experiencia de usuario -->
+        <p class="hidden">Este texto está oculto pero debería ser visible.</p>
+        
+        <!-- Error 8: Títulos no jerárquicos -->
+        <h2>Subtítulo 1</h2>
+        <h4>Sub-subtítulo 1</h4>
+        <h3>Subtítulo 2</h3>
+        
+        <!-- Error 9: Contraste de color insuficiente -->
+        <p style="color: #ddd; background-color: #fff;">Este texto tiene un contraste bajo y es difícil de leer.</p>
+    </div>
+</body>
+</html>

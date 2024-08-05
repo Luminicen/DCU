@@ -33,12 +33,7 @@
 
         <!-- Pie de página del Modal -->
         <div class="modal-footer">
-            <form method="post" action="{% url 'update_html' file_name detected_error %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="hidden" name="file_name" value="{{ file_name }}">
-                <input type="hidden" name="detected_error" value="{{ detected_error }}">
-                <button type="submit" class="btn btn-success" id="acceptCorrection">Aceptar</button>
-            </form>
+            <button type="button" class="btn btn-success" onclick="back_results()" id="acceptCorrection">Aceptar</button>
             <button type="button" class="btn btn-danger" onclick="back_results()" id="rejectCorrection">Rechazar</button>
         </div>
     </div>
