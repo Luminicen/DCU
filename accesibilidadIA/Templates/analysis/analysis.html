@@ -55,27 +55,27 @@
         <div class="scroll-header">
             <h2>Paso 3/3: Vista Previa</h2>
         </div>
-        <div class="analysis-preview-container">
-        <form>
-            <div class="form-group">
-                <label for="file-name-preview">Archivo</label>
-                <input type="text" id="file-name-preview" name="file-name-preview" disabled value="miHtml.html">
-            </div>
-            <div class="form-group">
-                <label for="analysis-name-preview">Nombre del análisis</label>
-                <textarea id="analysis-name-preview" name="analysis-name-preview"
-                    disabled>Demo análisis</textarea>
-            </div>
-            <div class="form-group">
-                <label for="description-preview">Descripción</label>
-                <textarea id="description-preview" name="description-preview"
-                    disabled>Análisis html para mi primer app </textarea>
-            </div>
-            <div class="start-btn-container">
-                <button class="start-button">Iniciar análisis</button>
-            </div>
-        </form>
-    </div>
+        <div class="analysis-preference-container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="analysis-name">Nombre del análisis</label>
+                    <input type="text" id="analysis-name" name="analysis-name" placeholder="Escriba un nombre para el análisis">
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" name="description" placeholder="Escriba una descripción"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="file-name-preview">Archivo</label>
+                    <input type="file" id="file-input" name="file-input">
+                </div>
+                <div class="start-btn-container">
+                    <button type="submit" class="start-button">Iniciar análisis</button>
+                </div>
+            </form>
+        </div>
     </section>
 
     
