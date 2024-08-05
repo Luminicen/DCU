@@ -3,82 +3,42 @@
 {% block title %}Configuración{% endblock %}
 
 {% block head %}
-    {{ super }}
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .theme-option {
-            display: inline-block;
-            margin-right: 15px;
-        }
-    </style>
+{{ super }}
 {% endblock %}
-
+{% block header %}
+<div class="title-container">
+<h1>Configuración</h1>
+</div>
+{% endblock %}
 {% block content %}
-    {% load static %}
-    <div class="container mt-5">
-        <h1 class="my-4">Configuración</h1>
-        <form method="post">
-            {% csrf_token %}
-
-            <!-- Sección Lectura por Voz -->
-            <div class="form-group form-check form-switch">
-                <input type="checkbox" class="form-check-input" id="lectura_por_voz" name="lectura_por_voz" tabindex="0">
-                <label class="form-check-label" for="lectura_por_voz">Lectura por Voz</label>
+{% load static %}
+        {% csrf_token %}
+    <div class="settings-container">
+        <h2>Apariencia</h2>
+        <p>Selecciona un tema de la lista a continuación para cambiar la apariencia del sitio web:</p>
+        <form class="theme-options" id="theme-form">
+            <div class="theme-container">
+            <label>
+                <input type="radio" name="theme" value="{% static 'css/light_theme.css' %}" checked> Tema claro
+            </label>
+            <label>
+                <input type="radio" name="theme" value="{% static 'css/dark_theme.css' %}"> Tema oscuro
+            </label>
+            <label>
+                <input type="radio" name="theme" value="{% static 'css/contrast_theme.css' %}"> Tema en contraste
+            </label>
             </div>
-
-            <!-- Sección Voz a Texto -->
-            <div class="form-group form-check form-switch">
-                <input type="checkbox" class="form-check-input" id="voz_a_texto" name="voz_a_texto" tabindex="0">
-                <label class="form-check-label" for="voz_a_texto">Voz a Texto</label>
-            </div>
-
-            <!-- Sección Tema -->
-            <fieldset>
-                <legend>Aqui se describen posibles opciones de temas para el analizador</legend>
-                <div class="form-group">
-                    <p>Tema:</p>
-                    <div class="form-check theme-option">
-                        <input type="radio" class="form-check-input" id="tema1" name="tema" value="tema1" tabindex="0">
-                        <label class="form-check-label" for="tema1"><img src="{% static 'images/tema1.png' %}" alt="Tema 1" width="50"></label>
-                    </div>
-                    <div class="form-check theme-option">
-                        <input type="radio" class="form-check-input" id="tema2" name="tema" value="tema2" tabindex="0">
-                        <label class="form-check-label" for="tema2"><img src="{% static 'images/tema2.png' %}" alt="Tema 2" width="50"></label>
-                    </div>
-                    <div class="form-check theme-option">
-                        <input type="radio" class="form-check-input" id="tema3" name="tema" value="tema3" tabindex="0">
-                        <label class="form-check-label" for="tema3"><img src="{% static 'images/tema3.png' %}" alt="Tema 3" width="50"></label>
-                    </div>
-                </div>
-            </fieldset>
-
-            <!-- Sección Tamaño de Letra -->
-            <div class="form-group">
-                <label for="tamano_letra">Tamaño de Letra:</label>
-                <select class="form-control" id="tamano_letra" name="tamano_letra" tabindex="0">
-                    <option value="12px">12px</option>
-                    <option value="14px">14px</option>
-                    <option value="16px">16px</option>
-                    <option value="18px">18px</option>
-                    <option value="20px">20px</option>
-                    <option value="22px">22px</option>
-                    <option value="24px">24px</option>
-                </select>
-            </div>
-
         </form>
+
+        <h2>Tamaño de la fuente</h2>
+        <p>Selecciona el tamaño de la letra:</p>
+        <div class="font-container">
+            <select class="font-options" id="font-size-select" >
+                <option value="1rem">Mediano</option>
+                <option value="1.2rem">Grande</option>
+                <option value="1.4rem">Muy Grande</option>
+            </select>
+        </div>
     </div>
 
-    <!-- Script para habilitar la selección con Enter -->
-    <script>
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                let activeElement = document.activeElement;
-                if (activeElement && activeElement.tabIndex === 0) {
-                    event.preventDefault();
-                    activeElement.click();
-                }
-            }
-        });
-    </script>
 {% endblock %}

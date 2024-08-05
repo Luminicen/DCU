@@ -11,15 +11,29 @@
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link id="theme-link" rel="stylesheet" href="{% static 'css/light_theme.css' %}">
   <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
   <link rel="stylesheet" href="{% static 'css/horizontalScroll.css' %}">
+  <link rel="stylesheet" href="{% static 'css/settings_app.css' %}">
   <script src="{% static 'js/horizontalScroll.js' %}"></script>
+  <script src="{% static 'js/toggleStyle.js' %}"></script>
+  <script src="{% static 'js/fontSize.js' %}"></script>
   <title>{% block title %}Paginal Principal{% endblock %}</title>
 </head>
 
 <body>
+  <header>
+    <div class="menu-container">
+    <button id="menu-button" class="menu-button icon-menu" aria-label="Menu de opciones">Menú</button>
+    </div>
+    <div class="title-container">
+    {% block header %}
+    {% endblock %}
+    </div>
+  </header>
+  <main>
   <nav class="sidebar" aria-label="Menu principal">
-    <ul aria-label="Lista con secciones del analizador">
+    <ul aria-label="Lista de opciones de navegación">
     <li>
       <a href="{% url 'analysis' %}" class="icon-analysis" aria-label="Sección de nuevo análisis">Nuevo análisis</a>
     </li>
@@ -34,10 +48,11 @@
       </li>
     </ul>
   </nav>
-  <main>
+  <div class="main-content">
     {% block content %}
     {% endblock %}
-  </main>
+  </div>
+</main>
 </body>
 
 </html>

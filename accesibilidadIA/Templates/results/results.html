@@ -53,12 +53,17 @@
         }
     </style>
 {% endblock %}
-
+{% block header %}
+<div class="title-container">
+<h1>Resultados</h1>
+</div>
+{% endblock %}
 {% block content %}
     {% load static %}
+    <h2> Mi Aplicación</h2>
     <div class="container mt-5">
-        <h1 class="page-title my-4">Resultados > Mi Aplicación</h1>
-        <h2 class="page-subtitle my-4">Errores de usabilidad detectados:</h2>
+        
+        <h3 class="page-subtitle my-4">Errores de usabilidad detectados:</h3>
         {% for resultado in resultados %}
             <div class="card border mb-3 p-3 resultado" tabindex="0">
                 <h3 class="page-subtitle my-4">{{ resultado.titulo }}</h3>

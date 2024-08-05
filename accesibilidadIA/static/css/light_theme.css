@@ -1,0 +1,61 @@
+
+body{
+    background-color: #f9f9f9;
+}
+
+header{
+    background-color: white;
+}
+
+h2{
+    color: #444;
+}
+
+.sidebar {
+    background-color: #ffffff;
+    color: white;
+}
+
+.sidebar li a {
+    color: black;  
+}
+
+.upload-content-container {
+    border: 2px dashed #2d2d2d;
+    background-color: #2b2a30;
+}
+
+.upload-content-container {
+    border: 2px dashed #939292;
+    background-color: white;
+}
+
+.upload-content-container:hover {
+    border-color: #454545;
+}
+
+.upload-icon {
+    color: #2d2d2d;
+}
+
+.upload-text {
+    color: #333;
+}
+
+.upload-button {
+    color: #444;
+    background-color: #ffffff;
+}
+
+.start-button {
+    color: #444;
+    background-color: #ffffff;
+}
+
+.nav-button {
+    color: #444;
+}
+
+.nav-label {
+    color: #444;
+}

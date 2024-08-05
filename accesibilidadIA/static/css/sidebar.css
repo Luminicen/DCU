@@ -1,6 +1,6 @@
-.sidebar {
-    background-color: #ffffff;
+.sidebar {  
     overflow-y: auto;
+    border-right: 1px solid #ccc;
 }
 
 .sidebar ul {
@@ -17,8 +17,7 @@
     display: block;
     padding: 15px 10px;
     text-decoration: none;
-    font-size: 18px;
-    color: black; 
+    font-size: 1.125rem;
     background-color: transparent; 
     transition: background-color 0.3s, color 0.3s;
     font-weight: normal; 
@@ -27,7 +26,7 @@
 .sidebar li a::before {
     font-family: 'Material Icons';
     margin-right: 20px; 
-    font-size: 24px; 
+    font-size: 1.5rem; 
 }
 
 .icon-analysis::before {
