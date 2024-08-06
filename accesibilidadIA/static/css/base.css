@@ -91,7 +91,7 @@ nav {
   nav.active {
     display: block; /* Muestra el menú cuando está activo */
     position: fixed;
-    top: 60px; /* Ajusta la posición para que no quede debajo del header */
+    top: 80px; /* Ajusta la posición para que no quede debajo del header */
     left: 0;
     width: 100%;
     height: calc(100% - 60px); /* Ajusta la altura para dejar espacio al header */
@@ -118,6 +118,7 @@ nav {
     grid-template-areas:
       "main-content"
       "nav";
+    margin-top: 80px; /* Ajusta el margen superior para dejar espacio al header fijo */
   }
 
   nav {

@@ -1,5 +1,8 @@
+/* Global Styles */
 body {
-    overflow-x: auto; 
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
 }
 
 .scroll-main-container {
@@ -9,10 +12,10 @@ body {
 
 .scroll-content-container {
     display: flex;
-    overflow-x: hidden; 
+    overflow-x: hidden;
     overflow-y: auto;
     justify-content: flex-start;
-    scroll-snap-type: x mandatory; 
+    scroll-snap-type: x mandatory;
     width: 76vw;
     padding-bottom: 10px;
 }
@@ -22,7 +25,7 @@ body {
     min-width: 76vw;
     display: flex;
     flex-direction: column;
-    scroll-snap-align: start; 
+    scroll-snap-align: start;
 }
 
 .upload-btn-container {
@@ -54,7 +57,7 @@ body {
     border-color: #000;
 }
 
-.upload-icon::before{
+.upload-icon::before {
     font-family: 'Material Icons';
     content: 'attach_file';
 }
@@ -100,10 +103,7 @@ body {
     font-weight: bold;
 }
 
-.form-group input[type="text"] {
-    width: 95%;
-}
-
+.form-group input[type="text"],
 .form-group textarea {
     width: 95%;
 }
@@ -116,11 +116,7 @@ body {
     font-weight: bold;
 }
 
-.analysis-preference-container {
-    padding-top: 100px;
-    padding-left: 50px;
-}
-
+.analysis-preference-container,
 .analysis-preview-container {
     padding-top: 100px;
     padding-left: 50px;
@@ -163,21 +159,21 @@ body {
     display: flex;
     justify-content: space-between;
     z-index: 100;
-    top: 50%; 
+    top: 50%;
     left: 0;
     padding: 0 20px;
 }
 
 .nav-button {
-    font-size: 2.25rem; 
+    font-size: 2.25rem;
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: color 0.3s ease; 
+    transition: color 0.3s ease;
 }
 
 .nav-button:hover {
-    color: #1259a5; 
+    color: #1259a5;
 }
 
 .hidden {
@@ -213,7 +209,6 @@ body {
 }
 
 /* Media Queries for Responsive Design */
-
 @media only screen and (max-width: 1024px) {
     .scroll-content-container {
         width: 100vw;
@@ -247,11 +242,13 @@ body {
 }
 
 @media only screen and (max-width: 620px) {
-    .scroll-content-container, .page {
+    .scroll-content-container,
+    .page {
         width: 100vw;
         min-width: 100vw;
     }
-    .analysis-preference-container, .analysis-preview-container {
+    .analysis-preference-container,
+    .analysis-preview-container {
         padding-top: 50px;
         padding-left: 20px;
     }
@@ -262,45 +259,46 @@ body {
         height: 20px;
         width: 20px;
     }
+
+    .form-group input[type="text"],
+    .form-group textarea {
+        width: 85%;
+    }
 }
 
-/* Contenedor del indicador de carga */
+/* Loading Indicator */
 .loading, .loading-text {
-    display: none !important; /* Oculto por defecto */
+    display: none !important; /* Hidden by default */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro con opacidad */
-    color: white; /* Texto blanco para contraste */
-    z-index: 1000; /* Asegúrate de que el indicador esté por encima de otros elementos */
+    background-color: rgba(0, 0, 0, 0.6); /* Dark background with opacity */
+    color: white; /* White text for contrast */
+    z-index: 1000; /* Ensure the indicator is above other elements */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-/* Estilo para el texto del indicador */
 .loading-text {
     font-size: 1.5em;
     margin-top: 10px;
 }
 
-/* Estilo para el spinner de carga */
 .loading::before {
     content: '';
-    border: 16px solid #f3f3f3; /* Color del borde */
-    border-top: 16px solid #3498db; /* Color del spinner */
+    border: 16px solid #f3f3f3; /* Border color */
+    border-top: 16px solid #3498db; /* Spinner color */
     border-radius: 50%;
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;
 }
 
-/* Animación para el spinner */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
