@@ -195,7 +195,7 @@ def results(request):
     matches = re.findall(pattern, mi_dato, re.DOTALL)
     output = []
     pattern2 = r'\*\*Error \d+\*\*:(.*?)\*\*Solución:\*\*(.*?)\n\n'
-    patternLinea = r'Linea \d+'
+    patternLinea = r'(Linea \d+|línea \d+)'
     
     matches2 = re.findall(pattern2, mi_dato, re.DOTALL)
 
