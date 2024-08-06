@@ -2,13 +2,14 @@
     margin: 20px;
 }
 
-.settings-container p {
-    padding: 10px;
-}
 
 .theme-container {
     padding-left: 25px; 
     padding-bottom: 25px;
+}
+
+.theme-options legend {
+    font-size: 1.125rem;
 }
 
 .theme-options label {
@@ -18,9 +19,6 @@
 
 .theme-options input[type="radio"] {
     margin-right: 10px; 
-}
-
-input[type="radio"] {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -31,7 +29,7 @@ input[type="radio"] {
     outline: none;
     cursor: pointer;
     position: relative;
-  }
+}
 
 .theme-options input[type="radio"]:checked {
     background-color: #007BFF; /* Color de fondo cuando está marcado */
@@ -39,6 +37,11 @@ input[type="radio"] {
 
 .font-container {
     padding-left: 10px; 
+}
+
+.font-container label{
+    font-size: 1.125rem;
+    display: block; 
 }
 
 .font-options {

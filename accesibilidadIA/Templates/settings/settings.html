@@ -7,17 +7,17 @@
 {% endblock %}
 {% block header %}
 <div class="title-container">
-<h1>Configuración</h1>
+    <h1>Configuración</h1>
 </div>
 {% endblock %}
 {% block content %}
 {% load static %}
-        {% csrf_token %}
-    <div class="settings-container">
-        <h2>Apariencia</h2>
-        <p>Selecciona un tema de la lista a continuación para cambiar la apariencia del sitio web:</p>
-        <form class="theme-options" id="theme-form">
-            <div class="theme-container">
+{% csrf_token %}
+<div class="settings-container">
+    <h2>Apariencia</h2>
+    <form class="theme-options" id="theme-form">
+        <fieldset class="theme-container">
+            <legend>Selecciona un tema de la lista a continuación para cambiar la apariencia del sitio web:</legend>
             <label>
                 <input type="radio" name="theme" value="{% static 'css/light_theme.css' %}" checked> Tema claro
             </label>
@@ -27,18 +27,18 @@
             <label>
                 <input type="radio" name="theme" value="{% static 'css/contrast_theme.css' %}"> Tema en contraste
             </label>
-            </div>
-        </form>
+        </fieldset>
+    </form>
 
-        <h2>Tamaño de la fuente</h2>
-        <p>Selecciona el tamaño de la letra:</p>
-        <div class="font-container">
-            <select class="font-options" id="font-size-select" >
-                <option value="1rem">Mediano</option>
-                <option value="1.2rem">Grande</option>
-                <option value="1.4rem">Muy Grande</option>
-            </select>
-        </div>
+    <h2>Tamaño de la fuente</h2>
+    <div class="font-container">
+        <label id="font-size-label" for="font-size-select">Selecciona un tamaño de fuente:</label>
+        <select class="font-options" id="font-size-select" aria-labelledby="font-size-label">
+            <option value="1rem">Mediano</option>
+            <option value="1.2rem">Grande</option>
+            <option value="1.4rem">Muy Grande</option>
+        </select>
     </div>
+</div>
 
 {% endblock %}

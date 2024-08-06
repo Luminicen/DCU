@@ -7,11 +7,13 @@
 {% endblock %}
 {% block header %}
 <div class="title-container">
-<h1>Home</h1>
+        <h1>Home</h1>
 </div>
 {% endblock %}
 {% block content %}
 {% load static %}
-        {% csrf_token %}
-
+{% csrf_token %}
+<div class="welcome-container">
+        <h2>Bienvenido, {{ user_name }}!</h2>
+</div>
 {% endblock %}

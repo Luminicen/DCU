@@ -6,19 +6,29 @@
     <title>Registro</title>
     {% load static %}
     {% load custom_tags %}
-    <!-- Bootstrap CSS -->
+    
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Estilos personalizados para el botón */
+       
         .custom-color {
-            background-color: #1d00fd !important; /* Fondo del botón */
-            border-color: #250494 !important; /* Borde del botón */
-            color: white !important; /* Color del texto */
+            background-color: #1d00fd !important; 
+            border-color: #250494 !important; 
+            color: white !important; 
         }
         .custom-color:hover {
-            background-color: #250494 !important; /* Fondo del botón al pasar el mouse */
-            border-color: #1d00fd !important; /* Borde del botón al pasar el mouse */
-            color: white !important; /* Color del texto al pasar el mouse */
+            background-color: #250494 !important; 
+            border-color: #1d00fd !important; 
+            color: white !important; 
+        }
+        .text-center {
+            text-align: center;
+        }
+        .btn-link {
+            color: #1d00fd; 
+            text-decoration: none;
+        }
+        .btn-link:hover {
+            text-decoration: underline; 
         }
     </style>
 </head>
@@ -46,17 +56,20 @@
                                 </div>
                             {% endfor %}
                             <button type="submit" class="btn custom-color btn-block" aria-describedby="button-description"><strong>Registrarse</strong></button>
-<div id="button-description" class="sr-only">Haz clic en este botón para registrarte en el sitio web.</div>
-<div id="id_password1_helptext" class="sr-only">Inserte su contraseña.</div>
-<div id="id_username_helptext" class="sr-only">Inserte su nombre de usuario.</div>
-<div id="id_password2_helptext" class="sr-only">Por favor, vuelva a insertar su contraseña para verificar.</div>
+                            <div id="button-description" class="sr-only">Haz clic en este botón para registrarte en el sitio web.</div>
+                            <div id="id_password1_helptext" class="sr-only">Inserte su contraseña.</div>
+                            <div id="id_username_helptext" class="sr-only">Inserte su nombre de usuario.</div>
+                            <div id="id_password2_helptext" class="sr-only">Por favor, vuelva a insertar su contraseña para verificar.</div>
                         </form>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'login' %}" class="btn btn-link">¿Ya tienes cuenta? Inicia sesión aquí</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Bootstrap JS and dependencies -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -255,3 +255,44 @@ body {
         width: 20px;
     }
 }
+
+/* Contenedor del indicador de carga */
+.loading, .loading-text {
+    display: none !important; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro con opacidad */
+    color: white; /* Texto blanco para contraste */
+    z-index: 1000; /* Asegúrate de que el indicador esté por encima de otros elementos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Estilo para el texto del indicador */
+.loading-text {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+/* Estilo para el spinner de carga */
+.loading::before {
+    content: '';
+    border: 16px solid #f3f3f3; /* Color del borde */
+    border-top: 16px solid #3498db; /* Color del spinner */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+/* Animación para el spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+

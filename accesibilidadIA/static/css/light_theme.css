@@ -59,3 +59,20 @@ h2{
 .nav-label {
     color: #444;
 }
+
+.resultado {
+    background-color: white;
+}
+
+.resultado p {
+    color: black;
+    background-color: white;
+}
+
+.page-subtitle {
+    color: black;
+}
+
+.resultado h3 {
+    color: black;
+}
