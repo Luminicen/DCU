@@ -1,9 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}Nuevo análisis{% endblock %}
+{% block title %}Resultados > Mi Aplicación{% endblock %}
+
 {% block head %}
     {{ super }}
-    {% endblock %}
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+{% block header %}
+<div class="title-container">
+<h1>Resultados</h1>
+</div>
+{% endblock %}
 {% block content %}
-{% load static %}
+    {% load static %}
+    <h2> Mi Aplicación</h2>
+    <div class="container mt-5">
+        
+        <h3 class="page-subtitle my-4">Errores de usabilidad detectados:</h3>
+        {% for resultado in resultados %}
+            <div class="card border mb-3 p-3 resultado" tabindex="0" onclick="redirigir('{{ file_name }}', '{{ resultado.descripcion }}')">
+                <h3 class="page-subtitle my-4">{{ resultado.titulo }}</h3>
+                <p>{{ resultado.descripcion }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        function redirigir(file_name, error_name) {
+            window.location.href = `/analizador/error_result/${file_name}/${error_name}`;
+        }
+    </script>
 {% endblock %}

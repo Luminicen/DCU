@@ -1,0 +1,45 @@
+<!-- El Modal -->
+<div class="container mt-5">
+    <h1 class="page-title my-4">Resultados > Mi Aplicación > Error</h1>
+    <div class="modal-content">
+        <!-- Cabecera del Modal -->
+        <div class="modal-header">
+            <h4 class="modal-title">Corrección de Código</h4>
+        </div>
+
+        <!-- Cuerpo del Modal -->
+        <div class="modal-body">
+            <h5>Código Original:</h5>
+            <div class="code-container">
+                <code>
+                    {{original_code}}
+                </code>
+            </div>
+
+            <h5>Solución Propuesta:</h5>
+            <div class="code-container">
+                <code>
+                    {{fixed_code}}
+                </code>
+            </div>
+
+            <h5>Descripción del error:</h5>
+            <div class="code-container">
+                <code>
+                    {{detected_error}}
+                </code>
+            </div>
+        </div>
+
+        <!-- Pie de página del Modal -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" onclick="back_results()" id="acceptCorrection">Aceptar</button>
+            <button type="button" class="btn btn-danger" onclick="back_results()" id="rejectCorrection">Rechazar</button>
+        </div>
+    </div>
+    <script>
+        function back_results() {
+            window.location.href = `/analizador/results`;
+        }
+    </script>
+</div>

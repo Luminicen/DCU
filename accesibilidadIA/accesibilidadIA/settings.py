@@ -31,7 +31,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "Static"),
 ]
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # En producción, asegúrate de usar STATIC_ROOT
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 TEMPLATES = [
@@ -93,6 +94,8 @@ DATABASES = {
 LOGIN_REDIRECT_URL = 'index'
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+
+LOGOUT_REDIRECT_URL = 'login'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

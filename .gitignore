@@ -3,3 +3,4 @@ entorno/Lib/site-packages/pip/__init__.py
 entorno/*
 /accesibilidadIA/accesibilidadIA/__pycache__
 __pycache__/
+access_ia/*

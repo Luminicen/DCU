@@ -1,6 +1,6 @@
-.sidebar {
-    background-color: #ffffff;
+.sidebar {  
     overflow-y: auto;
+    border-right: 1px solid #ccc;
 }
 
 .sidebar ul {
@@ -17,8 +17,7 @@
     display: block;
     padding: 15px 10px;
     text-decoration: none;
-    font-size: 18px;
-    color: black; 
+    font-size: 1.125rem;
     background-color: transparent; 
     transition: background-color 0.3s, color 0.3s;
     font-weight: normal; 
@@ -27,7 +26,11 @@
 .sidebar li a::before {
     font-family: 'Material Icons';
     margin-right: 20px; 
-    font-size: 24px; 
+    font-size: 1.5rem; 
+}
+
+.icon-home::before {
+    content: 'home';
 }
 
 .icon-analysis::before {
@@ -50,4 +53,45 @@
     background-color: #3D8AF7;
     color: white; 
     font-weight: bold;
+}
+
+/* Estilos para el <li> que contiene el formulario */
+.sidebar li {
+    border-bottom: 1px solid #ccc; 
+}
+
+/* Estilos para el formulario */
+.sidebar form {
+    display: block;
+    width: 100%; /* Asegura que el formulario ocupe todo el ancho del <li> */
+}
+
+/* Estilos para el botón del formulario */
+.logout {
+    display: block; /* Asegura que el botón ocupe todo el ancho del <li> */
+    width: 100%; /* Asegura que el botón ocupe todo el ancho del formulario */
+    background: none; 
+    border: none; 
+    cursor: pointer;
+    padding: 15px 10px; /* Ajusta el padding según el diseño */
+    text-decoration: none; /* Elimina el subrayado si es necesario */
+    font-size: 1.125rem; /* Ajusta el tamaño de fuente según el diseño */
+    transition: background-color 0.3s, color 0.3s; /* Transiciones para hover */
+    font-weight: normal;
+    text-align: left; /* Alinea el texto a la izquierda, puedes ajustar según el diseño */
+}
+
+/* Estilo para el icono en el botón */
+.icon-logout::before {
+    font-family: 'Material Icons'; /* Asegúrate de que Material Icons esté cargado */
+    content: 'logout'; /* Usa el nombre del icono de Material Icons */
+    margin-right: 10px; /* Espacio entre el icono y el texto */
+    font-size: 1.5rem; /* Tamaño del icono */
+}
+
+/* Estilo de hover para el botón */
+.logout:hover {
+    background-color: #3D8AF7; /* Color de fondo al pasar el ratón */
+    color: white; /* Color del texto al pasar el ratón */
+    font-weight: bold; /* Negrita al pasar el ratón */
 }

@@ -1,0 +1,70 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load static %}
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Droid+Sans+Mono" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link id="theme-link" rel="stylesheet" href="{% static 'css/light_theme.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+  <link rel="stylesheet" href="{% static 'css/horizontalScroll.css' %}">
+  <link rel="stylesheet" href="{% static 'css/settings_app.css' %}">
+  <link rel="stylesheet" href="{% static 'css/result.css' %}">
+  <script src="{% static 'js/horizontalScroll.js' %}"></script>
+  <script src="{% static 'js/toggleStyle.js' %}"></script>
+  <script src="{% static 'js/fontSize.js' %}"></script>
+  <script src="{% static 'js/updatePreview.js' %}"></script>
+  <script src="{% static 'js/selectFile.js' %}"></script>
+  <script src="{% static 'js/loading.js' %}"></script>
+  <title>{% block title %}Paginal Principal{% endblock %}</title>
+</head>
+
+<body>
+  <header>
+    <div class="menu-container">
+      <button id="menu-button" class="menu-button icon-menu" aria-label="Menu de opciones">Menú</button>
+    </div>
+    <div class="title-container">
+      {% block header %}
+      {% endblock %}
+    </div>
+  </header>
+  <main>
+    <nav class="sidebar" aria-label="Menu principal">
+      <ul aria-label="Lista de opciones de navegación">
+        <li>
+          <a href="{% url 'index' %}" class="icon-home" aria-label="Sección de home">Home</a>
+        </li>
+        <li>
+          <a href="{% url 'analysis' %}" class="icon-analysis" aria-label="Sección de nuevo análisis">Nuevo análisis</a>
+        </li>
+        <li>
+          <a href="{% url 'results' %}" class="icon-results" aria-label="Sección de resultados">Resultados</a>
+        </li>
+        <li>
+          <a href="{% url 'settings' %}" class="icon-settings" aria-label="Sección de configuración">Configuración</a>
+        </li>
+        <li>
+          <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout icon-logout" aria-label="Cerrar sesión">Cerrar sesión</button>
+        </form>
+        </li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </main>
+  {% block extrajs %}
+  {% endblock extrajs %}
+</body>
+
+</html>
