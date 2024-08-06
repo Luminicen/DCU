@@ -104,3 +104,10 @@ h2{
 .resultado h3 {
     color: white;
 }
+
+@media only screen and (max-width: 1024px) {
+  
+    nav.active {
+      background-color: #18171d;
+    }
+}
