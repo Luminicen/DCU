@@ -45,7 +45,12 @@ def analysis(request):
         analysis_name = request.POST.get('analysis-name')
         description = request.POST.get('description')
         file = request.FILES.get('file-input')
-
+        errores_usabilidad = request.POST.getlist('usability-errors')
+        filtro = ""
+        if errores_usabilidad:
+            filtro = "quiero ver solo errores de usabilidad del tipo: "
+        for i in errores_usabilidad:
+            filtro = filtro + i+", "
         if file:
             from .models import Reporte
             print(file)
@@ -60,7 +65,7 @@ def analysis(request):
             form.fileName = file.name
             form.save()
 
-            ans = solicitud_ia(file_content)
+            ans = solicitud_ia(file_content,filtro)
             request.session['mi_dato'] = str(ans)
 
             # Added the filename to the URL
@@ -75,14 +80,15 @@ def analysis(request):
 
     return render(request, "analysis/analysis.html")
 
-def solicitud_ia(codigo):
+def solicitud_ia(codigo,filtro):
+    prompt = """
+    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: Output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
+    respetame el output y los errores tienen que ser en español.Respeta solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|'y  ademas  """
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
     completion = client.chat.completions.create(
     model="model-identifier",
     messages=[
-    {"role": "system", "content": """
-    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: Output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
-    respetame el output y los errores tienen que ser en español"""},
+    {"role": "system", "content": prompt + filtro},
     {"role": "user", "content": codigo}
     ] ,
     temperature=0.7,
