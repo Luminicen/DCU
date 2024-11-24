@@ -10,4 +10,7 @@ urlpatterns = [
     path('error_result/<str:file_name>/<str:detected_error>', views.error_result, name='error_result'),
     path('update_html/<str:file_name>/', views.update_html, name='update_html'),
     path("settings", views.settings, name="settings"),
+    path('cambiar-contraseña/', views.cambiar_contraseña, name='cambioContra'),
+    path('cambiar-contraseña/hecho/', views.cambiar_contraseña_hecho, name='cambioContraDone'),
+
 ]

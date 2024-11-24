@@ -14,6 +14,9 @@ from .models import Reporte
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
 
 @login_required
 def index(request):
@@ -316,3 +319,20 @@ def procesar_resultado(request, resultado_id):
 def logout_view(request):
     logout(request)
     return redirect('login')
+@login_required
+def cambiar_contraseña(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)  # Mantiene la sesión después del cambio
+            messages.success(request, 'Su contraseña ha sido cambiada exitosamente.')
+            return redirect('cambioContraDone')  # Redirige a la página de confirmación
+        else:
+            messages.error(request, 'Por favor, corrija los errores en el formulario.')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'registration/change_pass.html', {'form': form})
+
+def cambiar_contraseña_hecho(request):
+    return render(request, 'registration/change_pass_done.html')
