@@ -12,5 +12,7 @@ urlpatterns = [
     path("settings", views.settings, name="settings"),
     path('cambiar-contraseña/', views.cambiar_contraseña, name='cambioContra'),
     path('cambiar-contraseña/hecho/', views.cambiar_contraseña_hecho, name='cambioContraDone'),
+    path('password_reset/', views.password_reset_request, name='password_reset_request'),
+    path('set_new_password/', views.set_new_password, name='set_new_password'),
 
 ]

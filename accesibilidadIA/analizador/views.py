@@ -3,7 +3,7 @@ from openai import OpenAI
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-from .forms import Registro, ReporteForm
+from .forms import Registro, ReporteForm, UsernameForm, PasswordResetForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 import json
@@ -310,8 +310,8 @@ def procesar_resultado(request, resultado_id):
         resultado.estado = estado
         resultado.save()
         
-        # Redirigir a una página de confirmación o de nuevo a la lista de resultados
-        return redirect('resultados')  # Cambia 'resultados' por el nombre de tu vista de resultados
+
+        return redirect('resultados')
     
     return render(request, 'tu_template.html', {'resultado': resultado})
 
@@ -336,3 +336,46 @@ def cambiar_contraseña(request):
 
 def cambiar_contraseña_hecho(request):
     return render(request, 'registration/change_pass_done.html')
+
+# Vista para ingresar el nombre de usuario
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = UsernameForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            try:
+                user = User.objects.get(username=username)
+                request.session['user_id'] = user.id  # Guardamos el ID de usuario en la sesión
+                return redirect('set_new_password')
+            except User.DoesNotExist:
+                messages.error(request, "El nombre de usuario no existe.")
+    else:
+        form = UsernameForm()
+    
+    return render(request, 'registration/password_reset_request.html', {'form': form})
+
+# Vista para establecer una nueva contraseña
+def set_new_password(request):
+    if 'user_id' not in request.session:
+        return redirect('password_reset_request')
+
+    user = get_object_or_404(User, id=request.session['user_id'])
+
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            new_password1 = form.cleaned_data['new_password1']
+            new_password2 = form.cleaned_data['new_password2']
+            if new_password1 == new_password2:
+                user.set_password(new_password1)
+                user.save()
+                update_session_auth_hash(request, user)  # Mantiene la sesión activa después del cambio
+                messages.success(request, "Tu contraseña ha sido cambiada exitosamente.")
+                del request.session['user_id']  # Elimina el user_id de la sesión
+                return redirect('login')
+            else:
+                messages.error(request, "Las contraseñas no coinciden.")
+    else:
+        form = PasswordResetForm()
+
+    return render(request, 'registration/set_new_password.html', {'form': form})
