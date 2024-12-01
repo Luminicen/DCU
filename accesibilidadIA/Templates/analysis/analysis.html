@@ -74,9 +74,9 @@
                                 disabled> </textarea>
                         </div>
                          <!-- Nueva sección de checkboxes para categorías de errores de usabilidad -->
-                        <div class="form-group">
+                         <div class="form-group">
                             <label for="usability-errors">Aplicar filtro de Errores de Usabilidad</label>
-                            <a>Aplicar filtro a los resultados para solo mostrar algun tipo de error de los de abajo</a>
+                            <a>Aplicar filtro a los resultados para solo mostrar algún tipo de error de los de abajo. Si no se elige ninguno, no se aplican filtros al resultado final.</a>
                             <div id="usability-errors">
                                 <div>
                                     <input type="checkbox" id="error1" name="usability-errors" value="Accesibilidad">
@@ -103,6 +103,16 @@
                                     <label for="error6">Feedback</label>
                                 </div>
                             </div>
+                        
+                            <!-- Campo para agregar filtro personalizado -->
+                            <div class="form-group">
+                                <label for="custom-filter">Agregar filtro personalizado</label>
+                                <input type="text" id="custom-filter" placeholder="Escriba el nombre del filtro">
+                                <button type="button" id="add-filter-btn">Agregar filtro</button>
+                            </div>
+                        
+                            <!-- Contenedor para filtros personalizados -->
+                            <div id="custom-filters-container"></div>
                         </div>
                         <div class="start-btn-container">
                             <button type="submit" class="start-button" id="submitBtn">Iniciar análisis</button>
@@ -130,6 +140,39 @@
         </div>
 
     </div>
+    <script>
+        document.getElementById('add-filter-btn').addEventListener('click', function() {
+            const filterName = document.getElementById('custom-filter').value.trim();
+            if (filterName) {
+                const container = document.getElementById('usability-errors');
+    
+                // Verificar si ya existe un checkbox con este valor
+                if (Array.from(container.querySelectorAll('input')).some(input => input.value === filterName)) {
+                    alert('Este filtro ya ha sido agregado.');
+                    return;
+                }
+    
+                // Crear un nuevo checkbox
+                const div = document.createElement('div');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `custom-${filterName}`;
+                checkbox.name = 'usability-errors';
+                checkbox.value = filterName;
+    
+                const label = document.createElement('label');
+                label.htmlFor = checkbox.id;
+                label.textContent = filterName;
+    
+                div.appendChild(checkbox);
+                div.appendChild(label);
+                container.appendChild(div);
+    
+                // Limpiar el campo de texto
+                document.getElementById('custom-filter').value = '';
+            }
+        });
+    </script>
 
 </div>
 
