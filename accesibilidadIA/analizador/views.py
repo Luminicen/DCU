@@ -56,6 +56,8 @@ def analysis(request):
             form.codigo = file
             form.fileName = file.name
             form.save()
+            analysis_id = form.id
+            print('ID', analysis_id)
 
             ans = solicitud_ia(file_content)
             request.session['mi_dato'] = str(ans)
@@ -63,7 +65,7 @@ def analysis(request):
             # Added the filename to the URL
             file_name = file.name
             url = reverse('results')
-            query_params = urlencode({'file_name': file_name})
+            query_params = urlencode({'file_name': file_name, 'analysis_id': analysis_id})
             full_url = f"{url}?{query_params}"
             return redirect(full_url)
 
@@ -73,17 +75,19 @@ def analysis(request):
     return render(request, "analysis/analysis.html")
 
 def solicitud_ia(codigo):
+    print("\nEntering in the function\n")
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
     completion = client.chat.completions.create(
     model="model-identifier",
     messages=[
     {"role": "system", "content": """
-    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: Output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
+    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
     respetame el output y los errores tienen que ser en español"""},
     {"role": "user", "content": codigo}
     ] ,
     temperature=0.7,
     )
+    print(completion)
     # Extract the content from the message
     ans = completion.choices[0].message
 
@@ -161,8 +165,10 @@ def update_html(request, file_name, error_to_correct):
 def results(request):
 
     file_name = request.GET.get('file_name')
+    analysis_id = request.GET.get('analysis_id')
 
     print("The filename is ", file_name)
+    print("The ID is ", analysis_id)
 
     resultados_lista = [
         {
@@ -185,7 +191,6 @@ def results(request):
             'titulo': 'Linea 211: Falta de descripción en el botón de navegación',
             'descripcion': 'El botón de navegación en la línea 211 no incluye un `aria-label` o `title`, lo que puede ser problemático para los usuarios que utilizan tecnologías asistivas para navegar por el sitio.'
         }
-        
     ]
     mi_dato = request.session.get('mi_dato')
     print("LISTO")
@@ -213,13 +218,11 @@ def results(request):
     if matches:
         extracted_phrases = matches[0].strip()
         phrases_list = [phrase.strip() for phrase in extracted_phrases.split('|')]
-        
 
         for index, phrase in enumerate(phrases_list, start=1):
             linea = re.findall(patternLinea, phrase, re.IGNORECASE)
             z=""
             if linea:
-
                 z = linea[0]
             else:
                 z = "Observacion"
@@ -231,7 +234,7 @@ def results(request):
         print(output)
     else:
         print("No se encontraron frases específicas.")
-    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+    return render(request, 'results/results.html', {'resultados': output, 'analysis_id': analysis_id, 'file_name': file_name})
 
 def extract_lines(response):
     # Define regex patterns for the original and fixed lines
@@ -251,16 +254,17 @@ def extract_lines(response):
     return original_line, fixed_line
 
 #result fun
-def error_result(request, file_name, detected_error):
+def error_result(request, analysis_id, file_name, detected_error):
 
     #file_name = request.GET.get('file_name')
 
+    print("The id is ", analysis_id)
     print("The filename is ", file_name)
 
 
     try:
         # Recuperar el reporte por fileName
-        reporte = Reporte.objects.get(fileName=file_name)
+        reporte = Reporte.objects.get(id=analysis_id)
         
         # Acceder al archivo y leer su contenido
         with open(reporte.codigo.path, 'r') as archivo:
