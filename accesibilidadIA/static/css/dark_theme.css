@@ -87,3 +87,20 @@ h2{
 .icon-menu::before {
     color: white;
 }   
+
+.resultado {
+    background-color: #2b2a30;
+}
+
+.resultado p {
+    color: white;
+    background-color: #2b2a30;
+}
+
+.page-subtitle {
+    color: white;
+}
+
+.resultado h3 {
+    color: white;
+}

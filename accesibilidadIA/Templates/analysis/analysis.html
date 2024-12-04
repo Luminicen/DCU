@@ -14,7 +14,7 @@
 {% block content %}
 
 <div class="scroll-main-container">
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="analysis-form">
       {% csrf_token %}
         <div class="scroll-content-container" id="scroll-content-container">
 
@@ -28,7 +28,7 @@
                         <div class="upload-text" id="upload-text">Agregar archivo HTML</div>
                     </div>
                     <div class="upload-btn-container">
-                        <label for="file-input" class="upload-button">Cargar archivo</label>
+                        <label for="file-input" class="upload-button">Examinar</label>
                         <input type="file" id="file-input" name="file-input" aria-label="Cargar archivo HTML" required/>
                     </div>
                 </div>
@@ -66,15 +66,15 @@
                         <div class="form-group">
                             <label for="analysis-name-preview">Nombre del análisis</label>
                             <textarea id="analysis-name-preview" name="analysis-name-preview"
-                                disabled>Demo análisis</textarea>
+                                disabled></textarea>
                         </div>
                         <div class="form-group">
                             <label for="description-preview">Descripción</label>
                             <textarea id="description-preview" name="description-preview"
-                                disabled>Análisis html para mi primer app </textarea>
+                                disabled> </textarea>
                         </div>
                         <div class="start-btn-container">
-                            <button type="submit" class="start-button">Iniciar análisis</button>
+                            <button type="submit" class="start-button" id="submitBtn">Iniciar análisis</button>
                         </div>
                 </div>
             </section>
@@ -101,7 +101,5 @@
     </div>
 
 </div>
-
-
 
 {% endblock %}

@@ -17,7 +17,8 @@ from django.contrib.auth import logout
 
 @login_required
 def index(request):
-    return render(request, 'home.html')
+    user_name = request.user.username
+    return render(request, 'home.html', {'user_name': user_name})
 
 def register(request):
     if request.method == 'POST':
@@ -29,7 +30,7 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('index')
     else:
         form = Registro()
     return render(request, 'registration/registerForm.html', {'form': form})
@@ -194,7 +195,7 @@ def results(request):
     matches = re.findall(pattern, mi_dato, re.DOTALL)
     output = []
     pattern2 = r'\*\*Error \d+\*\*:(.*?)\*\*Solución:\*\*(.*?)\n\n'
-    patternLinea = r'Linea \d+'
+    patternLinea = r'(Linea \d+|línea \d+)'
     
     matches2 = re.findall(pattern2, mi_dato, re.DOTALL)
 

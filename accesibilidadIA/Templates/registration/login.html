@@ -6,24 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión</title>
     <style>
-        /* Estilos personalizados */
-        /*.loginform * {
+        
+        .loginform label {
             text-align: left !important;
-        }*/
+            display: block;
+        }
 
-        .loginform button input {
-            text-align: center !important;
+        .loginform input[type="text"],
+        .loginform input[type="password"] {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .loginform button {
+            width: 100%;
+            text-align: center;
+        }
+
+        .loginform a {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #1d00fd; 
+            text-decoration: none;
+        }
+
+        .loginform a:hover {
+            text-decoration: underline; 
         }
 
         .custom-color {
-            background-color: #1d00fd !important; /* Fondo del botón */
-            border-color: #250494 !important; /* Borde del botón */
-            color: white !important; /* Color del texto */
+            background-color: #1d00fd !important;
+            border-color: #250494 !important; 
+            color: white !important; 
         }
+
         .custom-color:hover {
-            background-color: #250494 !important; /* Fondo del botón al pasar el mouse */
-            border-color: #1d00fd !important; /* Borde del botón al pasar el mouse */
-            color: white !important; /* Color del texto al pasar el mouse */
+            background-color: #250494 !important; 
+            border-color: #1d00fd !important; 
+            color: white !important; 
         }
 
         .fondoFlores {
@@ -38,26 +59,43 @@
         .h-custom {
             height: 100%;
         }
+
+        @media (max-width: 768px) {
+            .col-md-8,
+            .col-lg-6,
+            .col-xl-4 {
+                padding: 2rem 1rem;
+            }
+        }
     </style>
-    <!-- Bootstrap CSS -->
+    
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center fondoFlores py-5">
             <div class="col-md-8 col-lg-6 col-xl-4 shadow-lg p-5 my-5 bg-white rounded">
-                <div class="loginform"> <!-- Agregué la clase loginform -->
+                <div class="loginform">
                     <h1 class="pb-3">Iniciar sesión</h1>
                     <form method="post">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        <div class="form-group">
+                            <label for="id_username">Usuario</label>
+                            <input type="text" id="id_username" name="username" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password">Contraseña</label>
+                            <input type="password" id="id_password" name="password" class="form-control" required>
+                        </div>
                         <button class="btn custom-color mt-2" type="submit">Iniciar sesión</button>
+                        <a href="{% url 'register' %}" class="mt-3">¿No tienes cuenta? Regístrate aquí</a>
                     </form>
                 </div>
             </div>
         </div>
+        
     </div>
-    <!-- Bootstrap JS y dependencias -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
