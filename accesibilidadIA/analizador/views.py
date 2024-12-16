@@ -256,16 +256,13 @@ def extract_lines(response):
 #result fun
 def error_result(request, analysis_id, file_name, detected_error):
 
-    #file_name = request.GET.get('file_name')
-
     print("The id is ", analysis_id)
     print("The filename is ", file_name)
-
 
     try:
         # Recuperar el reporte por fileName
         reporte = Reporte.objects.get(id=analysis_id)
-        
+
         # Acceder al archivo y leer su contenido
         with open(reporte.codigo.path, 'r') as archivo:
             file_content = archivo.read()
@@ -316,6 +313,12 @@ def procesar_resultado(request, resultado_id):
     
     return render(request, 'tu_template.html', {'resultado': resultado})
 
+@login_required
+def user_analysis_history(request):
+    # Obtener los análisis del usuario logueado
+    analyses = Reporte.objects.filter(usuario=request.user).order_by('analysisTime')
+
+    return render(request, 'results/user_analysis_history.html', {'analyses': analyses})
 
 def logout_view(request):
     logout(request)
