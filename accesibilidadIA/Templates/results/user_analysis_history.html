@@ -39,6 +39,7 @@
                     <th>Ubicación</th>
                     <th>Archivo</th>
                     <th>Fecha del Análisis</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,6 +50,12 @@
                     <td>{{ analysis.fileName }}</td>
                     <td>{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
                     <td data-date="{{ analysis.analysisTime|date:'Y-m-d' }}">{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'eliminar_reporte' analysis.id %}" class="btn btn-danger" 
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                           Eliminar
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -72,7 +79,6 @@
                 const dateCell = row.querySelector("td[data-date]");
                 const rowDate = new Date(dateCell.getAttribute("data-date"));
 
-                // Check if the row's date is within the range
                 if ((start && rowDate < start) || (end && rowDate > end)) {
                     row.style.display = "none";
                 } else {

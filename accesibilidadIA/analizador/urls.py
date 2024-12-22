@@ -13,5 +13,6 @@ urlpatterns = [
     path('cambiar-contraseña/hecho/', views.cambiar_contraseña_hecho, name='cambioContraDone'),
     path('password_reset/', views.password_reset_request, name='password_reset_request'),
     path('set_new_password/', views.set_new_password, name='set_new_password'),
-    path('user_analysis_history/', views.user_analysis_history, name='user_analysis_history')
+    path('user_analysis_history/', views.user_analysis_history, name='user_analysis_history'),
+    path('eliminar_reporte/<int:reporte_id>/', views.eliminar_reporte, name='eliminar_reporte'),
 ]
