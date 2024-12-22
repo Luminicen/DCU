@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados > Historico de analisis{% endblock %}
+
+{% block head %}
+    {{ super }}
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block header %}
+<div class="title-container">
+<h1>Resultados</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<body>
+
+    <main>
+        <p>Historial análisis:</p>
+        
+        {% if analyses %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ubicación</th>
+                    <th>Archivo</th>
+                    <th>Fecha del Análisis</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analysis in analyses %}
+                <tr>
+                    <td>{{ analysis.nombre }}</td>
+                    <td>{{ analysis.codigo|truncatechars:50 }}</td> <!-- Muestra solo una porción del código -->
+                    <td>{{ analysis.fileName }}</td>
+                    <td>{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No tienes análisis realizados aún.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
+{% endblock %}
