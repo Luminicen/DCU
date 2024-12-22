@@ -9,5 +9,10 @@ urlpatterns = [
     path('error_result/<str:analysis_id>/<str:file_name>/<str:detected_error>', views.error_result, name='error_result'),
     path('update_html/<str:file_name>/', views.update_html, name='update_html'),
     path("settings", views.settings, name="settings"),
-    path('user_analysis_history/', views.user_analysis_history, name='user_analysis_history')
+    path('cambiar-contraseña/', views.cambiar_contraseña, name='cambioContra'),
+    path('cambiar-contraseña/hecho/', views.cambiar_contraseña_hecho, name='cambioContraDone'),
+    path('password_reset/', views.password_reset_request, name='password_reset_request'),
+    path('set_new_password/', views.set_new_password, name='set_new_password'),
+    path('user_analysis_history/', views.user_analysis_history, name='user_analysis_history'),
+    path('eliminar_reporte/<int:reporte_id>/', views.eliminar_reporte, name='eliminar_reporte'),
 ]

@@ -3,7 +3,7 @@ from openai import OpenAI
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-from .forms import Registro, ReporteForm
+from .forms import Registro, ReporteForm, UsernameForm, PasswordResetForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 import json
@@ -14,6 +14,9 @@ from .models import Reporte
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
 
 @login_required
 def index(request):
@@ -34,7 +37,16 @@ def register(request):
     else:
         form = Registro()
     return render(request, 'registration/registerForm.html', {'form': form})
-
+@login_required
+def eliminar_reporte(request, reporte_id):
+    if request.method == "POST":
+        reporte = get_object_or_404(Reporte, id=reporte_id)
+        reporte.delete()
+        messages.success(request, f"El reporte '{reporte.nombre}' ha sido eliminado con éxito.")
+        return redirect('user_analysis_history')  
+    else:
+        messages.error(request, "Método no permitido.")
+        return redirect('user_analysis_history')
 #analysis fun
 @login_required
 def analysis(request):
@@ -42,7 +54,12 @@ def analysis(request):
         analysis_name = request.POST.get('analysis-name')
         description = request.POST.get('description')
         file = request.FILES.get('file-input')
-
+        errores_usabilidad = request.POST.getlist('usability-errors')
+        filtro = ""
+        if errores_usabilidad:
+            filtro = "quiero ver solo errores de usabilidad del tipo: "
+        for i in errores_usabilidad:
+            filtro = filtro + i+", "
         if file:
             from .models import Reporte
             print(file)
@@ -59,7 +76,7 @@ def analysis(request):
             analysis_id = form.id
             print('ID', analysis_id)
 
-            ans = solicitud_ia(file_content)
+            ans = solicitud_ia(file_content,filtro)
             request.session['mi_dato'] = str(ans)
 
             # Added the filename to the URL
@@ -74,15 +91,15 @@ def analysis(request):
 
     return render(request, "analysis/analysis.html")
 
-def solicitud_ia(codigo):
-    print("\nEntering in the function\n")
+def solicitud_ia(codigo,filtro):
+    prompt = """
+    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: Output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
+    respetame el output y los errores tienen que ser en español.Respeta solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|'y  ademas  """
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
     completion = client.chat.completions.create(
     model="model-identifier",
     messages=[
-    {"role": "system", "content": """
-    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
-    respetame el output y los errores tienen que ser en español"""},
+    {"role": "system", "content": prompt + filtro},
     {"role": "user", "content": codigo}
     ] ,
     temperature=0.7,
@@ -308,8 +325,8 @@ def procesar_resultado(request, resultado_id):
         resultado.estado = estado
         resultado.save()
         
-        # Redirigir a una página de confirmación o de nuevo a la lista de resultados
-        return redirect('resultados')  # Cambia 'resultados' por el nombre de tu vista de resultados
+
+        return redirect('resultados')
     
     return render(request, 'tu_template.html', {'resultado': resultado})
 
@@ -317,9 +334,68 @@ def procesar_resultado(request, resultado_id):
 def user_analysis_history(request):
     # Obtener los análisis del usuario logueado
     analyses = Reporte.objects.filter(usuario=request.user).order_by('analysisTime')
-
     return render(request, 'results/user_analysis_history.html', {'analyses': analyses})
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+@login_required
+def cambiar_contraseña(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)  # Mantiene la sesión después del cambio
+            messages.success(request, 'Su contraseña ha sido cambiada exitosamente.')
+            return redirect('cambioContraDone')  # Redirige a la página de confirmación
+        else:
+            messages.error(request, 'Por favor, corrija los errores en el formulario.')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'registration/change_pass.html', {'form': form})
+
+def cambiar_contraseña_hecho(request):
+    return render(request, 'registration/change_pass_done.html')
+
+# Vista para ingresar el nombre de usuario
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = UsernameForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            try:
+                user = User.objects.get(username=username)
+                request.session['user_id'] = user.id  # Guardamos el ID de usuario en la sesión
+                return redirect('set_new_password')
+            except User.DoesNotExist:
+                messages.error(request, "El nombre de usuario no existe.")
+    else:
+        form = UsernameForm()
+    
+    return render(request, 'registration/password_reset_request.html', {'form': form})
+
+# Vista para establecer una nueva contraseña
+def set_new_password(request):
+    if 'user_id' not in request.session:
+        return redirect('password_reset_request')
+
+    user = get_object_or_404(User, id=request.session['user_id'])
+
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            new_password1 = form.cleaned_data['new_password1']
+            new_password2 = form.cleaned_data['new_password2']
+            if new_password1 == new_password2:
+                user.set_password(new_password1)
+                user.save()
+                update_session_auth_hash(request, user)  # Mantiene la sesión activa después del cambio
+                messages.success(request, "Tu contraseña ha sido cambiada exitosamente.")
+                del request.session['user_id']  # Elimina el user_id de la sesión
+                return redirect('login')
+            else:
+                messages.error(request, "Las contraseñas no coinciden.")
+    else:
+        form = PasswordResetForm()
+
+    return render(request, 'registration/set_new_password.html', {'form': form})

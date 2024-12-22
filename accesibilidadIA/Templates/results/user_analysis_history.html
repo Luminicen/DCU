@@ -20,15 +20,26 @@
 
     <main>
         <p>Historial análisis:</p>
+
         
         {% if analyses %}
-        <table>
+        <form id="filterForm">
+            <label for="start_date">Desde:</label>
+            <input type="date" id="start_date" name="start_date">
+            
+            <label for="end_date">Hasta:</label>
+            <input type="date" id="end_date" name="end_date">
+
+            <button type="button" class="btn btn-primary" onclick="filterTable()">Filtrar</button>
+        </form>
+        <table id="analysisTable">
             <thead>
                 <tr>
                     <th>Nombre</th>
                     <th>Ubicación</th>
                     <th>Archivo</th>
                     <th>Fecha del Análisis</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +49,13 @@
                     <td>{{ analysis.codigo|truncatechars:50 }}</td> <!-- Muestra solo una porción del código -->
                     <td>{{ analysis.fileName }}</td>
                     <td>{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
+                    <td data-date="{{ analysis.analysisTime|date:'Y-m-d' }}">{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'eliminar_reporte' analysis.id %}" class="btn btn-danger" 
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                           Eliminar
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -46,6 +64,29 @@
         <p>No tienes análisis realizados aún.</p>
         {% endif %}
     </main>
+    <script>
+        function filterTable() {
+            const startDate = document.getElementById("start_date").value;
+            const endDate = document.getElementById("end_date").value;
+
+            // Convert dates to comparable formats
+            const start = startDate ? new Date(startDate) : null;
+            const end = endDate ? new Date(endDate) : null;
+
+            const rows = document.querySelectorAll("#analysisTable tbody tr");
+
+            rows.forEach(row => {
+                const dateCell = row.querySelector("td[data-date]");
+                const rowDate = new Date(dateCell.getAttribute("data-date"));
+
+                if ((start && rowDate < start) || (end && rowDate > end)) {
+                    row.style.display = "none";
+                } else {
+                    row.style.display = "";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 {% endblock %}
