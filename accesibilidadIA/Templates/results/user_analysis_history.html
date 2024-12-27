@@ -56,6 +56,11 @@
                            Eliminar
                         </a>
                     </td>
+                    <td>
+                        <button onclick="descargarContenido('{{ analysis.fileName }}','{{ analysis.codigo }}')" class="btn btn-warning">
+                            Descargar HTML
+                        </button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -85,6 +90,27 @@
                     row.style.display = "";
                 }
             });
+        }
+    </script>
+    <script>
+        function descargarContenido(fileName, fileContent) {
+
+            // Crear un Blob con el contenido HTML
+            const blob = new Blob([fileContent], { type: 'text/html' });
+
+            // Crear una URL para el Blob
+            const url = URL.createObjectURL(blob);
+
+            // Crear un enlace para descargar el archivo
+            const enlace = document.createElement('a');
+            enlace.href = url;
+            enlace.download = fileName + '.html';
+
+            // Disparar el click en el enlace para iniciar la descarga
+            enlace.click();
+
+            // Liberar el objeto URL después de usarlo
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>

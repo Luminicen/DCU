@@ -37,6 +37,7 @@ def register(request):
     else:
         form = Registro()
     return render(request, 'registration/registerForm.html', {'form': form})
+
 @login_required
 def eliminar_reporte(request, reporte_id):
     if request.method == "POST":
@@ -47,6 +48,7 @@ def eliminar_reporte(request, reporte_id):
     else:
         messages.error(request, "Método no permitido.")
         return redirect('user_analysis_history')
+
 #analysis fun
 @login_required
 def analysis(request):
