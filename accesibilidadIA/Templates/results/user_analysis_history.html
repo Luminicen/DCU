@@ -57,7 +57,7 @@
                         </a>
                     </td>
                     <td>
-                        <button onclick="descargarContenido('{{ analysis.fileName }}','{{ analysis.codigo }}')" class="btn btn-warning">
+                        <button onclick="descargarContenido('{{ analysis.codigo }}')" class="btn btn-warning">
                             Descargar HTML
                         </button>
                     </td>
@@ -93,7 +93,7 @@
         }
     </script>
     <script>
-        function descargarContenido(fileName, fileContent) {
+        function descargarContenido2(fileName, fileContent) {
 
             // Crear un Blob con el contenido HTML
             const blob = new Blob([fileContent], { type: 'text/html' });
@@ -111,6 +111,21 @@
 
             // Liberar el objeto URL después de usarlo
             URL.revokeObjectURL(url);
+        }
+    </script>
+    <script>
+        function descargarContenido(fileName) {
+            // Crear la URL para descargar el archivo desde Django
+            fileName = String(fileName).split('/')[0]
+            const url = `/descargar/${fileName}`;
+
+            // Crear un enlace para descargar el archivo
+            const enlace = document.createElement('a');
+            enlace.href = url;
+            enlace.download = fileName;
+
+            // Disparar el click en el enlace para iniciar la descarga
+            enlace.click();
         }
     </script>
 </body>

@@ -17,6 +17,7 @@ from django.contrib.auth import logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
+import os
 
 @login_required
 def index(request):
@@ -44,7 +45,7 @@ def eliminar_reporte(request, reporte_id):
         reporte = get_object_or_404(Reporte, id=reporte_id)
         reporte.delete()
         messages.success(request, f"El reporte '{reporte.nombre}' ha sido eliminado con éxito.")
-        return redirect('user_analysis_history')  
+        return redirect('user_analysis_history')
     else:
         messages.error(request, "Método no permitido.")
         return redirect('user_analysis_history')
@@ -134,7 +135,7 @@ def merge_code_ai(input_html, error_description):
     model="model-identifier",
     messages=[
     {"role": "system", "content": """
-    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me devuelves el mismo código HTML pero con el error corregido."""},
+    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me devuelves el mismo código HTML pero con el error corregido. Quiero que tu respuesta sea solo el código HTML, no agregues ningún tipo de información adicional."""},
     {"role": "user", "content": input_html}
     ] ,
     temperature=0.7,
@@ -146,39 +147,67 @@ def merge_code_ai(input_html, error_description):
 
     return ans
 
-def update_html(request, file_name, error_to_correct):
-    if request.method == 'POST':
+def update_html(request, analysis_id, detected_error):
+    #analysis_id = request.POST.get('analysis_id')
+    #error_to_correct = request.POST.get('error_to_correct')
+    error_to_correct = detected_error
+    print("\n\n\nUPDATE HTML RENDER\n\n\n")
+    print(f"\n\n analysis_id = {analysis_id} \n\n")
+    print(f"\n\n detected_error = {detected_error} \n\n")
+    if request.method == 'GET':
         try:
-            # Recuperar el reporte por fileName
-            reporte = Reporte.objects.get(fileName=file_name, usuario=request.user)
+            # Recuperar el reporte por ID
+            reporte = Reporte.objects.get(id=analysis_id)
 
-                # Acceder al archivo y leer su contenido
+            # Acceder al archivo y leer su contenido
             with open(reporte.codigo.path, 'r') as archivo:
                 file_content = archivo.read()
 
         except ObjectDoesNotExist:
-            return HttpResponse(f'El reporte del archivo {file_name} no existe.')
+            return HttpResponse(f'El archivo del reporte no existe.')
         except FileNotFoundError:
-            return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
+            return HttpResponse(f'El archivo del reporte no se encuentra en la ruta especificada.')
 
         fixed_code = str(merge_code_ai(file_content, error_to_correct))
 
         print('CODIGO ARREGLADO BEGIN\n', fixed_code, 'CODIGO ARREGLADO END\n')
 
-        # Actualiza el campo aquí
-        reporte.codigo = fixed_code
-        reporte.save()
+        # Actualizo el contenido del archivo con el codigo corregido
+        with open(reporte.codigo.path, 'w') as file:
+            file.write(fixed_code)
         
-        # Deberia llamar devuelta al prompt con el nuevo archivo
+        # Debe llamar devuelta al prompt con el nuevo archivo
 
-        # Added the filename to the URL
+        # Actualizo el codigo con el nuevo codigo corregido
         request.session['mi_dato'] = fixed_code
+
+        # Vuelvo a la pantalla de resultados
         url = reverse('results')
-        query_params = urlencode({'file_name': file_name})
-        full_url = f"{url}?{query_params}"
-        return redirect(full_url)
+        #query_params = urlencode({'file_name': file_name})
+        #full_url = f"{url}?{query_params}"
+        return redirect(url)
     output = None
-    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+    return render(request, 'results/results.html', {'resultados': output})
+
+def descargar_contenido(request, file_name):
+    # Ruta completa al archivo en el sistema de archivos (ajusta según tu proyecto)
+    file_path = os.path.join('media/archivos_analisis', file_name)
+
+    print('Full Path of File ' + file_path)
+
+    # Verificar si el archivo existe
+    if not os.path.exists(file_path):
+        return HttpResponse("El archivo no existe.", status=404)
+
+    # Leer el contenido del archivo
+    with open(file_path, 'r') as file:
+        file_content = file.read()
+
+    # Crear la respuesta HTTP para descargar el archivo
+    response = HttpResponse(file_content, content_type='text/html')
+    response['Content-Disposition'] = f'attachment; filename={file_name}'
+
+    return response
 
 #result fun
 def results(request):
@@ -213,7 +242,7 @@ def results(request):
     ]
     mi_dato = request.session.get('mi_dato')
     print("LISTO")
-    print("inicio dato: ", mi_dato, " fin dato.")
+    print("inicio dato:\n", mi_dato, "\nfin dato.")
     # Expresión regular para extraer las frases específicas
     pattern = r'output:\s*(.*?)\.'
     matches = re.findall(pattern, mi_dato, re.DOTALL)
@@ -275,11 +304,12 @@ def extract_lines(response):
 #result fun
 def error_result(request, analysis_id, file_name, detected_error):
 
-    print("The id is ", analysis_id)
-    print("The filename is ", file_name)
+    print("Error result RENDER")
+    #print("The id is ", analysis_id)
+    #print("The filename is ", file_name)
 
     try:
-        # Recuperar el reporte por fileName
+        # Recuperar el reporte por ID
         reporte = Reporte.objects.get(id=analysis_id)
 
         # Acceder al archivo y leer su contenido
@@ -291,7 +321,7 @@ def error_result(request, analysis_id, file_name, detected_error):
     except FileNotFoundError:
         return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
 
-    print("Error " + detected_error + " of file ", "file_name")
+    print("Error " + detected_error + " of file ", file_name)
 
     #find file name
     ans = merge_code_ai_request(file_content, detected_error)
@@ -301,9 +331,11 @@ def error_result(request, analysis_id, file_name, detected_error):
     #return redirect(url)
     print(str(ans))
     (original_code, fixed_code) = extract_lines(str(ans))
+
     # Pasar las variables al contexto de la plantilla
     context = {
-        "detected_error" : detected_error,
+        "analysis_id" : analysis_id,
+        "error_name" : detected_error,
         "file_name" : "str(ans)",
         "original_code" : original_code,
         "fixed_code" : fixed_code
@@ -341,6 +373,7 @@ def user_analysis_history(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 @login_required
 def cambiar_contraseña(request):
     if request.method == 'POST':
