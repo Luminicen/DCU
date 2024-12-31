@@ -347,6 +347,9 @@ def error_result(request, analysis_id, file_name, detected_error):
 def settings(request):
     return render(request, 'settings/settings.html')
 
+def account(request):
+    return render(request, 'account/account.html')
+
 def procesar_resultado(request, resultado_id):
     Resultado = None
     resultado = get_object_or_404(Resultado, id=resultado_id)

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Mi cuenta{% endblock %}
+
+{% block head %}
+{{ super }}
+{% endblock %}
+{% block header %}
+<div class="title-container">
+    <h1>Cuenta</h1>
+</div>
+{% endblock %}
+{% block content %}
+{% load static %}
+{% csrf_token %}
+<div class="settings-container">
+    <h2>Configuracion de cuenta</h2>
+    <div class="font-container">
+        <a href="{% url 'cambioContra' %}" class="btn btn-primary">Cambiar Contraseña</a>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

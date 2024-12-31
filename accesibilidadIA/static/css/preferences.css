@@ -1,0 +1,30 @@
+/* Estilos para la vista de preferencias (preferences.html) */
+
+.analysis-preference-container {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrado vertical */
+    align-items: center; /* Centrado horizontal */
+    width: 80%;
+    max-width: 600px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 95%;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+}

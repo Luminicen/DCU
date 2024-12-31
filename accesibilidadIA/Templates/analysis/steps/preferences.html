@@ -1,0 +1,52 @@
+<section class="page">
+    <div class="scroll-header">
+        <h2>Paso 2/3: Establecer preferencias</h2>
+    </div>
+    <div class="analysis-preference-container">
+        <div class="form-group">
+            <label for="analysis-name">Nombre del análisis</label>
+            <input type="text" id="analysis-name" name="analysis-name" placeholder="Escriba un nombre para el análisis" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea id="description" name="description" placeholder="Escriba una descripción" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="usability-errors">Aplicar filtro de Errores de Usabilidad</label>
+            <p class="description-text">Seleccione o cree filtros específicos para el análisis. Si no selecciona ninguno, se realizará un análisis estándar.</p>
+            <div id="usability-errors">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="error1" name="usability-errors" value="Accesibilidad">
+                    <label for="error1">Accesibilidad</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="error2" name="usability-errors" value="Interacción">
+                    <label for="error2">Interacción</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="error3" name="usability-errors" value="Visibilidad">
+                    <label for="error3">Visibilidad</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="error4" name="usability-errors" value="Desempeño">
+                    <label for="error4">Desempeño</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="error5" name="usability-errors" value="Estética">
+                    <label for="error5">Estética</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="error6" name="usability-errors" value="Feedback">
+                    <label for="error6">Feedback</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group add-filter-container">
+            <label for="custom-filter">Agregar filtro personalizado</label>
+            <div class="add-filter-wrapper">
+                <input type="text" id="custom-filter" placeholder="Escriba el nombre del filtro">
+                <button type="button" id="add-filter-btn" class="add-filter-button">Agregar filtro</button>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,8 +1,22 @@
-/* Global Styles */
-body {
+/* body {
     overflow-x: auto;
     margin: 0;
     padding: 0;
+} */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.scroll-header h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
 }
 
 .scroll-main-container {
@@ -266,39 +280,30 @@ body {
     }
 }
 
-/* Loading Indicator */
-.loading, .loading-text {
-    display: none !important; /* Hidden by default */
+.modal {
+    display: none; /* Oculto por defecto */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Dark background with opacity */
-    color: white; /* White text for contrast */
-    z-index: 1000; /* Ensure the indicator is above other elements */
-    display: flex;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 }
 
-.loading-text {
-    font-size: 1.5em;
-    margin-top: 10px;
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.loading::before {
-    content: '';
-    border: 16px solid #f3f3f3; /* Border color */
-    border-top: 16px solid #3498db; /* Spinner color */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.modal-content p {
+    font-size: 1.2rem;
+    color: #333;
 }
