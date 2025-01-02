@@ -17,40 +17,31 @@
 
 <div class="scroll-main-container">
     <form method="post" enctype="multipart/form-data" id="analysis-form">
-      {% csrf_token %}
+        {% csrf_token %}
         <div class="scroll-content-container" id="scroll-content-container">
-
             {% include 'analysis/steps/load.html' %}
             {% include 'analysis/steps/preferences.html' %}
             {% include 'analysis/steps/preview.html' %}
-
         </div>
 
-        <div id="loading-modal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="loading-text">
-            <div class="modal-content">
-                <p id="loading-text">Analizando archivo... Por favor, aguarde un momento. Este proceso puede tardar varios minutos.</p>
+        <div class="indicators">
+            <div class="nav-button-container">
+                <button id="prevBtn" class="nav-button material-icons" aria-label="Botón de vista anterior">arrow_back</button>
+                <span id="prevLbl" class="nav-label">Anterior</span>
+            </div>
+            <div class="dots">
+                <span class="dot"></span>
+                <span class="dot active"></span>
+                <span class="dot"></span>
+            </div>
+            <div class="nav-button-container">
+                <button id="nextBtn" class="nav-button material-icons" aria-label="Botón de siguiente vista">arrow_forward</button>
+                <span id="nextLbl" class="nav-label">Siguiente</span>
             </div>
         </div>
-
     </form>
-
-    <div class="indicators nav-buttons" id="indicators">
-        <div class="nav-button-container">
-            <button id="prevBtn" class="nav-button material-icons"
-                aria-label="Botón de vista anterior">arrow_back</button>
-            <span id="prevLbl" class="nav-label">Anterior</span>
-        </div>
-        <span class="dot active" data-index="0"></span>
-        <span class="dot" data-index="1"></span>
-        <span class="dot" data-index="2"></span>
-        <div class="nav-button-container">
-            <button id="nextBtn" class="nav-button material-icons"
-                aria-label="Botón de siguiente vista">arrow_forward</button>
-            <span id="nextLbl" class="nav-label">Siguiente</span>
-        </div>
-
-    </div>
-
 </div>
 
-{% endblock %}
+{% endblock %} 
+
+

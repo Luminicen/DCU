@@ -1,14 +1,7 @@
-/* body {
-    overflow-x: auto;
-    margin: 0;
-    padding: 0;
-} */
-
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
 }
 
 .scroll-header h2 {
@@ -16,7 +9,6 @@ body {
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
-    color: #333;
 }
 
 .scroll-main-container {
@@ -26,12 +18,11 @@ body {
 
 .scroll-content-container {
     display: flex;
-    overflow-x: hidden;
     overflow-y: auto;
-    justify-content: flex-start;
     scroll-snap-type: x mandatory;
     width: 76vw;
     padding-bottom: 10px;
+    overflow-x: hidden;
 }
 
 .page {
@@ -40,9 +31,10 @@ body {
     display: flex;
     flex-direction: column;
     scroll-snap-align: start;
+    
 }
 
-.upload-btn-container {
+.upload-btn-container, .start-btn-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -71,12 +63,9 @@ body {
     border-color: #000;
 }
 
-.upload-icon::before {
+.upload-icon {
     font-family: 'Material Icons';
     content: 'attach_file';
-}
-
-.upload-icon {
     font-size: 3.125rem;
 }
 
@@ -85,11 +74,11 @@ body {
     font-size: 1rem;
 }
 
-.upload-button {
+.upload-button, .start-button {
     display: inline-block;
     padding: 10px 20px;
     font-size: 1rem;
-    border: 4px solid #25c2e5;
+    border: 4px solid;
     border-radius: 5px;
     text-align: center;
     text-decoration: none;
@@ -98,8 +87,18 @@ body {
 }
 
 .upload-button:hover {
-    border: 4px solid #1d94af;
+    border-color: #1d94af;
     background-color: #1d94af;
+    color: white;
+}
+
+.start-button {
+    border-color: #8BC34A;
+}
+
+.start-button:hover {
+    border-color: #1a7734;
+    background-color: #1a7734;
     color: white;
 }
 
@@ -108,64 +107,83 @@ body {
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
+    font-size: 1rem;
     font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    color: #555;
 }
 
 .form-group input[type="text"],
 .form-group textarea {
-    width: 95%;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.scroll-header {
-    text-align: left;
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: #25c2e5;
 }
 
-.scroll-header h1 {
-    font-weight: bold;
+.analysis-preference-container {
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-.analysis-preference-container,
 .analysis-preview-container {
-    padding-top: 100px;
-    padding-left: 50px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.start-btn-container {
+.analysis-preview-container .form-group {
+    margin-bottom: 20px;
+}
+
+.analysis-preview-container .form-group label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    color: #555;
+}
+
+.analysis-preview-container .preview-field {
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.analysis-preview-container .start-btn-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 30px;
 }
 
-.start-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: 4px solid #8BC34A;
-    border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.start-button:hover {
-    border: 4px solid #1a7734;
-    background-color: #1a7734;
-    color: white;
-}
-
-.nav-button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 20px;
-}
 
 .nav-buttons {
     position: fixed;
@@ -178,7 +196,7 @@ body {
     padding: 0 20px;
 }
 
-.nav-button {
+/* .nav-button {
     font-size: 2.25rem;
     background: transparent;
     border: none;
@@ -190,17 +208,8 @@ body {
     color: #1259a5;
 }
 
-.hidden {
-    display: none;
-}
-
-.nav-label {
-    margin-top: 8px;
-    font-size: 0.875rem;
-}
-
 .indicators {
-    padding: 30px 30px;
+    padding: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -220,14 +229,64 @@ body {
 
 .indicators .dot.active {
     background-color: #1259a5 !important;
+} */
+
+.indicators {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    position: relative; 
+    margin-top: 20px; 
+    margin-bottom: 20px; 
 }
 
-/* Media Queries for Responsive Design */
+.indicators .dot {
+    width: 15px;
+    height: 15px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicators .dot.active {
+    background-color: #1259a5; 
+}
+
+.nav-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-button:hover {
+    color: #1259a5;
+}
+
+.nav-label {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+    text-align: center;
+}
+
+
+
 @media only screen and (max-width: 1024px) {
-    .scroll-content-container {
+    .scroll-content-container, .page {
         width: 100vw;
-    }
-    .page {
         min-width: 100vw;
     }
 }
@@ -247,41 +306,38 @@ body {
         padding: 8px 16px;
         font-size: 0.875rem;
     }
-    .nav-buttons {
-        padding: 0 10px;
-    }
-    .nav-button {
-        font-size: 2rem;
-    }
 }
 
 @media only screen and (max-width: 620px) {
-    .scroll-content-container,
-    .page {
-        width: 100vw;
-        min-width: 100vw;
+    .analysis-preference-container {
+        padding: 50px 20px;
     }
-    .analysis-preference-container,
     .analysis-preview-container {
-        padding-top: 50px;
-        padding-left: 20px;
-    }
-    .indicators {
-        padding: 20px 20px;
+        padding: 50px 20px;
     }
     .indicators .dot {
         height: 20px;
         width: 20px;
     }
-
-    .form-group input[type="text"],
-    .form-group textarea {
+    .form-group input[type="text"], .form-group textarea {
         width: 85%;
     }
 }
 
+.preview-field {
+    background-color: #f9f9f9;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/*para status de inicio de analisis*/
 .modal {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -303,7 +359,54 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.modal-content p {
-    font-size: 1.2rem;
-    color: #333;
+
+
+/*para boton de filtro*/
+.add-filter-container {
+    margin-top: 20px;
+}
+
+.add-filter-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.add-filter-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.custom-filter-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.add-filter-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #308a40;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/*checkbox preferences*/
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
+}
+
+.checkbox-group label {
+    margin: 0;
+    font-size: 1rem;
+    color: #333; 
 }

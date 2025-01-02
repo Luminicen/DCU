@@ -1,38 +1,35 @@
 {% extends 'base.html' %}
 
-{% block title %}Resultados > Historico de analisis{% endblock %}
+{% block title %}Resultados: Historico de analisis {% endblock %}
 
 {% block head %}
-    {{ super }}
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{{ super }}
 {% endblock %}
 
 {% block header %}
 <div class="title-container">
-<h1>Resultados</h1>
+    <h1>Resultados</h1>
 </div>
 {% endblock %}
 
 {% block content %}
 {% load static %}
+
 <body>
-
     <main>
-        <p>Historial análisis:</p>
-
-        
-        {% if analyses %}
-        <form id="filterForm">
+    <div class="history-container">
+        <h2>Historial de análisis</h2>
+        <form id="filterForm" class="filter-form">
             <label for="start_date">Desde:</label>
             <input type="date" id="start_date" name="start_date">
-            
+    
             <label for="end_date">Hasta:</label>
             <input type="date" id="end_date" name="end_date">
-
+    
             <button type="button" class="btn btn-primary" onclick="filterTable()">Filtrar</button>
         </form>
-        <table id="analysisTable">
+        {% if analyses %}
+        <table id="analysisTable" class="styled-table">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -46,18 +43,14 @@
                 {% for analysis in analyses %}
                 <tr>
                     <td>{{ analysis.nombre }}</td>
-                    <td>{{ analysis.codigo|truncatechars:50 }}</td> <!-- Muestra solo una porción del código -->
+                    <td title="{{ analysis.codigo }}">{{ analysis.codigo|truncatechars:50 }}</td>
                     <td>{{ analysis.fileName }}</td>
                     <td>{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
-                    <td data-date="{{ analysis.analysisTime|date:'Y-m-d' }}">{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
-                    <td>
-                        <a href="{% url 'eliminar_reporte' analysis.id %}" class="btn btn-danger" 
-                           onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
-                           Eliminar
-                        </a>
-                    </td>
-                    <td>
-                        <button onclick="descargarContenido('{{ analysis.codigo }}')" class="btn btn-warning">
+                    <td class="actions-container">
+                        <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                            Eliminar
+                        </button>
+                        <button class="btn btn-warning" onclick="descargarContenido('{{ analysis.codigo }}')">
                             Descargar HTML
                         </button>
                     </td>
@@ -66,68 +59,12 @@
             </tbody>
         </table>
         {% else %}
-        <p>No tienes análisis realizados aún.</p>
+        <p class="no-analyses-message">No tienes análisis realizados aún.</p>
         {% endif %}
+    </div>
     </main>
-    <script>
-        function filterTable() {
-            const startDate = document.getElementById("start_date").value;
-            const endDate = document.getElementById("end_date").value;
 
-            // Convert dates to comparable formats
-            const start = startDate ? new Date(startDate) : null;
-            const end = endDate ? new Date(endDate) : null;
-
-            const rows = document.querySelectorAll("#analysisTable tbody tr");
-
-            rows.forEach(row => {
-                const dateCell = row.querySelector("td[data-date]");
-                const rowDate = new Date(dateCell.getAttribute("data-date"));
-
-                if ((start && rowDate < start) || (end && rowDate > end)) {
-                    row.style.display = "none";
-                } else {
-                    row.style.display = "";
-                }
-            });
-        }
-    </script>
-    <script>
-        function descargarContenido2(fileName, fileContent) {
-
-            // Crear un Blob con el contenido HTML
-            const blob = new Blob([fileContent], { type: 'text/html' });
-
-            // Crear una URL para el Blob
-            const url = URL.createObjectURL(blob);
-
-            // Crear un enlace para descargar el archivo
-            const enlace = document.createElement('a');
-            enlace.href = url;
-            enlace.download = fileName + '.html';
-
-            // Disparar el click en el enlace para iniciar la descarga
-            enlace.click();
-
-            // Liberar el objeto URL después de usarlo
-            URL.revokeObjectURL(url);
-        }
-    </script>
-    <script>
-        function descargarContenido(fileName) {
-            // Crear la URL para descargar el archivo desde Django
-            fileName = String(fileName).split('/')[0]
-            const url = `/descargar/${fileName}`;
-
-            // Crear un enlace para descargar el archivo
-            const enlace = document.createElement('a');
-            enlace.href = url;
-            enlace.download = fileName;
-
-            // Disparar el click en el enlace para iniciar la descarga
-            enlace.click();
-        }
-    </script>
 </body>
+
 </html>
 {% endblock %}
