@@ -1,0 +1,208 @@
+/* Vista principal */
+.history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.history-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Formulario */
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.filter-form input[type="date"] {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  max-width: 180px;
+}
+
+.filter-form button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabla */
+.styled-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.styled-table th {
+  background-color: #b9b9b9;
+  color: white;
+}
+
+/* Botones en la tabla (vista de pantalla grande) */
+.actions-container {
+  display: flex;
+  flex-direction: column; /* Coloca los botones en columna */
+  gap: 10px; /* Espaciado vertical entre botones */
+  align-items: center; /* Centra los botones horizontalmente */
+}
+
+.btn {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px; /* Mismo ancho para ambos botones */
+  text-align: center;
+}
+
+.btn-danger {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #d32f2f;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-warning:hover {
+  background-color: #ffb300;
+}
+
+/* Responsividad */
+@media only screen and (max-width: 768px) {
+  /* Formulario: Alinear "Desde" y "Hasta" a la izquierda */
+  .filter-form {
+    flex-direction: column;
+    align-items: flex-start; /* Mantén los elementos alineados a la izquierda */
+    gap: 10px;
+  }
+
+  .filter-form label,
+  .filter-form input,
+  .filter-form button {
+    width: 100%; /* Elementos ocupan todo el ancho */
+  }
+
+  /* Centrando inputs "date" en la vista de tarjetas */
+  .analysis-cards .filter-form {
+    display: flex;
+    flex-direction: column; /* Mantén los elementos en columna */
+    align-items: center; /* Centra horizontalmente */
+    justify-content: center; /* Centra verticalmente */
+    gap: 10px; /* Espaciado entre los elementos */
+    text-align: center; /* Centra el texto de las etiquetas */
+  }
+
+  .analysis-cards .filter-form label {
+    text-align: center; /* Asegura que las etiquetas estén centradas */
+    width: 100%; /* Opcional: Ajusta el ancho para alinearlo */
+  }
+
+  .analysis-cards .filter-form input[type="date"] {
+    text-align: center; /* Centra el texto dentro del input */
+    max-width: 200px; /* Controla el ancho máximo */
+    margin: 0 auto; /* Centra el input dentro del contenedor */
+  }
+
+  .analysis-cards .filter-form button {
+    margin-top: 10px; /* Agrega separación superior */
+  }
+
+  /* Ocultar tabla y mostrar tarjetas */
+  .styled-table {
+    display: none;
+  }
+
+  .analysis-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card-actions {
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  nav {
+    display: none;
+  }
+
+  nav.active {
+    display: block;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  header {
+    grid-template-columns: 10% 1fr;
+    grid-template-rows: auto auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+  }
+
+  main {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main-content" "nav";
+    margin-top: 80px;
+  }
+}
+@media only screen and (min-width: 769px) {
+  .analysis-cards {
+    display: none; /* Oculta el contenedor de tarjetas */
+  }
+}

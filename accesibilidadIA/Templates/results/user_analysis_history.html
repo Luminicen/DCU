@@ -29,6 +29,7 @@
             <button type="button" class="btn btn-primary" onclick="filterTable()">Filtrar</button>
         </form>
         {% if analyses %}
+        <!-- Tabla para pantallas grandes -->
         <table id="analysisTable" class="styled-table">
             <thead>
                 <tr>
@@ -58,9 +59,30 @@
                 {% endfor %}
             </tbody>
         </table>
+        
+        <!-- Tarjetas para pantallas pequeñas -->
+        <div class="analysis-cards">
+            {% for analysis in analyses %}
+            <div class="card">
+                <div class="card-item"><strong>Nombre:</strong> {{ analysis.nombre }}</div>
+                <div class="card-item"><strong>Ubicación:</strong> {{ analysis.codigo|truncatechars:50 }}</div>
+                <div class="card-item"><strong>Archivo:</strong> {{ analysis.fileName }}</div>
+                <div class="card-item"><strong>Fecha del Análisis:</strong> {{ analysis.analysisTime|date:"d/m/Y H:i" }}</div>
+                <div class="card-actions">
+                    <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                        Eliminar
+                    </button>
+                    <button class="btn btn-warning" onclick="descargarContenido('{{ analysis.codigo }}')">
+                        Descargar HTML
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
         {% else %}
         <p class="no-analyses-message">No tienes análisis realizados aún.</p>
         {% endif %}
+        
     </div>
     </main>
 

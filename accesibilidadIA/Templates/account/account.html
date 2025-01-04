@@ -13,10 +13,11 @@
 {% block content %}
 {% load static %}
 {% csrf_token %}
-<div class="settings-container">
-    <h2>Configuracion de cuenta</h2>
-    <div class="font-container">
-        <a href="{% url 'cambioContra' %}" class="btn btn-primary">Cambiar Contraseña</a>
+<div class="account-container">
+    <h2>Configuración de cuenta</h2>
+    <div class="pass-container">
+        <a href="{% url 'cambioContra' %}" class="btn btn-primary" aria-label="Cambia tu contraseña actual por una nueva">Cambiar Contraseña</a>
+        <p class="description">Haz clic en el botón para actualizar tu contraseña.</p>
     </div>
 </div>
 

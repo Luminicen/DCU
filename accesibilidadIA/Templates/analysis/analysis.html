@@ -24,6 +24,12 @@
             {% include 'analysis/steps/preview.html' %}
         </div>
 
+        <div id="loading-modal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="loading-text">
+            <div class="modal-content">
+                <p id="loading-text">Analizando archivo... Por favor, aguarde un momento. Este proceso puede tardar varios minutos.</p>
+            </div>
+        </div>
+
         <div class="indicators">
             <div class="nav-button-container">
                 <button id="prevBtn" class="nav-button material-icons" aria-label="Botón de vista anterior">arrow_back</button>
