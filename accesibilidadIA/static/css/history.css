@@ -40,14 +40,17 @@
   font-size: 0.9rem;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #085fbc;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-weight: bold
 }
 
 .filter-form button:hover {
-  background-color: #0056b3;
+  background-color: #08478b;
+  color: white;
+  font-weight: bold
 }
 
 
@@ -85,21 +88,27 @@
 }
 
 .btn-danger {
-  background-color: #f44336;
+  background-color: #c3362c;
   color: white;
+  font-weight: bold
 }
 
 .btn-danger:hover {
-  background-color: #d32f2f;
+  background-color: #a11b1b;
+  color: white;
+  font-weight: bold
 }
 
 .btn-warning {
-  background-color: #ffc107;
-  color: black;
+  background-color: #0751d2;
+  color: white;
+  font-weight: bold
 }
 
 .btn-warning:hover {
-  background-color: #ffb300;
+  background-color: #0a21ca;
+  color: white;
+  font-weight: bold
 }
 
 /* Responsividad */
