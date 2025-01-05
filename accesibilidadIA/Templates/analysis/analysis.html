@@ -16,7 +16,7 @@
 {% block content %}
 
 <div class="scroll-main-container">
-    <form method="post" enctype="multipart/form-data" id="analysis-form" action="{% url 'analysis' %}">
+    <form method="POST" enctype="multipart/form-data" id="analysis-form" action="{% url 'analysis' %}">
         {% csrf_token %}
         <div class="scroll-content-container" id="scroll-content-container">
             {% include 'analysis/steps/load.html' %}

@@ -53,6 +53,7 @@ def eliminar_reporte(request, reporte_id):
 #analysis fun
 @login_required
 def analysis(request):
+    print("entre", request.method )
     if request.method == 'POST':
         analysis_name = request.POST.get('analysis-name')
         description = request.POST.get('description')
@@ -91,7 +92,7 @@ def analysis(request):
 
         else:
             return HttpResponse('No se ha subido ningún archivo')
-
+        
     return render(request, "analysis/analysis.html")
 
 def solicitud_ia(codigo,filtro):
