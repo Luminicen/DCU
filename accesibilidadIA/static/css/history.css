@@ -99,14 +99,14 @@
   font-weight: bold
 }
 
-.btn-warning {
-  background-color: #0751d2;
+.btn-info {
+  background-color: #1b7b98;
   color: white;
   font-weight: bold
 }
 
-.btn-warning:hover {
-  background-color: #0a21ca;
+.btn-info:hover {
+  background-color: #0e5d74;
   color: white;
   font-weight: bold
 }
