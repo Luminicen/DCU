@@ -127,12 +127,6 @@ header {
     color: var(--highlight-contrast);
 }
 
-.upload-button, .start-button {
-    border-color: var(--highlight-contrast);
-    background-color: var(--button-bg-contrast);
-    color: var(--button-text-contrast);
-}
-
 .upload-button:hover {
     border-color: var(--highlight-contrast);
     background-color: var(--highlight-contrast);
@@ -144,11 +138,17 @@ header {
 }
 
 .upload-button {
+    border: 4px solid;
     border-color: #1d94af;
+    background-color: var(--button-bg-contrast);
+    color: var(--button-text-contrast);
 }
 
 .start-button {
+    border: 4px solid;
     border-color: #8BC34A;
+    background-color: var(--button-bg-contrast);
+    color: var(--button-text-contrast);
 }
 
 .start-button:hover {

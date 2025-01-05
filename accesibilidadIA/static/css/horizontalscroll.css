@@ -62,28 +62,17 @@ body {
     cursor: pointer;
 }
 
-/* .upload-content-container.dragover {
-    border-color: #1d94af;
-    background-color: #e0f7fa;
-} */
-
 .upload-icon {
     font-family: 'Material Icons';
     content: 'upload_file';
     font-size: 3.125rem;
-/*     color: #555;
-    transition: color 0.3s; */
 }
 
-/* .upload-content-container:hover .upload-icon {
-    color: #308a40;
-} */
 
 .upload-button, .start-button {
     display: inline-block;
     padding: 10px 20px;
     font-size: 1rem;
-    border: 4px solid;
     border-radius: 5px;
     text-align: center;
     text-decoration: none;
@@ -91,32 +80,11 @@ body {
     font-weight: bold;
 }
 
-/*  .upload-button:hover {
-    border-color: #1d94af;
-    background-color: #1d94af;
-    color: white;
-}  */
-
 .upload-text {
     margin-top: 10px;
     font-size: 1rem;
-   /*  color: #555; */
     text-align: center;
 }
-
-/* .upload-button {
-    border-color: #1d94af;
-} */
-
-/* .start-button {
-    border-color: #8BC34A;
-} */
-
-/* .start-button:hover {
-    border-color: #1a7734;
-    background-color: #1a7734;
-    color: white;
-} */
 
 #file-input {
     display: none;
@@ -131,7 +99,6 @@ body {
     font-weight: bold;
     margin-bottom: 8px;
     display: block;
-    /* color: #555; */
 }
 
 .form-group input[type="text"],
@@ -139,28 +106,18 @@ body {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
-    /* border: 1px solid #ccc; */
     border-radius: 5px;
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.3s;
 }
 
-/* .form-group input[type="text"]:focus,
-.form-group textarea:focus {
-    border-color: #25c2e5;
-} */
-
-/*scroll preferences*/
-
 .analysis-preference-container {
     padding: 20px;
     width: 80%;
     max-width: 800px;
     margin: 0 auto;
-    /* background-color: #fff; */
     border-radius: 10px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
 .add-filter-container {
@@ -188,8 +145,6 @@ body {
     padding: 12px 24px;
     font-size: 1rem;
     border-radius: 5px;
-    /* background-color: #308a40; */
-    /* color: white; */
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -217,9 +172,7 @@ body {
     width: 80%;
     max-width: 800px;
     margin: 0 auto;
-   /*  background-color: #fff; */
     border-radius: 10px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
 .analysis-preview-container .form-group {
@@ -231,16 +184,12 @@ body {
     font-weight: bold;
     margin-bottom: 8px;
     display: block;
-    /* color: #555; */
 }
 
 .analysis-preview-container .preview-field {
-    /* background-color: #f9f9f9; */
     padding: 10px 15px;
-    /* border: 1px solid #ccc; */
     border-radius: 5px;
     font-size: 1rem;
-    /* color: #555; */
     margin-bottom: 15px;
     line-height: 1.5;
 }
@@ -253,12 +202,9 @@ body {
 }
 
 .preview-field {
-    /* background-color: #f9f9f9; */
     padding: 10px 15px;
-    /* border: 1px solid #ccc; */
     border-radius: 5px;
     font-size: 1rem;
-    /* color: #555; */
     margin-bottom: 15px;
     line-height: 1.5;
 }
@@ -289,17 +235,12 @@ body {
 .indicators .dot {
     width: 15px;
     height: 15px;
-   /*  background-color: #bbb; */
     border-radius: 50%;
     display: inline-block;
     margin: 0 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
-/* .indicators .dot.active {
-    background-color: #1259a5; 
-} */
 
 .nav-button-container {
     display: flex;
@@ -316,13 +257,8 @@ body {
     transition: color 0.3s ease;
 }
 
-/* .nav-button:hover {
-    color: #1259a5;
-} */
-
 .nav-label {
     font-size: 0.9rem;
-    /* color: #555; */
     margin-top: 5px;
     text-align: center;
 }
@@ -336,20 +272,17 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* background: rgba(0, 0, 0, 0.5); */
     z-index: 1000;
     justify-content: center;
     align-items: center;
 }
 
 .modal-content {
-   /*  background: white; */
     padding: 2rem;
     border-radius: 8px;
     text-align: center;
     max-width: 500px;
     width: 90%;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
 @media only screen and (max-width: 1024px) {

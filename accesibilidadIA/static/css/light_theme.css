@@ -64,7 +64,7 @@ header {
 
 /* Historial */
 .history-container {
-    background-color: var(--background-light);
+    background-color: var(--sidebar-bg-light);
 }
 
 .history-container h2 {
@@ -87,7 +87,7 @@ header {
 
 /*account*/
 .account-container {
-    background-color: var(--background-light);
+    background-color: var(--sidebar-bg-light);
 }
 
 .account-container h2 {
@@ -108,7 +108,7 @@ header {
 
 .upload-content-container:hover {
     border-color: var(--highlight-light);
-    background-color: #444;
+    background-color: #c6ded9;
 }
 
 .upload-content-container.dragover {
@@ -134,7 +134,7 @@ header {
 .upload-button:hover {
     border-color: var(--highlight-light);
     background-color: var(--highlight-light);
-    color: var(--text-light);
+    color: white
 }
 
 .upload-text {
@@ -142,17 +142,19 @@ header {
 }
 
 .upload-button {
+    border: 4px solid;
     border-color: #1d94af;
 }
 
 .start-button {
+    border: 4px solid;
     border-color: #8BC34A;
 }
 
 .start-button:hover {
     border-color: var(--hover-light);
     background-color: var(--hover-light);
-    color: var(--text-light);
+    color: white
 }
 
 .form-group label {

@@ -148,11 +148,13 @@ header {
 }
 
 .upload-button {
-    border-color: #1d94af;
+    border: 4px solid;
+    border-color: white;
 }
 
 .start-button {
-    border-color: #8BC34A;
+    border: 4px solid;
+    border-color: white;
 }
 
 .start-button:hover {
