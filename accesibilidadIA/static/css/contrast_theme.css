@@ -1,95 +1,246 @@
+:root {
+    --background-contrast: #292929;
+    --header-contrast: #131313;
+    --text-contrast: #e0e0e0;
+    --sidebar-bg-contrast: #1e1e1e;
+    --sidebar-text-contrast: #e0e0e0;
+    --button-bg-contrast: #e0e0e0;
+    --button-text-contrast: #121212;
+    --border-contrast: #555;
+    --highlight-contrast: #1d94af;
+    --hover-contrast: #1a7734;
+    --icon-contrast: #e0e0e0;
+    --indicator-active-contrast: #1259a5;
+    --indicator-inactive-contrast: #bbb;
+    --form-bg-contrast: #1e1e1e;
+    --form-text-contrast: #e0e0e0;
+}
+
 body {
-    background-color: #121212; 
-    color: #e0e0e0; 
+    background-color: var(--background-contrast);
+    color: var(--text-contrast);
 }
 
 header {
-    background-color: #1f1f1f; 
-    color: #e0e0e0; 
+    background-color: var(--header-contrast);
 }
 
-h2 {
-    color: #ffffff; 
+.icon-menu{
+    color: var(--sidebar-text-contrast);
 }
 
 .sidebar {
-    background-color: #1e1e1e; 
-    color: #e0e0e0; 
+    background-color: var(--sidebar-bg-contrast);
+    color: var(--sidebar-text-contrast);
 }
 
 .sidebar li a {
-    color: #e0e0e0; 
+    color: var(--sidebar-text-contrast);
 }
 
-.logout {
-    color: #e0e0e0; 
+.logout{
+    color: var(--sidebar-text-contrast);
 }
 
 .upload-content-container {
-    border: 2px dashed #666666; 
-    background-color: #2c2c2c; 
-    color: #e0e0e0; 
+    background-color: var(--button-bg-contrast);
+    color: var(--button-text-contrast);
 }
 
 .upload-content-container:hover {
-    border-color: #999999; 
+    border-color: var(--text-contrast);
 }
 
-.upload-icon {
-    color: #e0e0e0; 
+.upload-button, .start-button {
+    background-color: var(--button-bg-contrast);
+    color: var(--button-text-contrast);
 }
 
-.upload-text {
-    color: #e0e0e0; 
-}
-
-.upload-button {
-    color: #121212; 
-    background-color: #e0e0e0; 
+.upload-button:hover, .start-button:hover {
+    border-color: var(--text-contrast);
 }
 
 .start-button {
-    color: #121212; 
-    background-color: #e0e0e0; 
+    background-color: var(--button-bg-contrast);
+    color: var(--button-text-contrast);
 }
 
-.nav-button {
-    color: #e0e0e0; 
-    background-color: #1e1e1e; 
+/* Historial */
+.history-container {
+    background-color: var(--sidebar-bg-contrast);
+}
+
+.history-container h2 {
+    color: var(--text-contrast);
+}
+
+.styled-table th {
+    background-color: var(--header-contrast);
+    color: var(--text-contrast);
+}
+
+.card{
+    background-color: var(--background-contrast);
+}
+
+/*home*/
+.welcome-container h2 {
+    color: var(--text-contrast);
+}
+
+/*account*/
+.account-container {
+    background-color: var(--sidebar-bg-contrast);
+}
+
+.account-container h2 {
+    color: var(--text-contrast);
+}
+
+.description {
+    color: var(--text-contrast);
+}
+
+/*scroll analisis*/
+.upload-content-container {
+    border: 2px dashed var(--border-contrast);
+    background-color: var(--sidebar-bg-contrast);
+    color: var(--form-text-contrast);
+}
+
+.upload-content-container:hover {
+    border-color: var(--highlight-contrast);
+    background-color: #444;
+}
+
+.upload-content-container.dragover {
+    border-color: #1d94af;
+    background-color: #e0f7fa;
+}
+
+.upload-icon {
+    color: var(--icon-contrast);
+    transition: color 0.3s;
+}
+
+.upload-content-container:hover .upload-icon {
+    color: var(--highlight-contrast);
+}
+
+.upload-button, .start-button {
+    border-color: var(--highlight-contrast);
+    background-color: var(--button-bg-contrast);
+    color: var(--button-text-contrast);
+}
+
+.upload-button:hover {
+    border-color: var(--highlight-contrast);
+    background-color: var(--highlight-contrast);
+    color: var(--text-contrast);
+}
+
+.upload-text {
+    color: var(--text-contrast);
+}
+
+.upload-button {
+    border-color: #1d94af;
+}
+
+.start-button {
+    border-color: #8BC34A;
+}
+
+.start-button:hover {
+    border-color: var(--hover-contrast);
+    background-color: var(--hover-contrast);
+    color: var(--text-contrast);
+}
+
+.form-group label {
+    color: var(--text-contrast);
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    background-color: var(--form-bg-contrast);
+    color: var(--form-text-contrast);
+    border: 1px solid var(--border-contrast);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: var(--highlight-contrast);
+}
+
+.checkbox-group label {
+    color: var(--text-contrast);
+}
+
+/*scroll preferences*/
+.analysis-preference-container {
+    background-color: var(--sidebar-bg-contrast);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-filter-button {
+    background-color: #308a40;
+    color: white;
+}
+
+/*scroll preview*/
+.analysis-preview-container {
+    background-color: var(--sidebar-bg-contrast);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-preview-container .form-group label {
+    color: var(--text-contrast);
+}
+
+.analysis-preview-container .preview-field {
+    background-color: var(--form-bg-contrast);
+    border: 1px solid var(--border-contrast);
+    color: var(--form-text-contrast);
+}
+
+.preview-field {
+    background-color: var(--form-bg-contrast);
+    border: 1px solid var(--border-contrast);
+    color: var(--form-text-contrast);
+}
+
+/*nav scroll*/
+.indicators .dot {
+    background-color: var(--indicator-inactive-contrast);
+}
+
+.indicators .dot.active {
+    background-color: var(--indicator-active-contrast);
+}
+
+.nav-button:hover {
+    color: #1259a5;
 }
 
 .nav-label {
-    color: #e0e0e0; 
+    color: var(--text-contrast);
 }
 
-.menu-button {
-    color: white;
+.nav-button {
+    color: var(--text-contrast);
 }
 
-.icon-menu::before {
-    color: white;
-}   
-
-.resultado {
-    background-color: #2c2c2c;
+/*loading*/
+.modal {
+    background: rgba(0, 0, 0, 0.5);
 }
 
-.resultado p {
-    color: #e0e0e0;
-    background-color: #2c2c2c;
+.loading-text {
+    color: var(--text-contrast)
 }
 
-.page-subtitle {
-    color: #e0e0e0;
-}
-
-.resultado h3 {
-    color: #e0e0e0;
-}
-
-@media only screen and (max-width: 1024px) {
-  
-    nav.active {
-      background-color: #1e1e1e;
-    }
+.modal-content {
+    background: var(--sidebar-bg-contrast);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

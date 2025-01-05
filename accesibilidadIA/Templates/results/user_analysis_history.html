@@ -29,7 +29,7 @@
             <button type="button" class="btn btn-primary" onclick="filterTable()">Filtrar</button>
         </form>
         {% if analyses %}
-        <!-- Tabla para pantallas grandes -->
+
         <table id="analysisTable" class="styled-table">
             <thead>
                 <tr>
@@ -60,7 +60,7 @@
             </tbody>
         </table>
         
-        <!-- Tarjetas para pantallas pequeñas -->
+        
         <div class="analysis-cards">
             {% for analysis in analyses %}
             <div class="card">

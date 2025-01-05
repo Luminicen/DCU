@@ -1,9 +1,7 @@
-/* Vista principal */
 .history-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -12,10 +10,8 @@
 .history-container h2 {
   font-size: 2rem;
   margin-bottom: 20px;
-  color: #333;
 }
 
-/* Formulario */
 .filter-form {
   display: flex;
   flex-wrap: wrap;
@@ -54,8 +50,9 @@
   background-color: #0056b3;
 }
 
-/* Tabla */
+
 .styled-table {
+  min-width: 800px;
   width: 100%;
   max-width: 100%;
   border-collapse: collapse;
@@ -70,17 +67,11 @@
   border-bottom: 1px solid #ddd;
 }
 
-.styled-table th {
-  background-color: #b9b9b9;
-  color: white;
-}
-
-/* Botones en la tabla (vista de pantalla grande) */
 .actions-container {
   display: flex;
-  flex-direction: column; /* Coloca los botones en columna */
-  gap: 10px; /* Espaciado vertical entre botones */
-  align-items: center; /* Centra los botones horizontalmente */
+  flex-direction: column; 
+  gap: 10px; 
+  align-items: center; 
 }
 
 .btn {
@@ -89,7 +80,7 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: 120px; /* Mismo ancho para ambos botones */
+  width: 120px; 
   text-align: center;
 }
 
@@ -113,45 +104,43 @@
 
 /* Responsividad */
 @media only screen and (max-width: 768px) {
-  /* Formulario: Alinear "Desde" y "Hasta" a la izquierda */
   .filter-form {
     flex-direction: column;
-    align-items: flex-start; /* Mantén los elementos alineados a la izquierda */
+    align-items: flex-start; 
     gap: 10px;
   }
 
   .filter-form label,
   .filter-form input,
   .filter-form button {
-    width: 100%; /* Elementos ocupan todo el ancho */
+    width: 100%; 
   }
 
-  /* Centrando inputs "date" en la vista de tarjetas */
+
   .analysis-cards .filter-form {
     display: flex;
-    flex-direction: column; /* Mantén los elementos en columna */
-    align-items: center; /* Centra horizontalmente */
-    justify-content: center; /* Centra verticalmente */
-    gap: 10px; /* Espaciado entre los elementos */
-    text-align: center; /* Centra el texto de las etiquetas */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    gap: 10px; 
+    text-align: center;
   }
 
   .analysis-cards .filter-form label {
-    text-align: center; /* Asegura que las etiquetas estén centradas */
-    width: 100%; /* Opcional: Ajusta el ancho para alinearlo */
+    text-align: center; 
+    width: 100%; 
   }
 
   .analysis-cards .filter-form input[type="date"] {
-    text-align: center; /* Centra el texto dentro del input */
-    max-width: 200px; /* Controla el ancho máximo */
-    margin: 0 auto; /* Centra el input dentro del contenedor */
+    text-align: center; 
+    max-width: 200px; 
+    margin: 0 auto; 
   }
 
   .analysis-cards .filter-form button {
-    margin-top: 10px; /* Agrega separación superior */
+    margin-top: 10px; 
   }
 
-  /* Ocultar tabla y mostrar tarjetas */
   .styled-table {
     display: none;
   }
@@ -203,6 +192,6 @@
 }
 @media only screen and (min-width: 769px) {
   .analysis-cards {
-    display: none; /* Oculta el contenedor de tarjetas */
+    display: none; 
   }
 }

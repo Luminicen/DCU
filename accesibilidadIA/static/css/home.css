@@ -10,7 +10,6 @@
   .welcome-container h2 {
     margin: 0;
     font-size: 2rem;
-    color: #333;
   }
   
   @media (max-width: 768px) {
