@@ -41,7 +41,7 @@ def register(request):
 
 @login_required
 def eliminar_reporte(request, reporte_id):
-    if request.method == "POST":
+    if request.method == "GET":
         reporte = get_object_or_404(Reporte, id=reporte_id)
         reporte.delete()
         messages.success(request, f"El reporte '{reporte.nombre}' ha sido eliminado con éxito.")
