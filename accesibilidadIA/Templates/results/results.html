@@ -4,8 +4,6 @@
 
 {% block head %}
     {{ super }}
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 {% endblock %}
 {% block header %}
 <div class="title-container">
@@ -24,10 +22,13 @@
                 <p>{{ resultado.descripcion }}</p>
             </div>
         {% endfor %}
+        <div id="loading-modal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="loading-text">
+            <div class="modal-content">
+                <p id="loading-text">
+                    Analizando linea de código... Por favor, aguarde un momento. Este proceso puede tardar varios minutos.
+                </p>
+            </div>
+        </div>
     </div>
-    <script>
-        function redirigir(analysis_id, file_name, error_name) {
-            window.location.href = `/analizador/error_result/${analysis_id}/${file_name}/${error_name}`;
-        }
-    </script>
+
 {% endblock %}
