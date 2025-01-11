@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Resultados > Mi Aplicación > Error{% endblock %}
+{% load static %}
 
-{% block head %}
-    {{ super }}
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% block title %}
+Resultados > Resultados del análisis > Errores detectados
 {% endblock %}
 
 {% block header %}
@@ -21,6 +19,14 @@
             <!-- Cabecera del Modal -->
             <div class="card-header">
                 <h4 class="modal-title">Corrección de Código</h4>
+            </div>
+
+            <div id="loading-modal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="loading-text">
+                <div class="modal-content">
+                    <p id="loading-text">
+                        Analizando archivo... Por favor, aguarde un momento. Este proceso puede tardar varios minutos.
+                    </p>
+                </div>
             </div>
 
             <!-- Cuerpo del Modal -->
