@@ -3,7 +3,7 @@ from openai import OpenAI
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
-from .forms import Registro, ReporteForm
+from .forms import Registro, ReporteForm, UsernameForm, PasswordResetForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 import json
@@ -14,6 +14,10 @@ from .models import Reporte
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from django.contrib.auth.forms import PasswordChangeForm
+import os
 
 @login_required
 def index(request):
@@ -35,14 +39,31 @@ def register(request):
         form = Registro()
     return render(request, 'registration/registerForm.html', {'form': form})
 
+@login_required
+def eliminar_reporte(request, reporte_id):
+    if request.method == "POST":
+        reporte = get_object_or_404(Reporte, id=reporte_id)
+        reporte.delete()
+        messages.success(request, f"El reporte '{reporte.nombre}' ha sido eliminado con éxito.")
+        return redirect('user_analysis_history')
+    else:
+        messages.error(request, "Método no permitido.")
+        return redirect('user_analysis_history')
+
 #analysis fun
 @login_required
 def analysis(request):
+    print("entre", request.method )
     if request.method == 'POST':
         analysis_name = request.POST.get('analysis-name')
         description = request.POST.get('description')
         file = request.FILES.get('file-input')
-
+        errores_usabilidad = request.POST.getlist('usability-errors')
+        filtro = ""
+        if errores_usabilidad:
+            filtro = "quiero ver solo errores de usabilidad del tipo: "
+        for i in errores_usabilidad:
+            filtro = filtro + i+", "
         if file:
             from .models import Reporte
             print(file)
@@ -56,34 +77,38 @@ def analysis(request):
             form.codigo = file
             form.fileName = file.name
             form.save()
+            analysis_id = form.id
+            print('ID', analysis_id)
 
-            ans = solicitud_ia(file_content)
+            ans = solicitud_ia(file_content,filtro)
             request.session['mi_dato'] = str(ans)
 
             # Added the filename to the URL
             file_name = file.name
             url = reverse('results')
-            query_params = urlencode({'file_name': file_name})
+            query_params = urlencode({'file_name': file_name, 'analysis_id': analysis_id})
             full_url = f"{url}?{query_params}"
             return redirect(full_url)
 
         else:
             return HttpResponse('No se ha subido ningún archivo')
-
+        
     return render(request, "analysis/analysis.html")
 
-def solicitud_ia(codigo):
+def solicitud_ia(codigo,filtro):
+    prompt = """
+    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: Output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
+    respetame el output y los errores tienen que ser en español.Respeta solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|'y  ademas  """
     client = OpenAI(base_url="http://localhost:1234/v1", api_key="lm-studio")
     completion = client.chat.completions.create(
     model="model-identifier",
     messages=[
-    {"role": "system", "content": """
-    Eres una IA experta en análisis de código HTML. Tu tarea es recibir código HTML, analizarlo y solamente devolver una cadena con errores en español detectados. Antes de poner la cadena poner 'output:'. La cadena tiene que listar los errores con su ubicacion en nro de linea separados por el delimitador '|', por ejemplo: Output: se detecto que falta un alt en la imagen x Linea 43 | no cumple con la estructura aria Linea 75
-    respetame el output y los errores tienen que ser en español"""},
+    {"role": "system", "content": prompt + filtro},
     {"role": "user", "content": codigo}
     ] ,
     temperature=0.7,
     )
+    print(completion)
     # Extract the content from the message
     ans = completion.choices[0].message
 
@@ -111,7 +136,7 @@ def merge_code_ai(input_html, error_description):
     model="model-identifier",
     messages=[
     {"role": "system", "content": """
-    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me devuelves el mismo código HTML pero con el error corregido."""},
+    Eres una IA experta en análisis de código HTML y te voy a dar un archivo HTML para analizar. De ese archivo HTML que te pase, analizalo y corregi el siguiente error de codigo: """ + error_description + """. En base a tu analis quiero que me devuelves el mismo código HTML pero con el error corregido. Quiero que tu respuesta sea solo el código HTML, no agregues ningún tipo de información adicional."""},
     {"role": "user", "content": input_html}
     ] ,
     temperature=0.7,
@@ -123,46 +148,76 @@ def merge_code_ai(input_html, error_description):
 
     return ans
 
-def update_html(request, file_name, error_to_correct):
-    if request.method == 'POST':
+def update_html(request, analysis_id, detected_error):
+    #analysis_id = request.POST.get('analysis_id')
+    #error_to_correct = request.POST.get('error_to_correct')
+    error_to_correct = detected_error
+    print("\n\n\nUPDATE HTML RENDER\n\n\n")
+    print(f"\n\n analysis_id = {analysis_id} \n\n")
+    print(f"\n\n detected_error = {detected_error} \n\n")
+    if request.method == 'GET':
         try:
-            # Recuperar el reporte por fileName
-            reporte = Reporte.objects.get(fileName=file_name, usuario=request.user)
+            # Recuperar el reporte por ID
+            reporte = Reporte.objects.get(id=analysis_id)
 
-                # Acceder al archivo y leer su contenido
+            # Acceder al archivo y leer su contenido
             with open(reporte.codigo.path, 'r') as archivo:
                 file_content = archivo.read()
 
         except ObjectDoesNotExist:
-            return HttpResponse(f'El reporte del archivo {file_name} no existe.')
+            return HttpResponse(f'El archivo del reporte no existe.')
         except FileNotFoundError:
-            return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
+            return HttpResponse(f'El archivo del reporte no se encuentra en la ruta especificada.')
 
         fixed_code = str(merge_code_ai(file_content, error_to_correct))
 
         print('CODIGO ARREGLADO BEGIN\n', fixed_code, 'CODIGO ARREGLADO END\n')
 
-        # Actualiza el campo aquí
-        reporte.codigo = fixed_code
-        reporte.save()
+        # Actualizo el contenido del archivo con el codigo corregido
+        with open(reporte.codigo.path, 'w') as file:
+            file.write(fixed_code)
         
-        # Deberia llamar devuelta al prompt con el nuevo archivo
+        # Debe llamar devuelta al prompt con el nuevo archivo
 
-        # Added the filename to the URL
+        # Actualizo el codigo con el nuevo codigo corregido
         request.session['mi_dato'] = fixed_code
+
+        # Vuelvo a la pantalla de resultados
         url = reverse('results')
-        query_params = urlencode({'file_name': file_name})
-        full_url = f"{url}?{query_params}"
-        return redirect(full_url)
+        #query_params = urlencode({'file_name': file_name})
+        #full_url = f"{url}?{query_params}"
+        return redirect(url)
     output = None
-    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+    return render(request, 'results/results.html', {'resultados': output})
+
+def descargar_contenido(request, file_name):
+    # Ruta completa al archivo en el sistema de archivos (ajusta según tu proyecto)
+    file_path = os.path.join('media/archivos_analisis', file_name)
+
+    print('Full Path of File ' + file_path)
+
+    # Verificar si el archivo existe
+    if not os.path.exists(file_path):
+        return HttpResponse("El archivo no existe.", status=404)
+
+    # Leer el contenido del archivo
+    with open(file_path, 'r') as file:
+        file_content = file.read()
+
+    # Crear la respuesta HTTP para descargar el archivo
+    response = HttpResponse(file_content, content_type='text/html')
+    response['Content-Disposition'] = f'attachment; filename={file_name}'
+
+    return response
 
 #result fun
 def results(request):
 
     file_name = request.GET.get('file_name')
+    analysis_id = request.GET.get('analysis_id')
 
     print("The filename is ", file_name)
+    print("The ID is ", analysis_id)
 
     resultados_lista = [
         {
@@ -185,11 +240,10 @@ def results(request):
             'titulo': 'Linea 211: Falta de descripción en el botón de navegación',
             'descripcion': 'El botón de navegación en la línea 211 no incluye un `aria-label` o `title`, lo que puede ser problemático para los usuarios que utilizan tecnologías asistivas para navegar por el sitio.'
         }
-        
     ]
     mi_dato = request.session.get('mi_dato')
     print("LISTO")
-    print("inicio dato: ", mi_dato, " fin dato.")
+    print("inicio dato:\n", mi_dato, "\nfin dato.")
     # Expresión regular para extraer las frases específicas
     pattern = r'output:\s*(.*?)\.'
     matches = re.findall(pattern, mi_dato, re.DOTALL)
@@ -213,13 +267,11 @@ def results(request):
     if matches:
         extracted_phrases = matches[0].strip()
         phrases_list = [phrase.strip() for phrase in extracted_phrases.split('|')]
-        
 
         for index, phrase in enumerate(phrases_list, start=1):
             linea = re.findall(patternLinea, phrase, re.IGNORECASE)
             z=""
             if linea:
-
                 z = linea[0]
             else:
                 z = "Observacion"
@@ -231,7 +283,7 @@ def results(request):
         print(output)
     else:
         print("No se encontraron frases específicas.")
-    return render(request, 'results/results.html', {'resultados': output, 'file_name': file_name})
+    return render(request, 'results/results.html', {'resultados': output, 'analysis_id': analysis_id, 'file_name': file_name})
 
 def extract_lines(response):
     # Define regex patterns for the original and fixed lines
@@ -251,17 +303,16 @@ def extract_lines(response):
     return original_line, fixed_line
 
 #result fun
-def error_result(request, file_name, detected_error):
+def error_result(request, analysis_id, file_name, detected_error):
 
-    #file_name = request.GET.get('file_name')
-
-    print("The filename is ", file_name)
-
+    print("Error result RENDER")
+    #print("The id is ", analysis_id)
+    #print("The filename is ", file_name)
 
     try:
-        # Recuperar el reporte por fileName
-        reporte = Reporte.objects.get(fileName=file_name)
-        
+        # Recuperar el reporte por ID
+        reporte = Reporte.objects.get(id=analysis_id)
+
         # Acceder al archivo y leer su contenido
         with open(reporte.codigo.path, 'r') as archivo:
             file_content = archivo.read()
@@ -271,7 +322,7 @@ def error_result(request, file_name, detected_error):
     except FileNotFoundError:
         return HttpResponse(f'El archivo {file_name} no se encuentra en la ruta especificada.')
 
-    print("Error " + detected_error + " of file ", "file_name")
+    print("Error " + detected_error + " of file ", file_name)
 
     #find file name
     ans = merge_code_ai_request(file_content, detected_error)
@@ -281,9 +332,11 @@ def error_result(request, file_name, detected_error):
     #return redirect(url)
     print(str(ans))
     (original_code, fixed_code) = extract_lines(str(ans))
+
     # Pasar las variables al contexto de la plantilla
     context = {
-        "detected_error" : detected_error,
+        "analysis_id" : analysis_id,
+        "error_name" : detected_error,
         "file_name" : "str(ans)",
         "original_code" : original_code,
         "fixed_code" : fixed_code
@@ -294,6 +347,9 @@ def error_result(request, file_name, detected_error):
 #settings fun
 def settings(request):
     return render(request, 'settings/settings.html')
+
+def account(request):
+    return render(request, 'account/account.html')
 
 def procesar_resultado(request, resultado_id):
     Resultado = None
@@ -307,12 +363,78 @@ def procesar_resultado(request, resultado_id):
         resultado.estado = estado
         resultado.save()
         
-        # Redirigir a una página de confirmación o de nuevo a la lista de resultados
-        return redirect('resultados')  # Cambia 'resultados' por el nombre de tu vista de resultados
+
+        return redirect('resultados')
     
     return render(request, 'tu_template.html', {'resultado': resultado})
 
+@login_required
+def user_analysis_history(request):
+    # Obtener los análisis del usuario logueado
+    analyses = Reporte.objects.filter(usuario=request.user).order_by('analysisTime')
+    return render(request, 'results/user_analysis_history.html', {'analyses': analyses})
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def cambiar_contraseña(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)  # Mantiene la sesión después del cambio
+            messages.success(request, 'Su contraseña ha sido cambiada exitosamente.')
+            return redirect('cambioContraDone')  # Redirige a la página de confirmación
+        else:
+            messages.error(request, 'Por favor, corrija los errores en el formulario.')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'registration/change_pass.html', {'form': form})
+
+def cambiar_contraseña_hecho(request):
+    return render(request, 'registration/change_pass_done.html')
+
+# Vista para ingresar el nombre de usuario
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = UsernameForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            try:
+                user = User.objects.get(username=username)
+                request.session['user_id'] = user.id  # Guardamos el ID de usuario en la sesión
+                return redirect('set_new_password')
+            except User.DoesNotExist:
+                messages.error(request, "El nombre de usuario no existe.")
+    else:
+        form = UsernameForm()
+    
+    return render(request, 'registration/password_reset_request.html', {'form': form})
+
+# Vista para establecer una nueva contraseña
+def set_new_password(request):
+    if 'user_id' not in request.session:
+        return redirect('password_reset_request')
+
+    user = get_object_or_404(User, id=request.session['user_id'])
+
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            new_password1 = form.cleaned_data['new_password1']
+            new_password2 = form.cleaned_data['new_password2']
+            if new_password1 == new_password2:
+                user.set_password(new_password1)
+                user.save()
+                update_session_auth_hash(request, user)  # Mantiene la sesión activa después del cambio
+                messages.success(request, "Tu contraseña ha sido cambiada exitosamente.")
+                del request.session['user_id']  # Elimina el user_id de la sesión
+                return redirect('login')
+            else:
+                messages.error(request, "Las contraseñas no coinciden.")
+    else:
+        form = PasswordResetForm()
+
+    return render(request, 'registration/set_new_password.html', {'form': form})

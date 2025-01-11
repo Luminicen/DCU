@@ -1,106 +1,252 @@
-body{
-    background-color: #34323b;
-    color:white
+:root {
+    --background-dark: #34323b;
+    --header-dark: #1d1d1f;
+    --text-dark: white;
+    --sidebar-bg-dark: #2b2a30;
+    --sidebar-text-dark: white;
+    --button-bg-dark: #2b2a30;
+    --button-text-dark: white;
+    --border-dark: #555;
+    --highlight-dark: #1d94af;
+    --hover-dark: #1a7734;
+    --icon-dark: #555;
+    --indicator-active-dark: #1259a5;
+    --indicator-inactive-dark: #bbb;
+    --form-bg-dark: #2b2a30;
+    --form-text-dark: white;
 }
 
-nav {
-    background-color: #18171d;
-  }
-
-header{
-    background-color: #2b2a30;
+body {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
 }
 
-h2{
-    color: white;
+header {
+    background-color: var(--header-dark);
+}
+
+.icon-menu{
+    color: var(--sidebar-text-dark);
 }
 
 .sidebar {
-    background-color: #2b2a30;
-    color: white;
+    background-color: var(--sidebar-bg-dark);
+    color: var(--sidebar-text-dark);
 }
 
 .sidebar li a {
-    color: white; 
+    color: var(--sidebar-text-dark);
 }
 
-.logout {
-    color: white; 
-}
-
-
-.upload-content-container {
-    border: 2px dashed #939292;
-    background-color: #2b2a30;
+.logout{
+    color: var(--sidebar-text-dark);
 }
 
 .upload-content-container {
-    border: 2px dashed #939292;
-    background-color: #2b2a30;
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
 }
 
 .upload-content-container:hover {
-    border-color: white;
+    border-color: var(--text-dark);
 }
 
-.upload-content-container.dragover {
-    border-color: #000;
+.upload-button, .start-button {
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
 }
 
-.upload-icon {
-    color: white;
-}
-
-.upload-text {
-    color: white;
-}
-
-.upload-button {
-    color: white;
-    background-color: #2b2a30;
-    border: 4px solid #25c2e5;
+.upload-button:hover, .start-button:hover {
+    border-color: var(--text-dark);
 }
 
 .start-button {
-    color: white;
-    background-color: #2b2a30;
-    border: 4px solid #8BC34A;
-
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
 }
 
-.nav-button {
+/* Historial */
+.history-container {
+    background-color: var(--sidebar-bg-dark);
+}
+
+.history-container h2 {
+    color: var(--text-dark);
+}
+
+.styled-table th {
+    background-color: var(--header-dark);
+    color: var(--text-dark);
+}
+
+.card{
+    background-color: var(--background-dark);
+}
+
+/*home*/
+.welcome-container h2 {
+    color: var(--text-dark);
+}
+
+/*account*/
+.account-container {
+    background-color: var(--sidebar-bg-dark);
+}
+
+.account-container h2 {
+    color: var(--text-dark);
+}
+
+.pass-container {
+    background-color: var(--sidebar-bg-dark);
+}
+
+.description {
+    color: var(--text-dark);
+}
+
+/*scroll analisis*/
+.upload-content-container {
+    border: 2px dashed var(--border-dark);
+    background-color: var(--sidebar-bg-dark);
+    color: var(--form-text-dark);
+}
+
+.upload-content-container:hover {
+    border-color: var(--highlight-dark);
+    background-color: #444;
+}
+
+.upload-content-container.dragover {
+    border-color: #1d94af;
+    background-color: #e0f7fa;
+}
+
+.upload-icon {
+    color: var(--icon-dark);
+    transition: color 0.3s;
+}
+
+.upload-content-container:hover .upload-icon {
+    color: var(--highlight-dark);
+}
+
+.upload-button, .start-button {
+    border-color: var(--highlight-dark);
+    background-color: var(--button-bg-dark);
+    color: var(--button-text-dark);
+}
+
+.upload-button:hover {
+    border-color: var(--highlight-dark);
+    background-color: var(--highlight-dark);
+    color: var(--text-dark);
+}
+
+.upload-text {
+    color: var(--text-dark);
+}
+
+.upload-button {
+    border: 4px solid;
+    border-color: white;
+}
+
+.start-button {
+    border: 4px solid;
+    border-color: white;
+}
+
+.start-button:hover {
+    border-color: var(--hover-dark);
+    background-color: var(--hover-dark);
+    color: var(--text-dark);
+}
+
+.form-group label {
+    color: var(--text-dark);
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    background-color: var(--form-bg-dark);
+    color: var(--form-text-dark);
+    border: 1px solid var(--border-dark);
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    border-color: var(--highlight-dark);
+}
+
+.checkbox-group label {
+    color: var(--text-dark);
+}
+
+/*scroll preferences*/
+.analysis-preference-container {
+    background-color: var(--sidebar-bg-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-filter-button {
+    background-color: #247433;
     color: white;
+}
+
+/*scroll preview*/
+.analysis-preview-container {
+    background-color: var(--sidebar-bg-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-preview-container .form-group label {
+    color: var(--text-dark);
+}
+
+.analysis-preview-container .preview-field {
+    background-color: var(--form-bg-dark);
+    border: 1px solid var(--border-dark);
+    color: var(--form-text-dark);
+}
+
+.preview-field {
+    background-color: var(--form-bg-dark);
+    border: 1px solid var(--border-dark);
+    color: var(--form-text-dark);
+}
+
+/*nav scroll*/
+.indicators .dot {
+    background-color: var(--indicator-inactive-dark);
+}
+
+.indicators .dot.active {
+    background-color: var(--indicator-active-dark);
+}
+
+.nav-button:hover {
+    color: #1259a5;
 }
 
 .nav-label {
-    color: white;
+    color: var(--text-dark);
 }
 
-.indicators .dot {
-    background-color: #bbb;
+.nav-button {
+    color: var(--text-dark);
 }
 
-.menu-button {
-    color: white;
+/*loading*/
+.modal {
+    background: rgba(0, 0, 0, 0.5);
 }
 
-.icon-menu::before {
-    color: white;
-}   
-
-.resultado {
-    background-color: #2b2a30;
+.loading-text {
+    color: var(--text-dark)
 }
 
-.resultado p {
-    color: white;
-    background-color: #2b2a30;
-}
-
-.page-subtitle {
-    color: white;
-}
-
-.resultado h3 {
-    color: white;
+.modal-content {
+    background: var(--sidebar-bg-dark);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

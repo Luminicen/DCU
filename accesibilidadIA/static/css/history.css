@@ -1,0 +1,206 @@
+.history-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.history-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.filter-form input[type="date"] {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  max-width: 180px;
+}
+
+.filter-form button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #085fbc;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold
+}
+
+.filter-form button:hover {
+  background-color: #08478b;
+  color: white;
+  font-weight: bold
+}
+
+
+.styled-table {
+  min-width: 800px;
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.actions-container {
+  display: flex;
+  flex-direction: column; 
+  gap: 10px; 
+  align-items: center; 
+}
+
+.btn {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px; 
+  text-align: center;
+}
+
+.btn-danger {
+  background-color: #c3362c;
+  color: white;
+  font-weight: bold
+}
+
+.btn-danger:hover {
+  background-color: #a11b1b;
+  color: white;
+  font-weight: bold
+}
+
+.btn-info {
+  background-color: #1b7b98;
+  color: white;
+  font-weight: bold
+}
+
+.btn-info:hover {
+  background-color: #0e5d74;
+  color: white;
+  font-weight: bold
+}
+
+/* Responsividad */
+@media only screen and (max-width: 768px) {
+  .filter-form {
+    flex-direction: column;
+    align-items: flex-start; 
+    gap: 10px;
+  }
+
+  .filter-form label,
+  .filter-form input,
+  .filter-form button {
+    width: 100%; 
+  }
+
+
+  .analysis-cards .filter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    gap: 10px; 
+    text-align: center;
+  }
+
+  .analysis-cards .filter-form label {
+    text-align: center; 
+    width: 100%; 
+  }
+
+  .analysis-cards .filter-form input[type="date"] {
+    text-align: center; 
+    max-width: 200px; 
+    margin: 0 auto; 
+  }
+
+  .analysis-cards .filter-form button {
+    margin-top: 10px; 
+  }
+
+  .styled-table {
+    display: none;
+  }
+
+  .analysis-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card-actions {
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  nav {
+    display: none;
+  }
+
+  nav.active {
+    display: block;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  header {
+    grid-template-columns: 10% 1fr;
+    grid-template-rows: auto auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+  }
+
+  main {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main-content" "nav";
+    margin-top: 80px;
+  }
+}
+@media only screen and (min-width: 769px) {
+  .analysis-cards {
+    display: none; 
+  }
+}

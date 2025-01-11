@@ -1,0 +1,78 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.account-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.account-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.pass-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.pass-container a {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: #0b61bd;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.pass-container a:hover {
+    background-color: #07509e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.description {
+    font-size: 0.9rem;
+    text-align: center;
+    max-width: 300px;
+}
+
+@media only screen and (max-width: 768px) {
+    .account-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .pass-container a {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .account-container {
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .pass-container a {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+    }
+
+    .description {
+        font-size: 0.8rem;
+    }
+}

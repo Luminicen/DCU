@@ -19,15 +19,15 @@
         
         <h3 class="page-subtitle my-4">Errores de usabilidad detectados:</h3>
         {% for resultado in resultados %}
-            <div class="card border mb-3 p-3 resultado" tabindex="0" onclick="redirigir('{{ file_name }}', '{{ resultado.descripcion }}')">
+            <div class="card border mb-3 p-3 resultado" tabindex="0" onclick="redirigir('{{analysis_id}}', '{{ file_name }}', '{{ resultado.descripcion }}')">
                 <h3 class="page-subtitle my-4">{{ resultado.titulo }}</h3>
                 <p>{{ resultado.descripcion }}</p>
             </div>
         {% endfor %}
     </div>
     <script>
-        function redirigir(file_name, error_name) {
-            window.location.href = `/analizador/error_result/${file_name}/${error_name}`;
+        function redirigir(analysis_id, file_name, error_name) {
+            window.location.href = `/analizador/error_result/${analysis_id}/${file_name}/${error_name}`;
         }
     </script>
 {% endblock %}

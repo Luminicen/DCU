@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados: Historico de analisis {% endblock %}
+
+{% block head %}
+{{ super }}
+{% endblock %}
+
+{% block header %}
+<div class="title-container">
+    <h1>Resultados</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<body>
+    <main>
+    <div class="history-container">
+        <h2>Historial de análisis</h2>
+        <form id="filterForm" class="filter-form">
+            <label for="start_date">Desde:</label>
+            <input type="date" id="start_date" name="start_date">
+    
+            <label for="end_date">Hasta:</label>
+            <input type="date" id="end_date" name="end_date">
+    
+            <button type="button" class="btn btn-primary" onclick="filterTable()">Filtrar</button>
+        </form>
+        {% if analyses %}
+
+        <table id="analysisTable" class="styled-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Ubicación</th>
+                    <th>Archivo</th>
+                    <th>Fecha del Análisis</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analysis in analyses %}
+                <tr>
+                    <td>{{ analysis.nombre }}</td>
+                    <td title="{{ analysis.codigo }}">{{ analysis.codigo|truncatechars:50 }}</td>
+                    <td>{{ analysis.fileName }}</td>
+                    <td data-date="{{ analysis.analysisTime|date:'Y-m-d' }}">{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
+                    <td class="actions-container">
+                        <a href="{% url 'eliminar_reporte' analysis.id %}" class="btn btn-danger" 
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                           Eliminar
+                        </a>
+                        <button class="btn btn-info" onclick="descargarContenido('{{ analysis.codigo }}')">
+                            Descargar HTML
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        
+        <div class="analysis-cards">
+            {% for analysis in analyses %}
+            <div class="card" data-date="{{ analysis.analysisTime|date:'Y-m-d' }}">
+                <div class="card-item"><strong>Nombre:</strong> {{ analysis.nombre }}</div>
+                <div class="card-item"><strong>Ubicación:</strong> {{ analysis.codigo|truncatechars:50 }}</div>
+                <div class="card-item"><strong>Archivo:</strong> {{ analysis.fileName }}</div>
+                <div class="card-item"><strong>Fecha del Análisis:</strong> {{ analysis.analysisTime|date:"d/m/Y H:i" }}</div>
+                <div class="card-actions">
+                    <a href="{% url 'eliminar_reporte' analysis.id %}" class="btn btn-danger" 
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                           Eliminar
+                        </a>
+                    <button class="btn btn-info" onclick="descargarContenido('{{ analysis.codigo }}')">
+                        Descargar HTML
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-analyses-message">No tienes análisis realizados aún.</p>
+        {% endif %}
+        
+    </div>
+    </main>
+
+</body>
+
+</html>
+{% endblock %}

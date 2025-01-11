@@ -96,6 +96,8 @@ LOGIN_REDIRECT_URL = 'index'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
 LOGOUT_REDIRECT_URL = 'login'
+# settings.py
+PASSWORD_CHANGE_REDIRECT_URL = 'password_change_done'  # Tu URL de confirmación personalizada
 
 AUTH_PASSWORD_VALIDATORS = [
     {

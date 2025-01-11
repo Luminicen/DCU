@@ -33,13 +33,26 @@
 
         <!-- Pie de página del Modal -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" onclick="back_results()" id="acceptCorrection">Aceptar</button>
-            <button type="button" class="btn btn-danger" onclick="back_results()" id="rejectCorrection">Rechazar</button>
+            <button type="button" class="btn btn-success" onclick="updateHtml('{{analysis_id}}', '{{ error_name }}')" id="acceptCorrection">
+                Aceptar
+            </button>
+            <button type="button" class="btn btn-danger" onclick="backToResults('{{analysis_id}}', '{{ error_name }}')" id="rejectCorrection">
+                Rechazar
+            </button>
         </div>
     </div>
     <script>
-        function back_results() {
-            window.location.href = `/analizador/results`;
+        function backToResults(analysis_id, error_name) {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = `/results`;
+            }
+        }
+    </script>
+    <script>
+        function updateHtml(analysis_id, error_name) {
+            window.location.href = `/analizador/update_html/${analysis_id}/${error_name}`;
         }
     </script>
 </div>

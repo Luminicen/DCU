@@ -1,5 +1,14 @@
 body {
-    overflow-x: auto; 
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.scroll-header h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .scroll-main-container {
@@ -9,12 +18,11 @@ body {
 
 .scroll-content-container {
     display: flex;
-    overflow-x: hidden; 
     overflow-y: auto;
-    justify-content: flex-start;
-    scroll-snap-type: x mandatory; 
+    scroll-snap-type: x mandatory;
     width: 76vw;
     padding-bottom: 10px;
+    overflow-x: hidden;
 }
 
 .page {
@@ -22,18 +30,20 @@ body {
     min-width: 76vw;
     display: flex;
     flex-direction: column;
-    scroll-snap-align: start; 
+    scroll-snap-align: start;
+    
 }
 
-.upload-btn-container {
+.upload-btn-container, .start-btn-container {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 30px;
 }
 
+
 .upload-file-container {
-    padding-top: 100px;
+    padding: 50px 20px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -48,31 +58,21 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-}
-
-.upload-content-container.dragover {
-    border-color: #000;
-}
-
-.upload-icon::before{
-    font-family: 'Material Icons';
-    content: 'attach_file';
+    transition: border-color 0.3s, background-color 0.3s;
+    cursor: pointer;
 }
 
 .upload-icon {
+    font-family: 'Material Icons';
+    content: 'upload_file';
     font-size: 3.125rem;
 }
 
-.upload-text {
-    margin-top: 10px;
-    font-size: 1rem;
-}
 
-.upload-button {
+.upload-button, .start-button {
     display: inline-block;
     padding: 10px 20px;
     font-size: 1rem;
-    border: 4px solid #25c2e5;
     border-radius: 5px;
     text-align: center;
     text-decoration: none;
@@ -80,10 +80,10 @@ body {
     font-weight: bold;
 }
 
-.upload-button:hover {
-    border: 4px solid #1d94af;
-    background-color: #1d94af;
-    color: white;
+.upload-text {
+    margin-top: 10px;
+    font-size: 1rem;
+    text-align: center;
 }
 
 #file-input {
@@ -91,63 +91,125 @@ body {
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
+    font-size: 1rem;
     font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
 }
 
-.scroll-header {
-    text-align: left;
-}
-
-.scroll-header h1 {
-    font-weight: bold;
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
 .analysis-preference-container {
-    padding-top: 100px;
-    padding-left: 50px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 10px;
 }
+
+.add-filter-container {
+    margin-top: 20px;
+}
+
+.add-filter-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.add-filter-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.custom-filter-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.add-filter-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
+}
+
+.checkbox-group label {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/*scroll preview*/
 
 .analysis-preview-container {
-    padding-top: 100px;
-    padding-left: 50px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 10px;
 }
 
-.start-btn-container {
+.analysis-preview-container .form-group {
+    margin-bottom: 20px;
+}
+
+.analysis-preview-container .form-group label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.analysis-preview-container .preview-field {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.analysis-preview-container .start-btn-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 30px;
 }
 
-.start-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: 4px solid #8BC34A;
+.preview-field {
+    padding: 10px 15px;
     border-radius: 5px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
 }
 
-.start-button:hover {
-    border: 4px solid #1a7734;
-    background-color: #1a7734;
-    color: white;
-}
-
-.nav-button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 20px;
-}
+/*nav scroll*/
 
 .nav-buttons {
     position: fixed;
@@ -155,62 +217,77 @@ body {
     display: flex;
     justify-content: space-between;
     z-index: 100;
-    top: 50%; 
+    top: 50%;
     left: 0;
     padding: 0 20px;
 }
 
-.nav-button {
-    font-size: 2.25rem; 
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease; 
-}
-
-.nav-button:hover {
-    color: #1259a5; 
-}
-
-.hidden {
-    display: none;
-}
-
-.nav-label {
-    margin-top: 8px;
-    font-size: 0.875rem;
-}
-
 .indicators {
-    padding: 30px 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    width: 100%;
+    gap: 20px; 
+    position: relative; 
+    margin-top: 20px; 
+    margin-bottom: 20px; 
 }
 
 .indicators .dot {
-    height: 25px;
-    width: 25px;
-    background-color: #bbb;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     display: inline-block;
     margin: 0 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.active {
-    background-color: #1259a5 !important;
+.nav-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Media Queries for Responsive Design */
+.nav-button {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-label {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    text-align: center;
+}
+
+/*loading*/
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+}
 
 @media only screen and (max-width: 1024px) {
-    .scroll-content-container {
+    .scroll-content-container, .page {
         width: 100vw;
-    }
-    .page {
         min-width: 100vw;
     }
 }
@@ -230,69 +307,20 @@ body {
         padding: 8px 16px;
         font-size: 0.875rem;
     }
-    .nav-buttons {
-        padding: 0 10px;
-    }
-    .nav-button {
-        font-size: 2rem;
-    }
 }
 
 @media only screen and (max-width: 620px) {
-    .scroll-content-container, .page {
-        width: 100vw;
-        min-width: 100vw;
+    .analysis-preference-container {
+        padding: 50px 20px;
     }
-    .analysis-preference-container, .analysis-preview-container {
-        padding-top: 50px;
-        padding-left: 20px;
-    }
-    .indicators {
-        padding: 20px 20px;
+    .analysis-preview-container {
+        padding: 50px 20px;
     }
     .indicators .dot {
         height: 20px;
         width: 20px;
     }
+    .form-group input[type="text"], .form-group textarea {
+        width: 85%;
+    }
 }
-
-/* Contenedor del indicador de carga */
-.loading, .loading-text {
-    display: none !important; /* Oculto por defecto */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro con opacidad */
-    color: white; /* Texto blanco para contraste */
-    z-index: 1000; /* Asegúrate de que el indicador esté por encima de otros elementos */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-/* Estilo para el texto del indicador */
-.loading-text {
-    font-size: 1.5em;
-    margin-top: 10px;
-}
-
-/* Estilo para el spinner de carga */
-.loading::before {
-    content: '';
-    border: 16px solid #f3f3f3; /* Color del borde */
-    border-top: 16px solid #3498db; /* Color del spinner */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
-}
-
-/* Animación para el spinner */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-

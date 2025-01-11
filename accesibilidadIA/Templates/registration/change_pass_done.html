@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Contraseña Cambiada</h2>
+  <p>Su contraseña ha sido cambiada exitosamente.</p>
+  <a href="{% url 'index' %}">Volver a la página principal</a>
+  <script>
+    // Redirige automáticamente después de 5 segundos (5000 ms)
+    setTimeout(function(){
+        window.location.href = "{% url 'index' %}";
+    }, 5000);
+</script>
+{% endblock %}
