@@ -41,7 +41,7 @@ Resultados > Resultados del análisis > Errores detectados
 
             <!-- Pie de página del Modal -->
             <div class="card-footer d-flex justify-content-end">
-                <button type="button" class="btn btn-success me-2" onclick="mergeLine('{{analysis_id}}', '{{ error_name }}')" id="acceptCorrection">
+                <button type="button" class="btn btn-success me-2" onclick="mergeLine(event,'{{analysis_id}}', '{{ error_name|escapejs }}')" id="acceptCorrection">
                     Aceptar
                 </button>
                 <button type="button" class="btn btn-danger" onclick="backToResults()" id="rejectCorrection">

@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+/* document.addEventListener('DOMContentLoaded', (event) => {
     const analysisNameInput = document.getElementById('analysis-name');
     const descriptionInput = document.getElementById('description');
     const fileInput = document.getElementById('file-input');
@@ -20,4 +20,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     updatePreview();
-});
+}); */

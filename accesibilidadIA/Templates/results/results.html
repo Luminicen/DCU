@@ -17,7 +17,7 @@
         
         <h3 class="page-subtitle my-4">Errores de usabilidad detectados:</h3>
         {% for resultado in resultados %}
-            <div class="card border mb-3 p-3 resultado" tabindex="0" onclick="redirigir('{{analysis_id}}', '{{ file_name }}', '{{ resultado.descripcion }}')">
+            <div class="card border mb-3 p-3 resultado" tabindex="0" onclick="redirigir(event,'{{analysis_id}}', '{{ file_name }}', '{{ resultado.descripcion }}')">
                 <h3 class="page-subtitle my-4">{{ resultado.titulo }}</h3>
                 <p>{{ resultado.descripcion }}</p>
             </div>

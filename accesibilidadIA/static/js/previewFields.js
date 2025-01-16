@@ -15,7 +15,10 @@
         const filtersElem = document.getElementById('filters-preview');
         const loadingModal = document.getElementById('loading-modal');
         const form = document.getElementById('analysis-form');
-        const startButton = document.getElementById('submitBtn'); 
+        const startButton = document.getElementById('submitBtn');
+    
+        
+        let isSubmitting = false;
     
         
         if ('IntersectionObserver' in window) {
@@ -30,7 +33,6 @@
                         const description = querySelectorValue('#description') || 'No se ha completado una descripción';
                         const filters = getCheckedValues('usability-errors');
     
-                        
                         if (fileNameElem) fileNameElem.innerText = fileName;
                         if (analysisNameElem) analysisNameElem.innerText = analysisName;
                         if (descriptionElem) descriptionElem.innerText = description;
@@ -46,13 +48,25 @@
             console.warn('IntersectionObserver no está soportado en este navegador.');
         }
     
-
         startButton.addEventListener('click', (event) => {
-            event.preventDefault(); 
-            loadingModal.style.display = 'flex'; 
-            loadingModal.setAttribute('aria-hidden', 'false');
+            event.preventDefault();
+            if (!isSubmitting) {
+                isSubmitting = true; 
+                loadingModal.style.display = 'flex';
+                loadingModal.setAttribute('aria-hidden', 'false');
+                form.submit(); 
+            }
+        });
     
+
+        form.addEventListener('submit', (event) => {
+            if (!isSubmitting) {
+                event.preventDefault();
+            }
+        });
+    
+        window.addEventListener('beforeunload', () => {
+            isSubmitting = false; 
         });
     });
-    
     
