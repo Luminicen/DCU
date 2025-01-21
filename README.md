@@ -97,4 +97,7 @@ git clone git@github.com:Luminicen/DCU.git
    ```plaintext
    http://127.0.0.1:8000/analizador
    ```
-
+4. (Opcional) Crear superusuario, ejecutar desde el terminal el siguiente comando:
+	```bash
+   python manage.py createsuperuser
+   ```
