@@ -16,5 +16,5 @@ urlpatterns = [
     path('set_new_password/', views.set_new_password, name='set_new_password'),
     path('user_analysis_history/', views.user_analysis_history, name='user_analysis_history'),
     path('eliminar_reporte/<int:reporte_id>/', views.eliminar_reporte, name='eliminar_reporte'),
-    path('descargar/<str:file_name>/', views.descargar_contenido, name='descargar_contenido')
+    path('descargar_contenido/<path:path>', views.descargar_html, name='descargar_html'),
 ]
