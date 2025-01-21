@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Resultados: Historico de analisis {% endblock %}
 
 {% block head %}
 {{ super }}
+<script src="{% static 'js/download.js' %}"></script>
 {% endblock %}
 
 {% block header %}
@@ -70,11 +73,14 @@
                 <div class="card-item"><strong>Archivo:</strong> {{ analysis.fileName }}</div>
                 <div class="card-item"><strong>Fecha del Análisis:</strong> {{ analysis.analysisTime|date:"d/m/Y H:i" }}</div>
                 <div class="card-actions">
-                    <a href="{% url 'eliminar_reporte' analysis.id %}" class="btn btn-danger" 
-                           onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
-                           Eliminar
-                        </a>
-                    <button class="btn btn-info" onclick="descargarContenido('{{ analysis.codigo }}')">
+                    <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                        Eliminar
+                    </button>
+                    <form method="GET" action="{% url 'eliminar_reporte' analysis.id %}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                    <button class="btn btn-info" onclick="descargarContenido('{{ analysis.codigo.path }}')">
                         Descargar HTML
                     </button>
                 </div>

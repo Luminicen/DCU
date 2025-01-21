@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from openai import OpenAI
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth import login, authenticate
 from .forms import Registro, ReporteForm, UsernameForm, PasswordResetForm
 from django.contrib.auth.decorators import login_required
@@ -18,6 +18,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.forms import PasswordChangeForm
 import os
+from django.conf import settings as project_settings
+from django.utils.encoding import iri_to_uri
 
 @login_required
 def index(request):
@@ -42,7 +44,19 @@ def register(request):
 @login_required
 def eliminar_reporte(request, reporte_id):
     if request.method == "GET":
+        print("aca entro AFAF")
         reporte = get_object_or_404(Reporte, id=reporte_id)
+        file_path = reporte.codigo.path
+        print(file_path)
+        # Elimina el archivo si existe
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+                messages.success(request, f"Archivo '{file_path}' eliminado correctamente.")
+            except Exception as e:
+                messages.error(request, f"Error al eliminar el archivo: {e}")
+        else:
+            messages.warning(request, "El archivo no existe en el sistema.")
         reporte.delete()
         messages.success(request, f"El reporte '{reporte.nombre}' ha sido eliminado con éxito.")
         return redirect('user_analysis_history')
@@ -190,25 +204,26 @@ def update_html(request, analysis_id, detected_error):
     output = None
     return render(request, 'results/results.html', {'resultados': output})
 
-def descargar_contenido(request, file_name):
-    # Ruta completa al archivo en el sistema de archivos (ajusta según tu proyecto)
-    file_path = os.path.join('media/archivos_analisis', file_name)
+def descargar_html(request, path):
+    print("aca taba yo, en descarga")
+    # Construir la ruta completa del archivo
+    file_path = os.path.join(project_settings.MEDIA_ROOT, path)
 
-    print('Full Path of File ' + file_path)
-
-    # Verificar si el archivo existe
-    if not os.path.exists(file_path):
-        return HttpResponse("El archivo no existe.", status=404)
-
-    # Leer el contenido del archivo
-    with open(file_path, 'r') as file:
-        file_content = file.read()
-
-    # Crear la respuesta HTTP para descargar el archivo
-    response = HttpResponse(file_content, content_type='text/html')
-    response['Content-Disposition'] = f'attachment; filename={file_name}'
-
-    return response
+    print("PATH:", str(file_path))
+    
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            # Preparar la respuesta HTTP para un archivo HTML
+            response = HttpResponse(
+                fh.read(),
+                content_type="text/html"  # Tipo MIME para HTML
+            )
+            # Forzar descarga con un nombre seguro
+            response['Content-Disposition'] = f'attachment; filename="{iri_to_uri(os.path.basename(file_path))}"'
+            return response
+    
+    # Lanzar una excepción si el archivo no existe
+    raise Http404("El archivo HTML no existe.")
 
 #result fun
 def results(request):

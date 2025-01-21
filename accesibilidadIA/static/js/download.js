@@ -1,17 +1,10 @@
-descargarContenido = function (fileName) {
-        if (!fileName) {
-            console.error("El nombre del archivo es inválido.");
-            return;
-        }
+document.addEventListener("DOMContentLoaded", function() {
+    window.descargarContenido = function(filePath) {
+        console.log("Intentando descargar desde media:", filePath);
 
-        fileName = String(fileName).split('/')[String(fileName).split('/').length - 1];
-        const url = `/descargar/${fileName}`;
-
+        const url = `/analizador/descargar_contenido/${filePath}`;
         const enlace = document.createElement('a');
         enlace.href = url;
-        enlace.download = fileName;
-
-        document.body.appendChild(enlace);
         enlace.click();
-        document.body.removeChild(enlace);
-    }
+    };
+});
