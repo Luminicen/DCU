@@ -21,14 +21,6 @@ Resultados > Resultados del análisis > Errores detectados
                 <h4 class="modal-title">Corrección de Código</h4>
             </div>
 
-            <div id="loading-modal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="loading-text">
-                <div class="modal-content">
-                    <p id="loading-text">
-                        Analizando archivo... Por favor, aguarde un momento. Este proceso puede tardar varios minutos.
-                    </p>
-                </div>
-            </div>
-
             <!-- Cuerpo del Modal -->
             <div class="card-body">
                 <h5>Código Original:</h5>
@@ -49,27 +41,20 @@ Resultados > Resultados del análisis > Errores detectados
 
             <!-- Pie de página del Modal -->
             <div class="card-footer d-flex justify-content-end">
-                <button type="button" class="btn btn-success me-2" onclick="updateHtml('{{analysis_id}}', '{{ error_name }}')" id="acceptCorrection">
+                <button type="button" class="btn btn-success me-2" onclick="mergeLine(event,'{{analysis_id}}', '{{ error_name|escapejs }}')" id="acceptCorrection">
                     Aceptar
                 </button>
-                <button type="button" class="btn btn-danger" onclick="backToResults('{{analysis_id}}', '{{ error_name }}')" id="rejectCorrection">
+                <button type="button" class="btn btn-danger" onclick="backToResults()" id="rejectCorrection">
                     Rechazar
                 </button>
             </div>
         </div>
+        <div id="loading-modal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="loading-text">
+            <div class="modal-content">
+                <p id="loading-text">
+                    Mergeando linea de código... Por favor, aguarde un momento. Este proceso puede tardar varios minutos.
+                </p>
+            </div>
+        </div>
     </div>
-
-    <script>
-        function backToResults(analysis_id, error_name) {
-            if (document.referrer) {
-                window.history.back();
-            } else {
-                window.location.href = `/results`;
-            }
-        }
-
-        function updateHtml(analysis_id, error_name) {
-            window.location.href = `/analizador/update_html/${analysis_id}/${error_name}`;
-        }
-    </script>
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block head %}
+{{ super }}
+{% endblock %}
+{% block header %}
+<div class="title-container">
+    <h1>Home</h1>
+</div>
+{% endblock %}
+{% load static %}
+{% csrf_token %}
+{% block content %}
+<div class="welcome-container">
+    <h2>Bienvenido, {{ user_name }}!</h2>
+</div>
+{% endblock %}

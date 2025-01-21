@@ -41,7 +41,7 @@ def register(request):
 
 @login_required
 def eliminar_reporte(request, reporte_id):
-    if request.method == "POST":
+    if request.method == "GET":
         reporte = get_object_or_404(Reporte, id=reporte_id)
         reporte.delete()
         messages.success(request, f"El reporte '{reporte.nombre}' ha sido eliminado con éxito.")
@@ -219,28 +219,6 @@ def results(request):
     print("The filename is ", file_name)
     print("The ID is ", analysis_id)
 
-    resultados_lista = [
-        {
-            'titulo': 'Linea 11: Falta de descripción en el botón de envío',
-            'descripcion': 'El botón de envío en la línea 11 no tiene un atributo `aria-label` o `title` que describa su propósito, lo que puede dificultar la navegación para los usuarios que dependen de lectores de pantalla.'
-        },
-        {
-            'titulo': 'Linea 34: Falta de descripción en el icono de búsqueda',
-            'descripcion': 'El icono de búsqueda en la línea 34 carece de un `alt` o `aria-label`, impidiendo que los usuarios con discapacidades visuales comprendan su función. Es esencial para la accesibilidad.'
-        },
-        {
-            'titulo': 'Linea 121: Falta de descripción en la imagen del encabezado',
-            'descripcion': 'La imagen en la línea 121, que forma parte del encabezado del sitio, no tiene un atributo `alt` que describa la imagen. Esto puede resultar en una pérdida de contexto importante para los usuarios de lectores de pantalla.'
-        },
-        {
-            'titulo': 'Linea 134: Falta de descripción en el enlace de pie de página',
-            'descripcion': 'El enlace en la línea 134 del pie de página no tiene un texto descriptivo. Los enlaces deberían proporcionar información suficiente para que los usuarios comprendan su destino sin necesidad de contexto adicional.'
-        },
-        {
-            'titulo': 'Linea 211: Falta de descripción en el botón de navegación',
-            'descripcion': 'El botón de navegación en la línea 211 no incluye un `aria-label` o `title`, lo que puede ser problemático para los usuarios que utilizan tecnologías asistivas para navegar por el sitio.'
-        }
-    ]
     mi_dato = request.session.get('mi_dato')
     print("LISTO")
     print("inicio dato:\n", mi_dato, "\nfin dato.")
