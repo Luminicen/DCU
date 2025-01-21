@@ -49,11 +49,12 @@
                     <td>{{ analysis.nombre }}</td>
                     <td title="{{ analysis.codigo }}">{{ analysis.codigo|truncatechars:50 }}</td>
                     <td>{{ analysis.fileName }}</td>
-                    <td>{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
+                    <td data-date="{{ analysis.analysisTime|date:'Y-m-d' }}">{{ analysis.analysisTime|date:"d/m/Y H:i" }}</td>
                     <td class="actions-container">
-                        <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
-                            Eliminar
-                        </button>
+                        <a href="{% url 'eliminar_reporte' analysis.id %}" class="btn btn-danger" 
+                           onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                           Eliminar
+                        </a>
                         <button class="btn btn-info" onclick="descargarContenido('{{ analysis.codigo }}')">
                             Descargar HTML
                         </button>
@@ -66,7 +67,7 @@
         
         <div class="analysis-cards">
             {% for analysis in analyses %}
-            <div class="card">
+            <div class="card" data-date="{{ analysis.analysisTime|date:'Y-m-d' }}">
                 <div class="card-item"><strong>Nombre:</strong> {{ analysis.nombre }}</div>
                 <div class="card-item"><strong>Ubicación:</strong> {{ analysis.codigo|truncatechars:50 }}</div>
                 <div class="card-item"><strong>Archivo:</strong> {{ analysis.fileName }}</div>

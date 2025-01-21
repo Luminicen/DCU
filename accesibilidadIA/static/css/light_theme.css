@@ -99,6 +99,11 @@ header {
     color: var(--text-light);
 }
 
+/*resultado*/
+.resultados-container {
+    background-color: var(--sidebar-bg-light);
+}
+
 /*scroll analisis*/
 .upload-content-container {
     border: 2px dashed var(--border-light);
