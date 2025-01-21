@@ -44,7 +44,19 @@ def register(request):
 @login_required
 def eliminar_reporte(request, reporte_id):
     if request.method == "GET":
+        print("aca entro AFAF")
         reporte = get_object_or_404(Reporte, id=reporte_id)
+        file_path = reporte.codigo.path
+        print(file_path)
+        # Elimina el archivo si existe
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+                messages.success(request, f"Archivo '{file_path}' eliminado correctamente.")
+            except Exception as e:
+                messages.error(request, f"Error al eliminar el archivo: {e}")
+        else:
+            messages.warning(request, "El archivo no existe en el sistema.")
         reporte.delete()
         messages.success(request, f"El reporte '{reporte.nombre}' ha sido eliminado con éxito.")
         return redirect('user_analysis_history')

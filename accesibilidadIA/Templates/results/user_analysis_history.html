@@ -76,6 +76,10 @@
                     <button class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
                         Eliminar
                     </button>
+                    <form method="GET" action="{% url 'eliminar_reporte' analysis.id %}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
                     <button class="btn btn-info" onclick="descargarContenido('{{ analysis.codigo.path }}')">
                         Descargar HTML
                     </button>
